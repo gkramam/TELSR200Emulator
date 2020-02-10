@@ -13,12 +13,12 @@ namespace TELSR200Emulator
         {
             Logger.Instance.Log("Starting Emulator...");
 
-            var port1 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit1Port"]);
-            var port2 = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit2Port"]);
-
-            Emulation emulation = new Emulation(port1,port2);
+            Emulation emulation = new Emulation();
             emulation.Start();
 
+            Console.WriteLine("Press return to exit");
+            emulation.StopEmulation = true;
+            Console.ReadLine();
             Logger.Instance.Log("Exiting Emulator...");
         }
     }

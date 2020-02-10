@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TELSR200Emulator
@@ -21,16 +22,16 @@ namespace TELSR200Emulator
         public readonly int Port;
         public bool Stop = false;
 
-        public TcpWorker(int port, int tcpWorkerLoopIdleTime)
+        public TcpWorker()
         {
             _connections = new List<TcpConnection>();
             Stop = false;
-            Port = port;
-            _tcpWorkerLoopIdleTime = tcpWorkerLoopIdleTime;
+            Port = AppConfiguration.manipulatorPortNumber;
+            _tcpWorkerLoopIdleTime = AppConfiguration.tcpWorkerLoopIdleTime;
             _listener = TcpListener.Create(Port);
         }
 
-        public async Task Start()
+        public void Start(Action<CommandContext> qCommandCallback)
         {
             if (_started || Stop || _listener == null)
                 return;
@@ -47,13 +48,15 @@ namespace TELSR200Emulator
                         var conn = _listener.AcceptTcpClient();
                         if (conn != null)
                         {
+                            //conn.ReceiveBufferSize = 1;
                             var tcpconn = new TcpConnection(conn);
                             _connections.Add(tcpconn);
-                            tcpconn.Start();
+                            tcpconn.Start(qCommandCallback);
                         }
                     }
 
-                    await Task.Delay(_tcpWorkerLoopIdleTime);
+                    //await Task.Delay(_tcpWorkerLoopIdleTime);
+                    Thread.Sleep(_tcpWorkerLoopIdleTime);
                 }
 
                 foreach(var c in _connections)

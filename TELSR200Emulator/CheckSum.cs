@@ -31,5 +31,18 @@ namespace TELSR200Emulator
                 throw;
             }
         }
+
+        public static bool Valid(string message, string rcvdCheckSum)
+        {
+            var computed = Compute(message.ToString());
+
+            if (computed.Equals(rcvdCheckSum))
+                return true;
+            else
+            {
+                Console.WriteLine($"computed checksum: {computed} \t rcvd: {rcvdCheckSum}");
+                return false;
+            }
+        }
     }
 }
