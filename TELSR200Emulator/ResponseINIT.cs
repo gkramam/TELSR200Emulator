@@ -27,28 +27,31 @@ namespace TELSR200Emulator
 
         public override string Generate()
         {
-            StringBuilder response = new StringBuilder();
-            response.Append(',');
-            response.Append(_unitNumber);
-            response.Append(',');
-            response.Append(ResponseStatusCalculator.Calculate((byte)_sts1));
-            response.Append(ResponseStatusCalculator.Calculate((byte)_sts2));
-            response.Append(',');
-            response.Append("0000");
-            response.Append(',');
-            response.Append(_commandName);
-            response.Append(',');
-            response.Append(_errorClear ? "1" : "0");
-            response.Append(',');
-            response.Append(_servoON ? "1" : "0");
-            response.Append(',');
-            response.Append(((CommandINIT)_request).Axis);
-            var chksum = CheckSum.Compute(response.ToString());
-            response.Append(',');
-            response.Append(chksum);
-            response.Append('\r');
-            response.Insert(0, '$');
-            return response.ToString();
+            _responseBuilder = new StringBuilder();
+            //response.Append(',');
+            //response.Append(_unitNumber);
+            //response.Append(',');
+            //response.Append(ResponseStatusCalculator.Calculate((byte)_sts1));
+            //response.Append(ResponseStatusCalculator.Calculate((byte)_sts2));
+            //response.Append(',');
+            //response.Append("0000");
+            //response.Append(',');
+            //response.Append(_commandName);
+            //response.Append(',');
+            _responseBuilder.Append(_errorClear ? "1" : "0");
+            _responseBuilder.Append(',');
+            _responseBuilder.Append(_servoON ? "1" : "0");
+            _responseBuilder.Append(',');
+            _responseBuilder.Append(((CommandINIT)_request).Axis);
+
+            return base.Generate();
+
+            //var chksum = CheckSum.Compute(response.ToString());
+            //response.Append(',');
+            //response.Append(chksum);
+            //response.Append('\r');
+            //response.Insert(0, '$');
+            //return response.ToString();
         }
     }
 

@@ -70,6 +70,8 @@ namespace TELSR200Emulator
             var cmdstr = cmdCxt.CommandMessage;
             var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
             string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
+            int unit = Convert.ToInt32(cmdstr.Substring(2, 1));
+
             if (CheckSum.Valid(strippedCmd, checkSum))
             {
                 Console.WriteLine("Checksum validation passed");
@@ -86,7 +88,10 @@ namespace TELSR200Emulator
             switch(cmdName)
             {
                 case "INIT":
-                    robot.Process<CommandINIT, ResponseINIT>(cmdCxt);
+                    robot.Process<CommandINIT, ResponseINIT,EndOfExecINIT>(cmdCxt);
+                    break;
+                case "ACKN":
+                    robot.ProcessACKN(cmdCxt);
                     break;
             }
         }

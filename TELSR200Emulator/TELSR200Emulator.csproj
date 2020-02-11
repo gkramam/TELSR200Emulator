@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
+    <Compile Include="BaseEndOfExec.cs" />
     <Compile Include="BaseMessage.cs" />
     <Compile Include="BaseResponse.cs" />
     <Compile Include="CheckSum.cs" />
+    <Compile Include="CommandACKN.cs" />
     <Compile Include="CommandINIT.cs" />
     <Compile Include="Devices\Casette.cs" />
     <Compile Include="Devices\Controller.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EndOfExecINIT.cs" />
     <Compile Include="ResponseINIT.cs" />
     <Compile Include="TcpConnection.cs" />
     <Compile Include="TcpWorker.cs" />
