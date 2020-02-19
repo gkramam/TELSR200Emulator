@@ -16,8 +16,8 @@ namespace TELSR200Emulator.Messages.PreAligner
         {
             base.Parse();
 
-            Mode = _fields[2];
-            Angle = _fields[3];
+            Mode = _fields[_commandNameIndex + 1];
+            Angle = _fields[_commandNameIndex + 2];
         }
     }
 }

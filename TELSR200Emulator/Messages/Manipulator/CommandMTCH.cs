@@ -25,18 +25,18 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            TransferStation = _fields[2];
-            Slot = _fields[3];
-            Posture = _fields[4];
-            Hand = _fields[5];
-            PMode = _fields[6];
+            TransferStation = _fields[_commandNameIndex + 1];
+            Slot = _fields[_commandNameIndex + 2];
+            Posture = _fields[_commandNameIndex + 3];
+            Hand = _fields[_commandNameIndex + 4];
+            PMode = _fields[_commandNameIndex + 5];
 
-            if (_fields.Count() > 7)
+            if (_fields.Count() > _commandNameIndex+1+5)
             {
                 OffsetSpecified = true;
-                OffsetX = _fields[7];
-                OffsetY = _fields[8];
-                OffsetZ = _fields[9];
+                OffsetX = _fields[_commandNameIndex + 6];
+                OffsetY = _fields[_commandNameIndex + 7];
+                OffsetZ = _fields[_commandNameIndex + 8];
             }
         }
     }

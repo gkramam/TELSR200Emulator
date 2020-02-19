@@ -25,36 +25,36 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            MotionMode = _fields[2];
-            TransferStation = _fields[3];
-            Slot = _fields[4];
-            Posture = _fields[5];
-            Hand = _fields[6];
-            TransferPoint = _fields[7];
+            MotionMode = _fields[_commandNameIndex + 1];
+            TransferStation = _fields[_commandNameIndex + 2];
+            Slot = _fields[_commandNameIndex + 3];
+            Posture = _fields[_commandNameIndex + 4];
+            Hand = _fields[_commandNameIndex + 5];
+            TransferPoint = _fields[_commandNameIndex + 6];
             
-            if(_fields.Count() > 8)
+            if(_fields.Count() > _commandNameIndex+1+6)
             {
-                if(_fields.Count() == 12)
+                if(_fields.Count() == _commandNameIndex+1+6+4)
                 {
                     OffsetSpecified = AngleSpecified = true;
-                    OffsetX = _fields[8];
-                    OffsetY = _fields[9];
-                    OffsetZ = _fields[10];
-                    Angle = _fields[11];
+                    OffsetX = _fields[_commandNameIndex + 7];
+                    OffsetY = _fields[_commandNameIndex + 8];
+                    OffsetZ = _fields[_commandNameIndex + 9];
+                    Angle = _fields[_commandNameIndex + 10];
                 }
-                else if(_fields.Count() == 11)
+                else if(_fields.Count() == _commandNameIndex + 1 + 6 + 3)
                 {
                     OffsetSpecified = true;
                     AngleSpecified = false;
-                    OffsetX = _fields[8];
-                    OffsetY = _fields[9];
-                    OffsetZ = _fields[10];
+                    OffsetX = _fields[_commandNameIndex + 7];
+                    OffsetY = _fields[_commandNameIndex + 8];
+                    OffsetZ = _fields[_commandNameIndex + 9];
                 }
-                else if(_fields.Count() == 9)
+                else if(_fields.Count() == _commandNameIndex + 1 + 6 + 1)
                 {
                     OffsetSpecified = false;
                     AngleSpecified = true;
-                    Angle = _fields[8];
+                    Angle = _fields[_commandNameIndex + 7];
                 }
             }
         }

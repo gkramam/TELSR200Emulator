@@ -11,6 +11,13 @@ namespace TELSR200Emulator.Messages
         private string _message;
 
         protected string[] _fields;
+        protected int _commandNameIndex;
+
+        private int? _seqNum;
+        public int? SeqNum
+        {
+            get { return _seqNum; }
+        }
 
         private int _unitNumber;
         public int UnitNumber
@@ -34,15 +41,20 @@ namespace TELSR200Emulator.Messages
             if (string.IsNullOrEmpty(message))
                 throw new Exception("message cannot be null");
             _message = message;
+            _commandNameIndex = AppConfiguration.useSequenceNumber ? 2 : 1;
         }
 
         public virtual void Parse()
         {
             var strippeedCmd = _message.Substring(2, _message.Length - 6);
             _fields = strippeedCmd.Split(',');
+            
             _unitNumber = Convert.ToInt32(_fields[0]);
-            //Assuming Sequence number is truned off
-            _commandName = _fields[1];
+            
+            if(AppConfiguration.useSequenceNumber)
+                _seqNum = Convert.ToInt32(_fields[1]);
+            
+            _commandName = _fields[_commandNameIndex];
         }
     }
 

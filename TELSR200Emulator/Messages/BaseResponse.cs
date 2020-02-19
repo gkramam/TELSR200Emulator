@@ -33,6 +33,13 @@ namespace TELSR200Emulator.Messages
             temp.Append(',');
             temp.Append(_request.UnitNumber);
             temp.Append(',');
+            
+            if(AppConfiguration.useSequenceNumber)
+            {
+                temp.Append(_request.SeqNum.Value.ToString("X2"));
+                temp.Append(',');
+            }
+            
             temp.Append(ResponseStatusCalculator.Calculate((byte)_sts1));
             temp.Append(ResponseStatusCalculator.Calculate((byte)_sts2));
             temp.Append(',');

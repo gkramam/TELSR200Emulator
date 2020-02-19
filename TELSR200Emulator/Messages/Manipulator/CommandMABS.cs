@@ -15,10 +15,10 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            Axis = _fields[2];
-            Hand = _fields[3];
-            Mode = _fields[4];
-            Value = _fields[5];
+            Axis = _fields[_commandNameIndex + 1];
+            Hand = _fields[_commandNameIndex + 2];
+            Mode = _fields[_commandNameIndex + 3];
+            Value = _fields[_commandNameIndex + 4];
         }
     }
 }

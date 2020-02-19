@@ -15,10 +15,10 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            TransferStation = _fields[2];
-            Slot = _fields[3];
-            Posture = _fields[4];
-            Safe = _fields[5];
+            TransferStation = _fields[_commandNameIndex + 1];
+            Slot = _fields[_commandNameIndex + 2];
+            Posture = _fields[_commandNameIndex + 3];
+            Safe = _fields[_commandNameIndex + 4];
         }
     }
 }

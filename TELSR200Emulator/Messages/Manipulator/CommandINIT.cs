@@ -26,11 +26,13 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            if (_fields[2] == "1")
+            if (_fields[_commandNameIndex+1] == "1")
                 _errorClear = true;
-            if (_fields[3] == "1")
+
+            if (_fields[_commandNameIndex +2] == "1")
                 _servoON = true;
-            _homeAxes = _fields[4];
+
+            _homeAxes = _fields[_commandNameIndex +3];
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             base.Parse();
 
-            TransferPoint = _fields[2];
+            TransferPoint = _fields[_commandNameIndex +1];
         }
     }
 }

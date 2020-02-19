@@ -167,7 +167,10 @@ namespace TELSR200Emulator
 
         string GetCommandName(string message)
         {
-            return message.Substring(4, 4);
+            if (AppConfiguration.useSequenceNumber)
+                return message.Substring(7, 4);
+            else
+                return message.Substring(4, 4);
         }
 
     }
