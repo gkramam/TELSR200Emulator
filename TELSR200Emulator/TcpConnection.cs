@@ -60,61 +60,51 @@ namespace TELSR200Emulator
             isAnythingToWrite.Set();
         }
 
-        public void Start(Action<CommandContext> qCommandCallback)
+        public void StartWriteLoop()
         {
             Stream s = innerConnection.GetStream();
-            StreamReader sr = new StreamReader(s, Encoding.ASCII);
-            StreamWriter sw = new StreamWriter(s, Encoding.ASCII);
-            sw.AutoFlush = true;
-
-            Task.Run(() => 
+            
+            using(StreamWriter sw = new StreamWriter(s, Encoding.ASCII))
             {
+                sw.AutoFlush = true;
+
                 if (innerConnection != null && innerConnection.Connected)
                 {
                     while (!Stop && innerConnection.Connected) //Write Loop.
                     {
                         isAnythingToWrite.WaitOne();
-                        //while (responseQ.Count > 0)
-                        //{
-                        //    var res = string.Empty;
-                        //    lock (_lock)
-                        //    {
-                        //        res = responseQ.Dequeue();
-                        //    }
-                        //    sw.WriteLine(res);
-                        //}
                         var res = string.Empty;
                         while (responseQ.TryDequeue(out res))
                         {
-                            sw.WriteLine(res);
+                            var chars = res.ToCharArray();
+                            foreach (char c in chars)
+                            {
+                                sw.Write(c);
+                                Thread.Sleep(5);// Math.Max(5,AppConfiguration.tcpBetweenCharacterTimeout-5));
+                            }
                         }
                         isAnythingToWrite.Reset();
                     }
                 }
-            });
+            }
+        }
 
-            Task.Run(() =>
+        public void StartReadLoop(Action<CommandContext> qCommandCallback)
+        {
+            Stream s = innerConnection.GetStream();
+
+            using (StreamReader sr = new StreamReader(s, Encoding.ASCII))
             {
                 if (innerConnection != null && innerConnection.Connected)
                 {
-                    while (!Stop && innerConnection.Connected) //Connection Loop.
+                    while (!Stop && innerConnection.Connected)
                     {
                         var amt = innerConnection.Available;
 
                         if (amt <= 0)
                             continue;
 
-                        //string cmd = sr.ReadLine();
-
-                        //while (String.IsNullOrEmpty(cmd))
-                        //{
-                        //    cmd = sr.ReadLine();
-                        //}
-                        //qCommandCallback(new CommandContext(QResponse, cmd+'\r'));
-
-
                         char read = (char)sr.Read();
-                        //Console.WriteLine(read);
 
                         if (read == '$' && !startDetected)
                         {
@@ -133,15 +123,12 @@ namespace TELSR200Emulator
                         }
                         else if (read == '\r')
                         {
-                            //Console.Write('R');
                             if (startDetected)
                             {
                                 messageTimer.Stop();
                                 commandString.Append(read);
                                 var cmd = commandString.ToString();
-                                //readCommandQ.Enqueue(cmd);
                                 qCommandCallback(new CommandContext(QResponse, cmd));
-                                //Task.Run(()=> { sw.WriteLine(cmd); });
                                 commandString = new StringBuilder();
                                 startDetected = false;
                             }
@@ -157,17 +144,22 @@ namespace TELSR200Emulator
                             commandString.Append(read);
                             messageTimer.Start();
                         }
-
-                    }
-
-                    if (Stop)
-                    {
-                        //wait until any pending data is written
-                        innerConnection.Close();
-                        innerConnection.Dispose();
                     }
                 }
-            });
+            }
+            
+            if (Stop)
+            {
+                innerConnection.Close();
+                innerConnection.Dispose();
+            }
+        }
+
+        public void Start(Action<CommandContext> qCommandCallback)
+        {
+            Task.Run(() => { StartWriteLoop();});
+
+            Task.Run(() =>{ StartReadLoop(qCommandCallback); });
         }
     }
 }
