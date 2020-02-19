@@ -22,11 +22,11 @@ namespace TELSR200Emulator
         public readonly int Port;
         public bool Stop = false;
 
-        public TcpWorker()
+        public TcpWorker(int portNumber)
         {
             _connections = new List<TcpConnection>();
             Stop = false;
-            Port = AppConfiguration.manipulatorPortNumber;
+            Port = portNumber;
             _tcpWorkerLoopIdleTime = AppConfiguration.tcpWorkerLoopIdleTime;
             _listener = TcpListener.Create(Port);
         }

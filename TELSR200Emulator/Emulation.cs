@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TELSR200Emulator.Devices;
+using TELSR200Emulator.Messages;
+using TELSR200Emulator.Messages.PreAligner;
 
 namespace TELSR200Emulator
 {
@@ -13,56 +16,71 @@ namespace TELSR200Emulator
         private object _lock = new object();
         Controller controller;
         Manipulator robot;
-        TcpWorker robotTcpWorker;
+        PreAligner preAligner;
+        TcpWorker robotTcpWorker, preAlignerTcpWorker;
         ManualResetEvent isAnythingToProcess = new ManualResetEvent(false);
 
-        Queue<CommandContext> commandQueue;
+        ConcurrentQueue<CommandContext> commandQueue;
         
 
         public bool StopEmulation = false;
 
         public Emulation(){
 
-            commandQueue = new Queue<CommandContext>();
+            commandQueue = new ConcurrentQueue<CommandContext>();
             robot = new Manipulator();
+            preAligner = new PreAligner();
         }
 
         public void Start()
         {
-            Task.Run(() =>
-            {
-                while (!StopEmulation)
-                {
-                    isAnythingToProcess.WaitOne();
+            //Task.Run(() =>
+            //{
+            //    while (!StopEmulation)
+            //    {
+            //        isAnythingToProcess.WaitOne();
+
+            //        //while(commandQueue.Count ==0)
+            //        //    Thread.Sleep(1000);
+            //        CommandContext cmd = null;
+            //        while (commandQueue.TryDequeue(out cmd))
+            //        {
+            //            if (cmd == null)
+            //                continue;
+            //            Task.Run(() => { Process(cmd); });
+            //        }
+            //        isAnythingToProcess.Reset();
                     
-                    //while(commandQueue.Count ==0)
-                    //    Thread.Sleep(1000);
+            //        //while (commandQueue.Count>0)
+            //        //{
+            //        //    Process(commandQueue.Dequeue());
+            //        //    if(commandQueue.Count ==0)
+            //        //        isAnythingToProcess.Reset();
+            //        //}
 
-                    while (commandQueue.Count>0)
-                    {
-                        Process(commandQueue.Dequeue());
-                        if(commandQueue.Count ==0)
-                            isAnythingToProcess.Reset();
-                    }
 
-                    
-                }
-            });
+            //    }
+            //});
 
-            robotTcpWorker = new TcpWorker();
-            robotTcpWorker.Start(QCommands);
+            robotTcpWorker = new TcpWorker(AppConfiguration.manipulatorPortNumber);
+            Task.Run(()=> { robotTcpWorker.Start(QCommands); });
+
+            preAlignerTcpWorker = new TcpWorker(AppConfiguration.preAlignerPortNumber);
+            Task.Run(() => { preAlignerTcpWorker.Start(QCommands); });
         }
 
         public void Stop()
         {
             StopEmulation = true;
             robotTcpWorker.Stop = true;
+            preAlignerTcpWorker.Stop = true;
         }
         void QCommands(CommandContext commandContext)
         {
             commandQueue.Enqueue(commandContext);
             //Thread.Sleep(3000);
-            isAnythingToProcess.Set();
+            //isAnythingToProcess.Set();
+            Task.Run(() => { Process(commandContext); });
         }
 
         void Process(CommandContext cmdCxt)
@@ -88,13 +106,64 @@ namespace TELSR200Emulator
             switch(cmdName)
             {
                 case "INIT":
-                    robot.Process<CommandINIT, ResponseINIT,EndOfExecINIT>(cmdCxt);
+                    if(unit == 1)
+                        robot.Process<Messages.Manipulator.CommandINIT, Messages.Manipulator.ResponseINIT, Messages.Manipulator.EndOfExecGeneric>(cmdCxt,robot.ProcessGeneric,robot.BuildEOEGeneric);
+                    else
+                        preAligner.Process<Messages.PreAligner.CommandINIT, Messages.PreAligner.ResponseINIT, Messages.PreAligner.EndOfExecGeneric>(cmdCxt,preAligner.ProcessGeneric,preAligner.BuildEOEGeneric);
+                    break;
+                case "MTRS":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMTRS, Messages.Manipulator.ResponseMTRS, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    break;
+                case "MPNT":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMPNT, Messages.Manipulator.ResponseMPNT, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    break;
+                case "MCTR":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMCTR, Messages.Manipulator.ResponseMCTR, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    break;
+                case "MTCH":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMTCH, Messages.Manipulator.ResponseMTCH, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    break;
+                case "MABS":
+                    if (unit == 1)
+                        robot.Process<Messages.PreAligner.CommandMABS, ResponseMABS, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    else
+                        preAligner.Process<Messages.PreAligner.CommandMABS, Messages.PreAligner.ResponseMABS, Messages.PreAligner.EndOfExecGeneric>(cmdCxt,preAligner.ProcessGeneric,preAligner.BuildEOEGeneric);
+                    break;
+                case "MREL":
+                    if (unit == 1)
+                        robot.Process<CommandMREL, ResponseMREL, Messages.Manipulator.EndOfExecGeneric>(cmdCxt, robot.ProcessGeneric, robot.BuildEOEGeneric);
+                    else
+                        preAligner.Process<Messages.PreAligner.CommandMREL, Messages.PreAligner.ResponseMREL, Messages.PreAligner.EndOfExecGeneric>(cmdCxt,preAligner.ProcessGeneric,preAligner.BuildEOEGeneric);
+                    break;
+                case "MMAP":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMMAP, Messages.Manipulator.ResponseMMAP, Messages.Manipulator.EndOfExecMMAP>(cmdCxt, robot.ProcessMMAP, robot.BuildEOEMMAP);
+                    break;
+                case "MMCA":
+                    if (unit == 1)
+                        robot.Process<Messages.Manipulator.CommandMMCA, Messages.Manipulator.ResponseMMCA, Messages.Manipulator.EndOfExecMMCA>(cmdCxt, robot.ProcessMMCA, robot.BuildEOEMMCA);
+                    break;
+                case "MALN":
+                    if (unit == 2)
+                        preAligner.Process<Messages.PreAligner.CommandMALN, Messages.PreAligner.ResponseMALN, Messages.PreAligner.EndOfExecMALN>(cmdCxt, preAligner.ProcessMALN, preAligner.BuildEOEMALN);
+                    break;
+                case "MACA":
+                    if (unit == 2)
+                        preAligner.Process<Messages.PreAligner.CommandMACA, Messages.PreAligner.ResponseMACA, Messages.PreAligner.EndOfExecMACA>(cmdCxt, preAligner.ProcessMACA, preAligner.BuildEOEMACA);
                     break;
                 case "ACKN":
-                    robot.ProcessACKN(cmdCxt);
+                    if (unit == 1)
+                        robot.ProcessACKN(cmdCxt);
+                    else
+                        preAligner.ProcessACKN(cmdCxt);
                     break;
             }
         }
+
 
         string GetCommandName(string message)
         {

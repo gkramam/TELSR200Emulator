@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELSR200Emulator
+namespace TELSR200Emulator.Messages
 {
     public class BaseMessage
     {
@@ -13,12 +13,12 @@ namespace TELSR200Emulator
         protected string[] _fields;
 
         private int _unitNumber;
-        public int UnitNumber 
+        public int UnitNumber
         {
             get
             {
                 return _unitNumber;
-            } 
+            }
         }
 
         private string _commandName;
@@ -31,14 +31,14 @@ namespace TELSR200Emulator
         }
         public BaseMessage(string message)
         {
-            if(string.IsNullOrEmpty(message))
+            if (string.IsNullOrEmpty(message))
                 throw new Exception("message cannot be null");
             _message = message;
         }
 
         public virtual void Parse()
         {
-            var strippeedCmd = _message.Substring(2, _message.Length - 5);
+            var strippeedCmd = _message.Substring(2, _message.Length - 6);
             _fields = strippeedCmd.Split(',');
             _unitNumber = Convert.ToInt32(_fields[0]);
             //Assuming Sequence number is truned off

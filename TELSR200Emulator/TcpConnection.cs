@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace TELSR200Emulator
         StringBuilder commandString = new StringBuilder();
         bool startDetected = false;
 
-        public Queue<string> responseQ;
+        public ConcurrentQueue<string> responseQ;
         public TcpConnection(TcpClient connection) {
 
             if (connection == null)
@@ -34,9 +35,9 @@ namespace TELSR200Emulator
             
             innerConnection = connection;
 
-            responseQ = new Queue<string>();
+            responseQ = new ConcurrentQueue<string>();
 
-            messageTimer = new Timer(AppConfiguration.tcpMessageStartEndTimeout);
+            messageTimer = new Timer(AppConfiguration.tcpBetweenCharacterTimeout);
             messageTimer.Enabled = false;
             messageTimer.AutoReset = false;
             messageTimer.Elapsed += MessageTimer_Elapsed;
@@ -44,9 +45,9 @@ namespace TELSR200Emulator
         }
         private void MessageTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //messageTimer.Stop();
-            //commandString = new StringBuilder();
-            //startDetected = false;
+            messageTimer.Stop();
+            commandString = new StringBuilder();
+            startDetected = false;
         }
 
         public void QResponse(string message)
@@ -73,13 +74,18 @@ namespace TELSR200Emulator
                     while (!Stop && innerConnection.Connected) //Write Loop.
                     {
                         isAnythingToWrite.WaitOne();
-                        while (responseQ.Count > 0)
+                        //while (responseQ.Count > 0)
+                        //{
+                        //    var res = string.Empty;
+                        //    lock (_lock)
+                        //    {
+                        //        res = responseQ.Dequeue();
+                        //    }
+                        //    sw.WriteLine(res);
+                        //}
+                        var res = string.Empty;
+                        while (responseQ.TryDequeue(out res))
                         {
-                            var res = string.Empty;
-                            lock (_lock)
-                            {
-                                res = responseQ.Dequeue();
-                            }
                             sw.WriteLine(res);
                         }
                         isAnythingToWrite.Reset();
@@ -108,7 +114,7 @@ namespace TELSR200Emulator
 
 
                         char read = (char)sr.Read();
-                        //Console.Write(read);
+                        //Console.WriteLine(read);
 
                         if (read == '$' && !startDetected)
                         {
@@ -127,6 +133,7 @@ namespace TELSR200Emulator
                         }
                         else if (read == '\r')
                         {
+                            //Console.Write('R');
                             if (startDetected)
                             {
                                 messageTimer.Stop();
@@ -145,7 +152,11 @@ namespace TELSR200Emulator
                             }
                         }
                         else
+                        {
+                            messageTimer.Stop();
                             commandString.Append(read);
+                            messageTimer.Start();
+                        }
 
                     }
 

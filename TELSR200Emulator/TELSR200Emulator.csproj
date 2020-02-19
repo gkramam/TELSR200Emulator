@@ -45,12 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
-    <Compile Include="BaseEndOfExec.cs" />
-    <Compile Include="BaseMessage.cs" />
-    <Compile Include="BaseResponse.cs" />
+    <Compile Include="Messages\BaseEndOfExec.cs" />
+    <Compile Include="Messages\BaseMessage.cs" />
+    <Compile Include="Messages\BaseResponse.cs" />
     <Compile Include="CheckSum.cs" />
-    <Compile Include="CommandACKN.cs" />
-    <Compile Include="CommandINIT.cs" />
+    <Compile Include="Messages\Manipulator\CommandINIT.cs" />
     <Compile Include="Devices\Casette.cs" />
     <Compile Include="Devices\Controller.cs" />
     <Compile Include="Devices\Manipulator.cs" />
@@ -58,18 +57,49 @@
     <Compile Include="Devices\Stage.cs" />
     <Compile Include="Emulation.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Messages\CommandACKN.cs" />
+    <Compile Include="Messages\Manipulator\CommandMABS.cs" />
+    <Compile Include="Messages\Manipulator\CommandMCTR.cs" />
+    <Compile Include="Messages\Manipulator\CommandMMAP.cs" />
+    <Compile Include="Messages\Manipulator\CommandMMCA.cs" />
+    <Compile Include="Messages\Manipulator\CommandMPNT.cs" />
+    <Compile Include="Messages\Manipulator\CommandMREL.cs" />
+    <Compile Include="Messages\Manipulator\CommandMTCH.cs" />
+    <Compile Include="Messages\Manipulator\CommandMTRS.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMMAP.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMMCA.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMABS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMCTR.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMMAP.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMMCA.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMPNT.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMREL.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMTCH.cs" />
+    <Compile Include="Messages\Manipulator\ResponseMTRS.cs" />
+    <Compile Include="Messages\PreAligner\CommandINIT.cs" />
+    <Compile Include="Messages\PreAligner\CommandMABS.cs" />
+    <Compile Include="Messages\PreAligner\CommandMACA.cs" />
+    <Compile Include="Messages\PreAligner\CommandMALN.cs" />
+    <Compile Include="Messages\PreAligner\CommandMREL.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecGeneric.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecMACA.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecMALN.cs" />
+    <Compile Include="Messages\PreAligner\ResponseINIT.cs" />
+    <Compile Include="Messages\PreAligner\ResponseMABS.cs" />
+    <Compile Include="Messages\PreAligner\ResponseMACA.cs" />
+    <Compile Include="Messages\PreAligner\ResponseMALN.cs" />
+    <Compile Include="Messages\PreAligner\ResponseMREL.cs" />
+    <Compile Include="Messages\ResponseStatusCalculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EndOfExecINIT.cs" />
-    <Compile Include="ResponseINIT.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecGeneric.cs" />
+    <Compile Include="Messages\Manipulator\ResponseINIT.cs" />
     <Compile Include="TcpConnection.cs" />
     <Compile Include="TcpWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

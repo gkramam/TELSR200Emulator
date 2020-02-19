@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TELSR200Emulator.Messages.Manipulator;
+using TELSR200Emulator.Messages.PreAligner;
 
-namespace TELSR200Emulator
+namespace TELSR200Emulator.Messages
 {
     abstract public class BaseResponse
     {
@@ -45,8 +47,8 @@ namespace TELSR200Emulator
             _responseBuilder.Append(',');
             _responseBuilder.Append(chksum);
             _responseBuilder.Append('\r');
-            
-            if(this is BaseEndOfExec)
+
+            if (this is BaseEndOfExec)
                 _responseBuilder.Insert(0, '!');
             else
                 _responseBuilder.Insert(0, '$');

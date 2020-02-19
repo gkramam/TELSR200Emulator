@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELSR200Emulator
+namespace TELSR200Emulator.Messages
 {
-    public class CommandACKN: BaseMessage
+    public class CommandACKN : BaseMessage
     {
         public CommandACKN(string message) : base(message) { }
     }

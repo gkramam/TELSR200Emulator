@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELSR200Emulator
+namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandINIT: BaseMessage
+    public class CommandINIT : BaseMessage
     {
         private bool _errorClear;
         private bool _servoON;
@@ -16,7 +16,7 @@ namespace TELSR200Emulator
         {
             get { return _homeAxes; }
         }
-        public CommandINIT(string message):base(message)
+        public CommandINIT(string message) : base(message)
         {
 
         }

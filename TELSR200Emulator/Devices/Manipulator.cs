@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TELSR200Emulator.Messages;
+using TELSR200Emulator.Messages.Manipulator;
 
 namespace TELSR200Emulator.Devices
 {
@@ -15,7 +17,7 @@ namespace TELSR200Emulator.Devices
         {
         }
 
-        public void Process<C, R, E>(CommandContext ctxt) where R : BaseResponse where C : BaseMessage where E : BaseEndOfExec
+        public void Process<C, R, E>(CommandContext ctxt,Action processCB,Func<BaseMessage,string> buildEOECB) where R : BaseResponse where C : BaseMessage where E : BaseEndOfExec
         {
             C req = (C)Activator.CreateInstance(typeof(C), ctxt.CommandMessage);
             req.Parse();
@@ -30,13 +32,91 @@ namespace TELSR200Emulator.Devices
 
             _ready = false;
 
-            Thread.Sleep(3000);
+            //Thread.Sleep(1000);
 
             E endOfExec = (E)Activator.CreateInstance(typeof(E), req);
-            var endProcessing = endOfExec.Generate();
+            var endProcessing = endOfExec.Generate(processCB,buildEOECB);
 
             ctxt.ResponseQCallback(endProcessing);
         }
+
+        public void ProcessGeneric()
+        {
+            _ready = false;
+            //Thread.Sleep(1000);
+        }
+        public string BuildEOEGeneric(BaseMessage request)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("00000100");//pos1
+            builder.Append(',');
+            builder.Append("00000100");//pos2
+            builder.Append(',');
+            builder.Append("00000100");//pos3
+            builder.Append(',');
+            builder.Append("00000100");//pos4
+            builder.Append(',');
+            builder.Append("00000100");//pos5
+            return builder.ToString();
+        }
+
+        public void ProcessMMAP()
+        {
+            _ready = false;
+            //Thread.Sleep(1000);
+        }
+        public string BuildEOEMMAP(BaseMessage request)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("00000100");//pos1
+            builder.Append(',');
+            builder.Append("00000100");//pos2
+            builder.Append(',');
+            builder.Append("00000100");//pos3
+            builder.Append(',');
+            builder.Append("00000100");//pos4
+            builder.Append(',');
+            builder.Append("00000100");//pos5
+            builder.Append(',');
+            CommandMMAP req = (CommandMMAP)request;
+            builder.Append(req.Slot);
+            builder.Append(":OK");
+            return builder.ToString();
+        }
+
+        public void ProcessMMCA()
+        {
+            _ready = false;
+            //Thread.Sleep(1000);
+        }
+
+        public string BuildEOEMMCA(BaseMessage request)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("00000100");//pos1
+            builder.Append(',');
+            builder.Append("00000100");//pos2
+            builder.Append(',');
+            builder.Append("00000100");//pos3
+            builder.Append(',');
+            builder.Append("00000100");//pos4
+            builder.Append(',');
+            builder.Append("00000100");//pos5
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            builder.Append(',');
+            builder.Append("00000100");//Lowest-slot position
+            return builder.ToString();
+        }
+
 
         public void ProcessACKN(CommandContext ctxt)
         {

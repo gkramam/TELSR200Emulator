@@ -11,13 +11,13 @@ namespace TELSR200Emulator
         public static readonly int manipulatorPortNumber;
         public static readonly int preAlignerPortNumber;
         public static readonly int tcpWorkerLoopIdleTime;
-        public static readonly int tcpMessageStartEndTimeout;
+        public static readonly int tcpBetweenCharacterTimeout;
         static AppConfiguration() {
 
             manipulatorPortNumber = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit1Port"]);
             preAlignerPortNumber = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit2Port"]);
             tcpWorkerLoopIdleTime = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["tcpWorkerLoopIdleTime"]);
-            tcpMessageStartEndTimeout = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["tcpMessageStartEndTimeout"]);
+            tcpBetweenCharacterTimeout = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["tcpBetweenCharacterTimeout"]);
         }
 
     }

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELSR200Emulator
+namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseINIT: BaseResponse
+    public class ResponseINIT : BaseResponse
     {
-        //private CommandINIT _request;
-
         private string _commandName = "INIT";
         private int _unitNumber;
         private ResponseSts1 _sts1;
@@ -18,7 +16,7 @@ namespace TELSR200Emulator
         private bool _errorClear;
         private bool _servoON;
         private string _axis;
-        public ResponseINIT(CommandINIT request):base(request)
+        public ResponseINIT(CommandINIT request) : base(request)
         {
             _sts1 = ResponseSts1.ServoOff | ResponseSts1.ErrorOccured;
             _sts2 = ResponseSts2.Blade1_Vac_Grip_HasWafer | ResponseSts2.Blade2_LineSensor_Haswafer;
@@ -52,17 +50,6 @@ namespace TELSR200Emulator
             //response.Append('\r');
             //response.Insert(0, '$');
             //return response.ToString();
-        }
-    }
-
-    public class ResponseStatusCalculator
-    {
-        public static string Calculate(byte status)
-        {
-            //var stsStr = status.ToString("X");
-            var hexsts1 = BitConverter.ToString(new byte[] { (byte)status });//Getting the Hex Value
-            var asciiSts1 = ASCIIEncoding.ASCII.GetBytes(hexsts1.ToCharArray(), 1, 1);
-            return ASCIIEncoding.ASCII.GetString(asciiSts1);
         }
     }
 }
