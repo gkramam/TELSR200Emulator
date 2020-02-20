@@ -8,14 +8,6 @@ namespace TELSR200Emulator.Messages.PreAligner
 {
     public class ResponseINIT : BaseResponse
     {
-        private string _commandName = "INIT";
-        private int _unitNumber;
-        private ResponseSts1 _sts1;
-        private ResponseSts2 _sts2;
-        private string _ackCd;
-        private bool _errorClear;
-        private bool _servoON;
-        private string _axis;
         public ResponseINIT(CommandINIT request) : base(request)
         {
             _sts1 = ResponseSts1.ServoOff | ResponseSts1.ErrorOccured;
@@ -36,11 +28,12 @@ namespace TELSR200Emulator.Messages.PreAligner
             //response.Append(',');
             //response.Append(_commandName);
             //response.Append(',');
-            _responseBuilder.Append(_errorClear ? "1" : "0");
+            CommandINIT req = (CommandINIT)_request;
+            _responseBuilder.Append(req.ErrorClear ? "1" : "0");
             _responseBuilder.Append(',');
-            _responseBuilder.Append(_servoON ? "1" : "0");
+            _responseBuilder.Append(req.ServoOn ? "1" : "0");
             _responseBuilder.Append(',');
-            _responseBuilder.Append(((CommandINIT)_request).Axis);
+            _responseBuilder.Append(req.HomeAxis);
 
             return base.Generate();
 

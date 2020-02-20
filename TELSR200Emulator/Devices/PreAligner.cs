@@ -95,6 +95,7 @@ namespace TELSR200Emulator.Devices
         public void ProcessACKN(CommandContext ctxt)
         {
             _ready = true;
+            Console.WriteLine("ACKN Received");
         }
 
     }

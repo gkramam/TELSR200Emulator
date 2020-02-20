@@ -8,14 +8,10 @@ namespace TELSR200Emulator.Messages.PreAligner
 {
     public class CommandINIT : BaseMessage
     {
-        private bool _errorClear;
-        private bool _servoON;
-        private string _homeAxes;
+        public bool ErrorClear;
+        public bool ServoOn;
+        public string HomeAxis;
 
-        public string Axis
-        {
-            get { return _homeAxes; }
-        }
         public CommandINIT(string message) : base(message)
         {
 
@@ -26,10 +22,10 @@ namespace TELSR200Emulator.Messages.PreAligner
             base.Parse();
 
             if (_fields[_commandNameIndex + 1] == "1")
-                _errorClear = true;
+                ErrorClear = true;
             if (_fields[_commandNameIndex + 2] == "1")
-                _servoON = true;
-            _homeAxes = _fields[_commandNameIndex + 3];
+                ServoOn = true;
+            HomeAxis = _fields[_commandNameIndex + 3];
         }
     }
 }

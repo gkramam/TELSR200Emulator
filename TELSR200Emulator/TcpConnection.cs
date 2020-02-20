@@ -14,11 +14,7 @@ namespace TELSR200Emulator
 {
     public class TcpConnection
     {
-        private object _lock = new object();
-
         TcpClient innerConnection;
-
-        ManualResetEvent isAnythingToWrite = new ManualResetEvent(false);
 
         Timer messageTimer; 
 
@@ -27,37 +23,33 @@ namespace TELSR200Emulator
         StringBuilder commandString = new StringBuilder();
         bool startDetected = false;
 
-        public ConcurrentQueue<string> responseQ;
-        public TcpConnection(TcpClient connection) {
-
+        BlockingCollection<string> outgoingQ;
+        
+        public TcpConnection(TcpClient connection) 
+        {
             if (connection == null)
                 throw new Exception("connection cannot be null");
             
             innerConnection = connection;
 
-            responseQ = new ConcurrentQueue<string>();
+            outgoingQ = new BlockingCollection<string>(new ConcurrentQueue<string>() );
 
             messageTimer = new Timer(AppConfiguration.tcpBetweenCharacterTimeout);
             messageTimer.Enabled = false;
             messageTimer.AutoReset = false;
             messageTimer.Elapsed += MessageTimer_Elapsed;
-
         }
+
         private void MessageTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            messageTimer.Stop();
-            commandString = new StringBuilder();
-            startDetected = false;
+            //messageTimer.Stop();
+            //commandString = new StringBuilder();
+            //startDetected = false;
         }
 
         public void QResponse(string message)
         {
-            lock(_lock)
-            {
-                responseQ.Enqueue(message);
-            }
-
-            isAnythingToWrite.Set();
+            outgoingQ.Add(message);
         }
 
         public void StartWriteLoop()
@@ -68,22 +60,34 @@ namespace TELSR200Emulator
             {
                 sw.AutoFlush = true;
 
-                if (innerConnection != null && innerConnection.Connected)
+                if (innerConnection != null && innerConnection.Connected && innerConnection.Client.Connected)
                 {
-                    while (!Stop && innerConnection.Connected) //Write Loop.
+                    while (!Stop && innerConnection.Connected && innerConnection.Client.Connected) //Write Loop.
                     {
-                        isAnythingToWrite.WaitOne();
-                        var res = string.Empty;
-                        while (responseQ.TryDequeue(out res))
+                        foreach(var msg in outgoingQ.GetConsumingEnumerable())
                         {
-                            var chars = res.ToCharArray();
+                            var chars = msg.ToCharArray();
                             foreach (char c in chars)
                             {
                                 sw.Write(c);
-                                Thread.Sleep(5);// Math.Max(5,AppConfiguration.tcpBetweenCharacterTimeout-5));
+                                Thread.Sleep(10);// not working for less than 5ms
                             }
                         }
-                        isAnythingToWrite.Reset();
+                    }
+                    if (Stop)
+                    {
+                        innerConnection.Close();
+                        innerConnection.Dispose();
+                        messageTimer.Dispose();
+                        outgoingQ.Dispose();
+                    }
+                    else
+                    {
+                        innerConnection.Close();
+                        innerConnection.Dispose();
+                        messageTimer.Dispose();
+                        outgoingQ.Dispose();
+                        Console.WriteLine("Writer - Connection Closed");
                     }
                 }
             }
@@ -102,7 +106,11 @@ namespace TELSR200Emulator
                         var amt = innerConnection.Available;
 
                         if (amt <= 0)
+                        {
+                            Thread.Sleep(1);
                             continue;
+                        }
+                            
 
                         char read = (char)sr.Read();
 
@@ -128,6 +136,7 @@ namespace TELSR200Emulator
                                 messageTimer.Stop();
                                 commandString.Append(read);
                                 var cmd = commandString.ToString();
+                                //Task.Run(()=>qCommandCallback(new CommandContext(QResponse, cmd)));
                                 qCommandCallback(new CommandContext(QResponse, cmd));
                                 commandString = new StringBuilder();
                                 startDetected = false;
@@ -152,14 +161,30 @@ namespace TELSR200Emulator
             {
                 innerConnection.Close();
                 innerConnection.Dispose();
+                messageTimer.Dispose();
+            }
+            else
+            {
+                innerConnection.Close();
+                innerConnection.Dispose();
+                messageTimer.Dispose();
+                Console.WriteLine("Reader - Connection Closed");
             }
         }
 
         public void Start(Action<CommandContext> qCommandCallback)
         {
-            Task.Run(() => { StartWriteLoop();});
+            //Thread writeThread = new Thread(() => { StartWriteLoop(); });
+            ////writeThread.Name = "TcpConnectionWriteLoop";
+            //writeThread.Priority = ThreadPriority.AboveNormal;
+            //writeThread.Start();
+            Task.Run(() => { StartWriteLoop(); });
 
-            Task.Run(() =>{ StartReadLoop(qCommandCallback); });
+            //Thread readThread = new Thread(() => { StartReadLoop(qCommandCallback); });
+            ////readThread.Name = "TcpConnectionReadLoop";
+            //readThread.Priority = ThreadPriority.AboveNormal;
+            //readThread.Start();
+            Task.Run(() => { StartReadLoop(qCommandCallback); });
         }
     }
 }

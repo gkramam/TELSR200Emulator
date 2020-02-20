@@ -9,14 +9,6 @@ namespace TELSR200Emulator.Messages.Manipulator
 {
     public class ResponseINIT : BaseResponse
     {
-        //private CommandINIT _request;
-
-        private string _commandName = "INIT";
-        private int _unitNumber;
-        private string _ackCd;
-        private bool _errorClear;
-        private bool _servoON;
-        private string _axis;
         public ResponseINIT(CommandINIT request) : base(request)
         {
             _sts1 = ResponseSts1.UnitReady;
@@ -37,11 +29,12 @@ namespace TELSR200Emulator.Messages.Manipulator
             //response.Append(',');
             //response.Append(_commandName);
             //response.Append(',');
-            _responseBuilder.Append(_errorClear ? "1" : "0");
+            CommandINIT req = (CommandINIT)_request;
+            _responseBuilder.Append(req.ErrorClear ? "1" : "0");
             _responseBuilder.Append(',');
-            _responseBuilder.Append(_servoON ? "1" : "0");
+            _responseBuilder.Append(req.ServoOn ? "1" : "0");
             _responseBuilder.Append(',');
-            _responseBuilder.Append(((CommandINIT)_request).Axis);
+            _responseBuilder.Append(req.HomeAxis);
 
             return base.Generate();
 

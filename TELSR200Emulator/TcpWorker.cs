@@ -20,18 +20,26 @@ namespace TELSR200Emulator
         private bool _started = false;
 
         public readonly int Port;
-        public bool Stop = false;
+        bool Stop = false;
 
         public TcpWorker(int portNumber)
         {
             _connections = new List<TcpConnection>();
-            Stop = false;
+            //Stop = false;
             Port = portNumber;
             _tcpWorkerLoopIdleTime = AppConfiguration.tcpWorkerLoopIdleTime;
             _listener = TcpListener.Create(Port);
         }
 
-        public void Start(Action<CommandContext> qCommandCallback)
+        public void StopWorker()
+        {
+            Stop = false;
+            //foreach (var c in _connections)
+            //{
+            //    c.Stop = true;
+            //}
+        }
+        public void Start(Action<CommandContext> addToQCallback)
         {
             if (_started || Stop || _listener == null)
                 return;
@@ -48,18 +56,16 @@ namespace TELSR200Emulator
                         var conn = _listener.AcceptTcpClient();
                         if (conn != null)
                         {
-                            //conn.ReceiveBufferSize = 1;
                             var tcpconn = new TcpConnection(conn);
                             _connections.Add(tcpconn);
-                            tcpconn.Start(qCommandCallback);
+                            tcpconn.Start(addToQCallback);
                         }
                     }
 
-                    //await Task.Delay(_tcpWorkerLoopIdleTime);
                     Thread.Sleep(_tcpWorkerLoopIdleTime);
                 }
 
-                foreach(var c in _connections)
+                foreach (var c in _connections)
                 {
                     c.Stop = true;
                 }

@@ -13,74 +13,60 @@ namespace TELSR200Emulator
 {
     public class Emulation // This is just a nice place to hold everything together logically
     {
-        private object _lock = new object();
-        Controller controller;
+        //Controller controller;
         Manipulator robot;
         PreAligner preAligner;
         TcpWorker robotTcpWorker, preAlignerTcpWorker;
-        ManualResetEvent isAnythingToProcess = new ManualResetEvent(false);
 
-        ConcurrentQueue<CommandContext> commandQueue;
+        BlockingCollection<CommandContext> controllerIncomingQ;
         
 
         public bool StopEmulation = false;
 
-        public Emulation(){
+        public Emulation()
+        {
+            controllerIncomingQ = new BlockingCollection<CommandContext>(new ConcurrentQueue<CommandContext>());
 
-            commandQueue = new ConcurrentQueue<CommandContext>();
             robot = new Manipulator();
             preAligner = new PreAligner();
         }
 
         public void Start()
         {
-            //Task.Run(() =>
-            //{
-            //    while (!StopEmulation)
-            //    {
-            //        isAnythingToProcess.WaitOne();
-
-            //        //while(commandQueue.Count ==0)
-            //        //    Thread.Sleep(1000);
-            //        CommandContext cmd = null;
-            //        while (commandQueue.TryDequeue(out cmd))
-            //        {
-            //            if (cmd == null)
-            //                continue;
-            //            Task.Run(() => { Process(cmd); });
-            //        }
-            //        isAnythingToProcess.Reset();
-                    
-            //        //while (commandQueue.Count>0)
-            //        //{
-            //        //    Process(commandQueue.Dequeue());
-            //        //    if(commandQueue.Count ==0)
-            //        //        isAnythingToProcess.Reset();
-            //        //}
-
-
-            //    }
-            //});
+            Task.Run(()=>
+            //var controllerLoop = new Thread(() =>
+            {
+                while (!StopEmulation)
+                {
+                    foreach(var cmd in controllerIncomingQ.GetConsumingEnumerable())
+                    {
+                        Process(cmd);
+                    }
+                }
+            });
+            //controllerLoop.Priority = ThreadPriority.Highest;
+            //controllerLoop.Name = "ContollerLoop";
+            //controllerLoop.Start();
 
             robotTcpWorker = new TcpWorker(AppConfiguration.manipulatorPortNumber);
-            Task.Run(()=> { robotTcpWorker.Start(QCommands); });
+            Task.Run(()=> { robotTcpWorker.Start(AddToIncomingQ); });
 
             preAlignerTcpWorker = new TcpWorker(AppConfiguration.preAlignerPortNumber);
-            Task.Run(() => { preAlignerTcpWorker.Start(QCommands); });
+            Task.Run(() => { preAlignerTcpWorker.Start(AddToIncomingQ); });
         }
 
         public void Stop()
         {
             StopEmulation = true;
-            robotTcpWorker.Stop = true;
-            preAlignerTcpWorker.Stop = true;
+            //robotTcpWorker.Stop = true;
+            //preAlignerTcpWorker.Stop = true;
+            robotTcpWorker.StopWorker();
+            preAlignerTcpWorker.StopWorker();
         }
-        void QCommands(CommandContext commandContext)
+        void AddToIncomingQ(CommandContext commandContext)
         {
-            commandQueue.Enqueue(commandContext);
-            //Thread.Sleep(3000);
-            //isAnythingToProcess.Set();
-            Task.Run(() => { Process(commandContext); });
+            controllerIncomingQ.Add(commandContext);
+            //Task.Run(() => { Process(commandContext); });
         }
 
         void Process(CommandContext cmdCxt)
@@ -92,16 +78,18 @@ namespace TELSR200Emulator
 
             if (CheckSum.Valid(strippedCmd, checkSum))
             {
-                Console.WriteLine("Checksum validation passed");
+                //Console.WriteLine("Checksum validation passed");
                 //cmdCxt.ResponseQCallback("Checksum validation passed");
             }
             else
             {
-                Console.WriteLine("Checksum validation failed");
+                //Console.WriteLine("Checksum validation failed");
                 //cmdCxt.ResponseQCallback($"Checksum validation failed. Received {cmdstr}");
             }
 
             var cmdName = GetCommandName(cmdCxt.CommandMessage);
+
+            Console.WriteLine($"Received : {cmdName}");
 
             switch(cmdName)
             {
@@ -163,7 +151,6 @@ namespace TELSR200Emulator
                     break;
             }
         }
-
 
         string GetCommandName(string message)
         {
