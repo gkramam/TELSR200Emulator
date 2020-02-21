@@ -21,8 +21,8 @@ namespace TELSR200Emulator.Messages
         public BaseResponse(BaseMessage request)
         {
             _request = request;
-            _sts1 = ResponseSts1.ServoOff | ResponseSts1.ErrorOccured;
-            _sts2 = ResponseSts2.Blade1_Vac_Grip_HasWafer | ResponseSts2.Blade2_LineSensor_Haswafer;
+            _sts1 = ResponseSts1.None;
+            _sts2 = ResponseSts2.None;
             _responseBuilder = new StringBuilder();
         }
 
@@ -50,9 +50,13 @@ namespace TELSR200Emulator.Messages
 
             _responseBuilder.Insert(0, temp.ToString());
 
-            var chksum = CheckSum.Compute(_responseBuilder.ToString());
-            _responseBuilder.Append(',');
-            _responseBuilder.Append(chksum);
+            if (AppConfiguration.checkSumCheck)
+            {
+                var chksum = CheckSum.Compute(_responseBuilder.ToString());
+                _responseBuilder.Append(',');
+                _responseBuilder.Append(chksum);
+            }
+
             _responseBuilder.Append('\r');
 
             if (this is BaseEndOfExec)

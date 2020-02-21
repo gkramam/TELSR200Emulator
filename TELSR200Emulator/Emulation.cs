@@ -72,21 +72,19 @@ namespace TELSR200Emulator
         void Process(CommandContext cmdCxt)
         {
             var cmdstr = cmdCxt.CommandMessage;
-            var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
-            string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
+
+            if (AppConfiguration.checkSumCheck)
+            {
+                var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
+                string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
+
+                if (!CheckSum.Valid(strippedCmd, checkSum))
+                {
+                    cmdCxt.ResponseQCallback($"Checksum validation failed. Received {cmdstr}");
+                }
+            }
+
             int unit = Convert.ToInt32(cmdstr.Substring(2, 1));
-
-            if (CheckSum.Valid(strippedCmd, checkSum))
-            {
-                //Console.WriteLine("Checksum validation passed");
-                //cmdCxt.ResponseQCallback("Checksum validation passed");
-            }
-            else
-            {
-                //Console.WriteLine("Checksum validation failed");
-                //cmdCxt.ResponseQCallback($"Checksum validation failed. Received {cmdstr}");
-            }
-
             var cmdName = GetCommandName(cmdCxt.CommandMessage);
 
             Console.WriteLine($"Received : {cmdName}");

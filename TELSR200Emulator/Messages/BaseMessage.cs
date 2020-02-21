@@ -46,7 +46,13 @@ namespace TELSR200Emulator.Messages
 
         public virtual void Parse()
         {
-            var strippeedCmd = _message.Substring(2, _message.Length - 6);
+            string strippeedCmd = string.Empty;
+
+            if (AppConfiguration.checkSumCheck)
+                strippeedCmd = _message.Substring(2, _message.Length - 6);
+            else
+                strippeedCmd = _message.Substring(2, _message.Length - 3);
+
             _fields = strippeedCmd.Split(',');
             
             _unitNumber = Convert.ToInt32(_fields[0]);
