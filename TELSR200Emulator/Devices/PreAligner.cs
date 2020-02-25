@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,39 +9,21 @@ using TELSR200Emulator.Messages;
 
 namespace TELSR200Emulator.Devices
 {
-    public class PreAligner
+    public class PreAligner:Device
     {
-        private bool _ready = false;
-        public PreAligner() { }
+        public bool IsWaferPresentOnLineSensor { get; set; }
+        
+        public bool IsWaferPresentOnVacuumOrGripSensor { get; set; }
 
-        public void Process<C, R, E>(CommandContext ctxt, Action processCB, Func<BaseMessage, string> buildEOECB) where R : BaseResponse where C : BaseMessage where E : BaseEndOfExec
+        public PreAlignerCoordinates HomePositionPosture { get; set; }
+        public PreAlignerCoordinates CurrentPositionPosture { get; set; }
+
+        public PreAligner() 
         {
-            C req = (C)Activator.CreateInstance(typeof(C), ctxt.CommandMessage);
-            req.Parse();
-
-            //Update state and introduce time delays here.
-
-            R reply = (R)Activator.CreateInstance(typeof(R), req);
-
-            var response = reply.Generate();
-
-            ctxt.ResponseQCallback(response);
-
-            _ready = false;
-
-            //Thread.Sleep(3000);
-
-            E endOfExec = (E)Activator.CreateInstance(typeof(E), req);
-            var endProcessing = endOfExec.Generate(processCB, buildEOECB);
-
-            ctxt.ResponseQCallback(endProcessing);
+            HomePositionPosture = new PreAlignerCoordinates() { RotationAxis = 0 };
+            CurrentPositionPosture = HomePositionPosture;
         }
 
-        public void ProcessGeneric()
-        {
-            _ready = false;
-            //Thread.Sleep(1000);
-        }
         public string BuildEOEGeneric(BaseMessage request)
         {
             StringBuilder builder = new StringBuilder();
@@ -50,7 +33,7 @@ namespace TELSR200Emulator.Devices
 
         public void ProcessMALN()
         {
-            _ready = false;
+            IsReady = false;
             //Thread.Sleep(1000);
         }
         public string BuildEOEMALN(BaseMessage request)
@@ -79,7 +62,7 @@ namespace TELSR200Emulator.Devices
 
         public void ProcessMACA()
         {
-            _ready = false;
+            IsReady = false;
             //Thread.Sleep(50);
         }
         public string BuildEOEMACA(BaseMessage request)
@@ -92,11 +75,42 @@ namespace TELSR200Emulator.Devices
             builder.Append("00000100");//pos3
             return builder.ToString();
         }
+
+        public override void Reset()
+        {
+            IsBatteryVoltageDropped = false;
+            IsWaferPresentOnLineSensor = false;
+            IsWaferPresentOnVacuumOrGripSensor = false;
+            base.Reset();
+        }
+
+        public override void GoHome(char axesCode)
+        {
+            if (axesCode == 'G')
+                CurrentPositionPosture = HomePositionPosture;
+        }
         public void ProcessACKN(CommandContext ctxt)
         {
-            _ready = true;
+            IsReady = true;
             Console.WriteLine("ACKN Received");
         }
 
+        public override ResponseStatus2 GetResponseStatus2()
+        {
+            ResponseStatus2 ret = ResponseStatus2.None;
+            if (IsBatteryVoltageDropped)
+                ret = ret | ResponseStatus2.BattVoltDropped;
+            if (IsWaferPresentOnVacuumOrGripSensor)
+                ret = ret | ResponseStatus2.Blade1_Vac_Grip_HasWafer;
+            if (IsWaferPresentOnLineSensor)
+                ret = ret | ResponseStatus2.Blade2_LineSensor_Haswafer;
+            return ret;
+        }
+
+    }
+
+    public class PreAlignerCoordinates
+    {
+        public double RotationAxis { get; set; }
     }
 }

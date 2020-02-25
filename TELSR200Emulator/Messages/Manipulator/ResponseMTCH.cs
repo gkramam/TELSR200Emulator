@@ -10,7 +10,7 @@ namespace TELSR200Emulator.Messages.Manipulator
     {
         public ResponseMTCH(CommandMTCH req) : base(req) { }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -36,7 +36,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                 _responseBuilder.Append(req.OffsetZ);
             }
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

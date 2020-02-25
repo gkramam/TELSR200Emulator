@@ -9,28 +9,20 @@ namespace TELSR200Emulator.Messages.Manipulator
 {
     public class EndOfExecGeneric : BaseEndOfExec
     {
-        //TimeSpan _executionTime;
 
         public EndOfExecGeneric(BaseMessage request) : base(request)
         {
-           // _executionTime = TimeSpan.FromMilliseconds(33);//33 mills
         }
 
-        //public override string Generate()
-        //{
-        //    _responseBuilder.Append(_executionTime.ToString("ffffff"));
-        //    _responseBuilder.Append(',');
-        //    //_responseBuilder.Append("00000100");//pos1
-        //    //_responseBuilder.Append(',');
-        //    //_responseBuilder.Append("00000100");//pos2
-        //    //_responseBuilder.Append(',');
-        //    //_responseBuilder.Append("00000100");//pos3
-        //    //_responseBuilder.Append(',');
-        //    //_responseBuilder.Append("00000100");//pos4
-        //    //_responseBuilder.Append(',');
-        //    //_responseBuilder.Append("00000100");//pos5
+        public override string Generate(Device device)
+        {
+            var robot = (Devices.Manipulator)device;
 
-        //    return base.Generate();
-        //}
+            _responseBuilder.Append(_executionTime.ToString("ffffff"));
+            _responseBuilder.Append(',');
+            _responseBuilder.Append(robot.BuildEOEGeneric(_request));
+            
+            return base.Generate(device);
+        }
     }
 }

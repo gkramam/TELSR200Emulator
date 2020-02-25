@@ -10,7 +10,7 @@ namespace TELSR200Emulator.Messages.PreAligner
     {
         public ResponseMALN(CommandMALN req) : base(req) { }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -20,7 +20,7 @@ namespace TELSR200Emulator.Messages.PreAligner
             _responseBuilder.Append(',');
             _responseBuilder.Append(req.Angle);
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

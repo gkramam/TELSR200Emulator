@@ -13,20 +13,15 @@ namespace TELSR200Emulator.Messages
         protected BaseMessage _request;
 
         protected string _commandName;
-        //protected int _unitNumber;
-        protected ResponseSts1 _sts1;
-        protected ResponseSts2 _sts2;
 
         protected StringBuilder _responseBuilder;
         public BaseResponse(BaseMessage request)
         {
             _request = request;
-            _sts1 = ResponseSts1.None;
-            _sts2 = ResponseSts2.None;
             _responseBuilder = new StringBuilder();
         }
 
-        public virtual string Generate()
+        public virtual string Generate(Device device)
         {
             StringBuilder temp = new StringBuilder();
 
@@ -36,12 +31,13 @@ namespace TELSR200Emulator.Messages
             
             if(AppConfiguration.useSequenceNumber)
             {
-                temp.Append(_request.SeqNum.Value.ToString("X2"));
+                temp.Append(_request.SeqNum.Value.ToString("D2"));
                 temp.Append(',');
             }
             
-            temp.Append(ResponseStatusCalculator.Calculate((byte)_sts1));
-            temp.Append(ResponseStatusCalculator.Calculate((byte)_sts2));
+            temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()));
+            temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2()));
+
             temp.Append(',');
             temp.Append("0000");//ACkCD & Errcd are same
             temp.Append(',');
@@ -66,6 +62,5 @@ namespace TELSR200Emulator.Messages
 
             return _responseBuilder.ToString();
         }
-
     }
 }

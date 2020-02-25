@@ -12,7 +12,7 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -46,7 +46,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                 _responseBuilder.Append(req.Angle);
             }
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

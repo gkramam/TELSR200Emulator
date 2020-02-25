@@ -15,13 +15,14 @@ namespace TELSR200Emulator.Messages.PreAligner
             //_executionTime = TimeSpan.FromMilliseconds(33);//33 mills
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder.Append(_executionTime.ToString("ffffff"));
             _responseBuilder.Append(',');
-            _responseBuilder.Append("00000000");//pos1
+            //_responseBuilder.Append("00000000");//pos1
+            _responseBuilder.Append(((Devices.PreAligner)device).BuildEOEGeneric(_request));
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

@@ -10,12 +10,10 @@ namespace TELSR200Emulator.Messages.Manipulator
     {
         public ResponseMPNT(CommandMPNT req) : base(req)
         {
-            _sts1 = ResponseSts1.UnitReady;
-            _sts2 = ResponseSts2.Blade1_Vac_Grip_HasWafer;
             _request = req;
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -23,7 +21,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             _responseBuilder.Append(req.TransferPoint);
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

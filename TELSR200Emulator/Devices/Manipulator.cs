@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,42 +10,21 @@ using TELSR200Emulator.Messages.Manipulator;
 
 namespace TELSR200Emulator.Devices
 {
-    public class Manipulator
+    public class Manipulator: Device
     {
-        bool _ready = true;
-        //private readonly int _port;
+        public bool IsWaferPresentOnBlade1 { get; set; }
+
+        public bool IsWaferPresentOnBlade2 { get; set; }
+
+        public RobotCoordinates HomePositionPosture { get; set; }
+
+        public RobotCoordinates CurrentPositionPosture { get; set; }
         public Manipulator()
         {
+            HomePositionPosture = new RobotCoordinates() { RotationAxis = 0, ExtensionAxis = 0, WristAxis1 = 90, WristAxis2 = 90, ElevationAxis = 0 };
+            CurrentPositionPosture = HomePositionPosture;
         }
 
-        public void Process<C, R, E>(CommandContext ctxt,Action processCB,Func<BaseMessage,string> buildEOECB) where R : BaseResponse where C : BaseMessage where E : BaseEndOfExec
-        {
-            C req = (C)Activator.CreateInstance(typeof(C), ctxt.CommandMessage);
-            req.Parse();
-
-            //Update state and introduce time delays here.
-
-            R reply = (R)Activator.CreateInstance(typeof(R), req);
-
-            var response = reply.Generate();
-
-            ctxt.ResponseQCallback(response);
-
-            _ready = false;
-
-            //Thread.Sleep(1000);
-
-            E endOfExec = (E)Activator.CreateInstance(typeof(E), req);
-            var endProcessing = endOfExec.Generate(processCB,buildEOECB);
-
-            ctxt.ResponseQCallback(endProcessing);
-        }
-
-        public void ProcessGeneric()
-        {
-            _ready = false;
-            //Thread.Sleep(1000);
-        }
         public string BuildEOEGeneric(BaseMessage request)
         {
             StringBuilder builder = new StringBuilder();
@@ -62,7 +42,7 @@ namespace TELSR200Emulator.Devices
 
         public void ProcessMMAP()
         {
-            _ready = false;
+            IsReady = false;
             //Thread.Sleep(1000);
         }
         public string BuildEOEMMAP(BaseMessage request)
@@ -86,7 +66,7 @@ namespace TELSR200Emulator.Devices
 
         public void ProcessMMCA()
         {
-            _ready = false;
+            IsReady = false;
             //Thread.Sleep(1000);
         }
 
@@ -120,8 +100,49 @@ namespace TELSR200Emulator.Devices
 
         public void ProcessACKN(CommandContext ctxt)
         {
-            _ready = true;
+            IsReady = true;
             Console.WriteLine("ACKN Received");
         }
+
+        public override void Reset()
+        {
+            IsWaferPresentOnBlade1 = false;
+            IsWaferPresentOnBlade2 = false;
+            base.Reset();
+        }
+
+        public override void GoHome(char axesCode)
+        {
+            if (axesCode == 'G')
+            {
+                CurrentPositionPosture = HomePositionPosture;
+            }
+            else if (axesCode == 'A')
+            {
+                CurrentPositionPosture.WristAxis1 = HomePositionPosture.WristAxis1;
+                CurrentPositionPosture.WristAxis2 = HomePositionPosture.WristAxis2;
+            }
+        }
+
+        public override ResponseStatus2 GetResponseStatus2()
+        {
+            ResponseStatus2 ret = ResponseStatus2.None;
+            if (IsBatteryVoltageDropped)
+                ret = ret | ResponseStatus2.BattVoltDropped;
+            if (IsWaferPresentOnBlade1)
+                ret = ret | ResponseStatus2.Blade1_Vac_Grip_HasWafer;
+            if (IsWaferPresentOnBlade2)
+                ret = ret | ResponseStatus2.Blade2_LineSensor_Haswafer;
+            return ret;
+        }
+    }
+
+    public class RobotCoordinates
+    {
+        public double RotationAxis { get; set; }
+        public double ExtensionAxis { get; set; }
+        public double WristAxis1 { get; set; }
+        public double WristAxis2 { get; set; }
+        public double ElevationAxis { get; set; }
     }
 }

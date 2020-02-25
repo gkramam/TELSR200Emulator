@@ -10,7 +10,7 @@ namespace TELSR200Emulator.Messages.PreAligner
     {
         public ResponseMACA(CommandMACA req) : base(req) { }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -18,7 +18,7 @@ namespace TELSR200Emulator.Messages.PreAligner
 
             _responseBuilder.Append(req.Mode);
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

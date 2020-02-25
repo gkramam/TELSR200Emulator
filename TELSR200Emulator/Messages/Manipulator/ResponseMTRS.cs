@@ -10,12 +10,10 @@ namespace TELSR200Emulator.Messages.Manipulator
     {
         public ResponseMTRS(CommandMTRS request) : base(request) 
         {
-            _sts1 = ResponseSts1.UnitReady;
-            _sts2 = ResponseSts2.None;
             _request = request;
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -49,7 +47,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                 _responseBuilder.Append(req.Angle);
             }
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

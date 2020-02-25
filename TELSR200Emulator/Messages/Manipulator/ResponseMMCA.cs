@@ -10,7 +10,7 @@ namespace TELSR200Emulator.Messages.Manipulator
     {
         public ResponseMMCA(CommandMMCA req) : base(req) { }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -22,7 +22,7 @@ namespace TELSR200Emulator.Messages.Manipulator
             _responseBuilder.Append(',');
             _responseBuilder.Append(req.Safe);
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }

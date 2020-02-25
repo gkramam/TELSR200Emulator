@@ -10,12 +10,10 @@ namespace TELSR200Emulator.Messages.PreAligner
     {
         public ResponseINIT(CommandINIT request) : base(request)
         {
-            _sts1 = ResponseSts1.ServoOff | ResponseSts1.ErrorOccured;
-            _sts2 = ResponseSts2.Blade1_Vac_Grip_HasWafer | ResponseSts2.Blade2_LineSensor_Haswafer;
             _request = request;
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
             //response.Append(',');
@@ -35,7 +33,7 @@ namespace TELSR200Emulator.Messages.PreAligner
             _responseBuilder.Append(',');
             _responseBuilder.Append(req.HomeAxis);
 
-            return base.Generate();
+            return base.Generate(device);
 
             //var chksum = CheckSum.Compute(response.ToString());
             //response.Append(',');

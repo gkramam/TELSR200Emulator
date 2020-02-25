@@ -14,16 +14,9 @@ namespace TELSR200Emulator.Messages
             _executionTime = TimeSpan.FromMilliseconds(33);//33 mills
         }
 
-        public virtual string Generate(Action deviceProcessingCallback, Func<BaseMessage,string> builderCallback)
+        public override string Generate(Device device)
         {
-            deviceProcessingCallback();
-
-            _responseBuilder.Append(_executionTime.ToString("ffffff"));
-            _responseBuilder.Append(',');
-
-            _responseBuilder.Append(builderCallback(_request));
-
-            return base.Generate();
+            return base.Generate(device);
 
         }
     }

@@ -27,5 +27,25 @@ namespace TELSR200Emulator.Messages.PreAligner
                 ServoOn = true;
             HomeAxis = _fields[_commandNameIndex + 3];
         }
+
+        public override bool PerformMessageSpecificPreProcessing(Device device)
+        {
+            device.Reset();
+
+            return base.PerformMessageSpecificPreProcessing(device);
+        }
+
+        public override void PerformCommandSpecificProcessing(Device device)
+        {
+            if (ErrorClear)
+                device.IsError = false;
+
+            if (ServoOn)
+                device.IsServoOn = true;
+
+            device.GoHome(HomeAxis.ToCharArray()[0]);
+
+            base.PerformCommandSpecificProcessing(device);
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace TELSR200Emulator.Messages.PreAligner
 
         }
 
-        public override string Generate()
+        public override string Generate(Device device)
         {
             _responseBuilder = new StringBuilder();
 
@@ -27,7 +27,7 @@ namespace TELSR200Emulator.Messages.PreAligner
             _responseBuilder.Append(',');
             _responseBuilder.Append(req.Value);
 
-            return base.Generate();
+            return base.Generate(device);
         }
     }
 }
