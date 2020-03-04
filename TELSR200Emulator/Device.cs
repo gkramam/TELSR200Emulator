@@ -9,7 +9,7 @@ using TELSR200Emulator.Messages;
 
 namespace TELSR200Emulator
 {
-    public class Device
+    public abstract class Device
     {
         public bool Stop { get; set; }
 
@@ -54,6 +54,8 @@ namespace TELSR200Emulator
         }
 
         protected BlockingCollection<CommandContext> IncomingQ;
+        protected BlockingCollection<Tuple<CommandContext,BaseMessage>> IncomingReferenceQ;
+        protected BlockingCollection<Tuple<CommandContext, BaseMessage>> IncomingOtherQ;
 
         bool _isError;
         public bool IsError 
@@ -189,9 +191,14 @@ namespace TELSR200Emulator
         public int SeqNum;
         int retryCount = 0;
 
+        public abstract int UnitNumber { get;} 
+
         public Device() 
         {
             IncomingQ = new BlockingCollection<CommandContext>();
+            IncomingReferenceQ = new BlockingCollection<Tuple<CommandContext, BaseMessage>>();
+            IncomingOtherQ = new BlockingCollection<Tuple<CommandContext, BaseMessage>>();
+
             CommandState = DeviceState.None;
             IsReady = true;
 
@@ -230,43 +237,68 @@ namespace TELSR200Emulator
         {
             Task.Run(() =>
             {
-                //while (!Stop)
+                foreach (var cmdctxt in IncomingQ.GetConsumingEnumerable())
                 {
-                    foreach (var cmdctxt in IncomingQ.GetConsumingEnumerable())
+                    var cmdstr = cmdctxt.CommandMessage;
+
+                    if (AppConfiguration.checkSumCheck)
                     {
-                        Process(cmdctxt);
-                        if (Stop)
-                            break;
+                        var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
+                        string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
+
+                        if (!CheckSum.IsValid(strippedCmd, checkSum))
+                        {
+                            cmdctxt.ResponseQCallback(ReceptionError.Generate("2000"));
+                            return;
+                        }
                     }
+
+                    var commandBeingCategorized = BaseMessage.Create(cmdctxt.CommandMessage);
+                    commandBeingCategorized.Parse();//Process(cmdctxt);
+
+                    if (commandBeingCategorized.Type == MessageType.Reference)
+                    {
+                        IncomingReferenceQ.Add(new Tuple<CommandContext, BaseMessage>(cmdctxt, commandBeingCategorized));
+                    }
+                    else
+                    {
+                        IncomingOtherQ.Add(new Tuple<CommandContext, BaseMessage>(cmdctxt, commandBeingCategorized));
+
+                    }
+
+                    if (Stop)
+                        break;
+                }
+            });
+
+            Task.Run(() => 
+            { 
+                foreach(var tuple in IncomingOtherQ.GetConsumingEnumerable())
+                {
+                    ProcessOther(tuple.Item1, tuple.Item2);
+                    if (Stop)
+                        break;
+                }
+            });
+
+            Task.Run(() =>
+            {
+                foreach (var tuple in IncomingReferenceQ.GetConsumingEnumerable())
+                {
+                    ProcessReference(tuple.Item1, tuple.Item2);
+                    if (Stop)
+                        break;
                 }
             });
         }
 
-        public void Process(CommandContext cmdCxt)
+        public void ProcessReference(CommandContext cmdCxt, BaseMessage categorizedCommand)
         {
-            var cmdstr = cmdCxt.CommandMessage;
+            categorizedCommand.PreProcess(cmdCxt, this);
+        }
 
-            /**
-             *   Checksum Verification
-             */
-            if (AppConfiguration.checkSumCheck)
-            {
-                var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
-                string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
-
-                if (!CheckSum.IsValid(strippedCmd, checkSum))
-                {
-                    cmdCxt.ResponseQCallback(ReceptionError.Generate("2000"));
-                    return;
-                }
-            }
-
-            commandBeingProcessed = BaseMessage.Create(cmdCxt.CommandMessage);
-            commandBeingProcessed.Parse();
-
-            /**
-             *   Sequence number Verification
-             */
+        public void ProcessOther(CommandContext cmdCxt,BaseMessage categorizedCommand)
+        {
             //if (AppConfiguration.useSequenceNumber)
             //{
             //    int sn = commandBeingProcessed.SeqNum.Value;
@@ -297,6 +329,7 @@ namespace TELSR200Emulator
             //    }
 
             //}
+            commandBeingProcessed = categorizedCommand;
 
             if (IsError && !commandBeingProcessed.CommandName.Equals("INIT"))
             {

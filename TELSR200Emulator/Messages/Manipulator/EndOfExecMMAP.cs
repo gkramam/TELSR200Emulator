@@ -21,20 +21,7 @@ namespace TELSR200Emulator.Messages.Manipulator
             _responseBuilder.Append(_executionTime.ToString("ffffff"));
             _responseBuilder.Append(',');
 
-            Configuration.Station station = null;
-
-            switch (req.TransferStation.FirstOrDefault())
-            {
-                case 'C':
-                    station = robotConfig.Stations.Where(s => s.Type == Configuration.StationType.Casette && s.ID.Equals(req.TransferStation)).FirstOrDefault();
-                    break;
-                case 'S':
-                    station = robotConfig.Stations.Where(s => s.Type == Configuration.StationType.Transfer && s.ID.Equals(req.TransferStation)).FirstOrDefault();
-                    break;
-                case 'P':
-                    station = robotConfig.Stations.Where(s => s.Type == Configuration.StationType.PreAligner && s.ID.Equals(req.TransferStation)).FirstOrDefault();
-                    break;
-            }
+            Configuration.Station station = robotConfig.Stations.Where(s => s.ID.Equals(req.TransferStation)).FirstOrDefault();
 
             if (station == null)
                 throw new ApplicationException($"Couldn't find station {req.TransferStation}. This may be because the station is not added in the environment file. Please check");

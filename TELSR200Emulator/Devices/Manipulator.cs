@@ -12,6 +12,15 @@ namespace TELSR200Emulator.Devices
 {
     public class Manipulator: Device
     {
+        private static readonly object _lock = new object();
+
+        public override int UnitNumber
+        {
+            get
+            {
+                return 1;
+            }
+        }
         public bool IsWaferPresentOnBlade1 { get; set; }
 
         public bool IsWaferPresentOnBlade2 { get; set; }
@@ -21,6 +30,34 @@ namespace TELSR200Emulator.Devices
         public RobotCoordinates CurrentPositionPosture { get; set; }
 
         Configuration.Manipulator Configuration;
+
+        Dictionary<string, string> _mappingResults;
+        public Dictionary<string,string> MappingResults
+        {
+            get
+            {
+                lock(_lock)
+                {
+                    return _mappingResults;
+                }
+            }
+            set
+            {
+                lock(_lock)
+                {
+                    _mappingResults = value;
+                }
+            }
+        }
+
+        public string GetMappingResult(string stationID,string slotID)
+        {
+            var robotConfig = AppConfiguration.environment.Manipulator;
+            Configuration.Station station = robotConfig.Stations.Where(s => s.ID.Equals(stationID)).FirstOrDefault();
+            if (station == null)
+                throw new ApplicationException($"Couldn't find station {stationID}. This may be because the station is not added in the environment file. Please check");
+            return station.GetMappingStatus(slotID);
+        }
         public Manipulator()
         {
             Configuration = AppConfiguration.environment.Manipulator;

@@ -17,6 +17,9 @@ namespace TELSR200Emulator
         //private List<TcpClient> _connections;
         private List<TcpConnection> _connections;
 
+        private TcpConnection _activeConnection;
+        public TcpConnection ActiveConnection { get { return _activeConnection; } }
+
         private bool _started = false;
 
         public readonly int Port;
@@ -58,6 +61,7 @@ namespace TELSR200Emulator
                         {
                             var tcpconn = new TcpConnection(conn);
                             _connections.Add(tcpconn);
+                            _activeConnection = tcpconn;
                             tcpconn.Start(addToQCallback);
                         }
                     }

@@ -13,9 +13,9 @@ namespace TELSR200Emulator
 {
     public class Emulation // This is just a nice place to hold everything together logically
     {
-        Manipulator robot;
-        PreAligner preAligner;
-        TcpWorker robotTcpWorker, preAlignerTcpWorker;
+        static public Manipulator robot;
+        static public PreAligner preAligner;
+        static public TcpWorker robotTcpWorker, preAlignerTcpWorker;
 
         public bool StopEmulation = false;
 

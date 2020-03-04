@@ -11,6 +11,13 @@ namespace TELSR200Emulator.Devices
 {
     public class PreAligner:Device
     {
+        public override int UnitNumber
+        {
+            get
+            {
+                return 2;
+            }
+        }
         public bool IsWaferPresentOnLineSensor { get; set; }
         
         public bool IsWaferPresentOnVacuumOrGripSensor { get; set; }
@@ -58,6 +65,13 @@ namespace TELSR200Emulator.Devices
             builder.Append(',');
             builder.Append("00000100");//pos5
             return builder.ToString();
+        }
+
+        public void RaiseAlignmentStatusResultEvent()
+        {
+            AlignmentResultEvent evt = new AlignmentResultEvent();
+            var evtmsg = evt.Generate(UnitNumber, "0000", BuildEOEMALN(null));
+            Emulation.preAlignerTcpWorker.ActiveConnection.QResponse(evtmsg);
         }
 
         public void ProcessMACA()

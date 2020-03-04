@@ -93,9 +93,9 @@ namespace TELSR200Emulator.Messages
                 //case "CRSM":
                 //    ret = new Manipulator.CommandCRSM(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCRSM),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
                 //    break;
-                //case "CSRV":
-                //    ret = new Manipulator.CommandCSRV(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCSRV),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
-                //    break;
+                case "CSRV":
+                    ret = new Manipulator.CommandCSRV(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSRV), EndOfExecType = typeof(Manipulator.EndOfExecGeneric) };
+                    break;
                 //case "CCLR":
                 //    ret = new Manipulator.CommandCCLR(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCCLR),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
                 //    break;
@@ -173,9 +173,9 @@ namespace TELSR200Emulator.Messages
                 //case "RVER":
                 //    ret = new Manipulator.CommandRVER(message) { Type = MessageType.Reference };
                 //    break;
-                //case "RMAP":
-                //    ret = new Manipulator.CommandRMAP(message) { Type = MessageType.Reference };
-                //    break;
+                case "RMAP":
+                    ret = new Manipulator.ReferenceRMAP(message) { Type = MessageType.Reference, ResponseType=typeof(Manipulator.ResponseRMAP) };
+                    break;
                 //case "RMPD":
                 //    ret = new Manipulator.CommandRMPD(message) { Type = MessageType.Reference };
                 //    break;
@@ -365,8 +365,8 @@ namespace TELSR200Emulator.Messages
                 device.CommandState = DeviceState.ResponseSent;
                 device.IsReady = false;
             }
-            else
-                device.CommandState = DeviceState.Ready;
+            //else
+            //    device.CommandState = DeviceState.Ready;
             
             device.PreviousCommand = this;
         }
@@ -374,8 +374,8 @@ namespace TELSR200Emulator.Messages
 
         public void Process(CommandContext ctxt, Device device)
         {
-            Task.Run(() => 
-            { 
+            //Task.Run(() => 
+            //{ 
                 if (Type == MessageType.Action || Type == MessageType.Control)
                 {
                     if (device.CommandState != DeviceState.ResponseSent)
@@ -384,8 +384,10 @@ namespace TELSR200Emulator.Messages
                     PerformCommandSpecificProcessing(device);
 
                     SendEndOfExecution(ctxt, device);
+
+                    PerformPostEOESend(ctxt, device);
                 }
-            });
+            //});
         }
 
         public virtual void PerformCommandSpecificProcessing(Device device)
@@ -402,6 +404,11 @@ namespace TELSR200Emulator.Messages
             device.RetryTimer.Start();
             device.PreviousCommand = this;
             device.LastCtxtForWhichSentEoE = new EoEResponseContext(ctxt, res);
+        }
+
+        public virtual void PerformPostEOESend(CommandContext ctxt,Device device)
+        {
+
         }
     }
 

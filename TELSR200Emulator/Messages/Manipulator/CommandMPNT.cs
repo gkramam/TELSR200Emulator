@@ -20,5 +20,10 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             TransferPoint = _fields[_commandNameIndex +1];
         }
+
+        public override void PerformPostEOESend(CommandContext ctxt, Device device)
+        {
+            Emulation.preAligner.RaiseAlignmentStatusResultEvent();
+        }
     }
 }

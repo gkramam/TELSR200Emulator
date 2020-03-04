@@ -58,6 +58,11 @@ namespace TELSR200Emulator.Messages.Manipulator
                 }
             }
         }
+
+        public override void PerformPostEOESend(CommandContext ctxt, Device device)
+        {
+            Emulation.preAligner.RaiseAlignmentStatusResultEvent();
+        }
     }
 
 }

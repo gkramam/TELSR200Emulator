@@ -53,10 +53,17 @@
     <Compile Include="Configuration\Station.cs" />
     <Compile Include="Configuration\Threshold.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="Messages\AlignmentResultEvent.cs" />
     <Compile Include="Messages\BaseEndOfExec.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
     <Compile Include="Messages\BaseResponse.cs" />
     <Compile Include="CheckSum.cs" />
+    <Compile Include="Messages\BaseEvent.cs" />
+    <Compile Include="Messages\ErrorEvent.cs" />
+    <Compile Include="Messages\Manipulator\CommandCSRV.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRMAP.cs" />
+    <Compile Include="Messages\Manipulator\ResponseCSRV.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRMAP.cs" />
     <Compile Include="Messages\ReceptionError.cs" />
     <Compile Include="Messages\Manipulator\CommandACKN.cs" />
     <Compile Include="Messages\Manipulator\CommandINIT.cs" />
