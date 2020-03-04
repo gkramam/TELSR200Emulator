@@ -20,7 +20,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             _responseBuilder.Append(_executionTime.ToString("ffffff"));
             _responseBuilder.Append(',');
-            _responseBuilder.Append(robot.BuildEOEGeneric(_request));
+            _responseBuilder.Append(robot.CurrentPositionPosture.ToString());
             
             return base.Generate(device);
         }

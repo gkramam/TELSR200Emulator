@@ -28,13 +28,6 @@ namespace TELSR200Emulator.Messages.PreAligner
             HomeAxis = _fields[_commandNameIndex + 3];
         }
 
-        public override bool PerformMessageSpecificPreProcessing(Device device)
-        {
-            device.Reset();
-
-            return base.PerformMessageSpecificPreProcessing(device);
-        }
-
         public override void PerformCommandSpecificProcessing(Device device)
         {
             if (ErrorClear)

@@ -28,7 +28,6 @@ namespace TELSR200Emulator.Messages
 
         public Type EndOfExecType { get; set; }
 
-
         public BaseMessage(string message)
         {
             if (string.IsNullOrEmpty(message))
@@ -341,22 +340,21 @@ namespace TELSR200Emulator.Messages
             }
             else
             {
-                ;//TODO error handling with appropriate code
+                ctxt.ResponseQCallback(ReceptionError.Generate("2001"));
             }
         }
 
         public virtual bool PerformMessageSpecificPreProcessing(Device device)
         {
-            if (Type == MessageType.Action || Type == MessageType.Control || Type == MessageType.Setting)
+            if ( !_commandName.Equals("INIT") && (Type == MessageType.Action || Type == MessageType.Control || Type == MessageType.Setting))
             {
-                if (!device.IsReady)// already in progress. only one of these can be executing at any time, so error out
+                if (!device.IsError && !device.IsReady)// already in progress. only one of these can be executing at any time, so error out
                     return false;
             }
             return true;
         }
         public  void SendResponse(CommandContext ctxt, Device device)
         {
-
             var reply = (BaseResponse)Activator.CreateInstance(ResponseType, this);
             
             var res = reply.Generate(device);
@@ -370,7 +368,7 @@ namespace TELSR200Emulator.Messages
             else
                 device.CommandState = DeviceState.Ready;
             
-            device.previousCommand = this;
+            device.PreviousCommand = this;
         }
 
 
@@ -401,8 +399,19 @@ namespace TELSR200Emulator.Messages
             var res = eoe.Generate(device);
             ctxt.ResponseQCallback(res);
             device.CommandState = DeviceState.EOESent;
-            device.previousCommand = this;
+            device.RetryTimer.Start();
+            device.PreviousCommand = this;
+            device.LastCtxtForWhichSentEoE = new EoEResponseContext(ctxt, res);
         }
+    }
+
+
+    public class EoEResponseContext
+    {
+        public CommandContext RequestContext;
+        public string Response;
+
+        public EoEResponseContext(CommandContext ctxt, string res) => (RequestContext, Response) = (ctxt, res);
     }
 
     public enum MessageType

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TELSR200Emulator.Messages;
 
@@ -12,21 +13,212 @@ namespace TELSR200Emulator
     {
         public bool Stop { get; set; }
 
-        public bool IsServoOn { get; set; }
+        private static readonly object _lock = new object();
 
-        public bool IsBatteryVoltageDropped { get; set; }
+        private bool _isServoOn;
+        public bool IsServoOn 
+        {
+            get 
+            { 
+                lock(_lock)
+                {
+                    return _isServoOn;
+                }
+            }
+            set 
+            { 
+                lock(_lock)
+                {
+                    _isServoOn = value;
+                }
+            } 
+        }
+
+        private bool _isBatteryVoltageDropped;
+        public bool IsBatteryVoltageDropped 
+        {
+            get 
+            {
+                lock(_lock)
+                {
+                    return _isBatteryVoltageDropped;
+                }
+            }
+            set 
+            {
+                lock(_lock)
+                {
+                    _isBatteryVoltageDropped = value;
+                }
+            } 
+        }
 
         protected BlockingCollection<CommandContext> IncomingQ;
 
-        public bool IsError { get; set; }
-        public bool IsReady { get; set; }
+        bool _isError;
+        public bool IsError 
+        {
+            get
+            { 
+                lock(_lock)
+                {
+                    return _isError;
+                }
+            }
+            set
+            { 
+                lock(_lock)
+                {
+                    _isError = value;
+                }
+            }
+        }
 
-        public DeviceState CommandState { get; set; }
+        bool _isReady;
+        public bool IsReady 
+        {
+            get
+            {
+                lock(_lock)
+                {
+                    return _isReady;
+                }
+            }
+            set
+            { 
+                lock(_lock)
+                {
+                    _isReady = value;
+                }
+            }
+        }
+
+        DeviceState _commandState;
+        public DeviceState CommandState 
+        {
+            get
+            {
+                lock(_lock)
+                {
+                    return _commandState;
+                }
+            }
+            set
+            { 
+                lock(_lock)
+                {
+                    _commandState = value;
+                }
+            }
+        }
+
+        System.Timers.Timer _retryTimer;
+        public System.Timers.Timer RetryTimer 
+        {
+            get
+            {
+                lock(_lock)
+                {
+                    return _retryTimer;
+                }
+            }
+            set
+            { 
+                lock(_lock)
+                {
+                    _retryTimer = value;
+                }
+            }
+        }
+
+        EoEResponseContext _lastCtxtForWhichSentEoE;
+        public EoEResponseContext LastCtxtForWhichSentEoE 
+        {
+            get
+            { 
+                lock(_lock)
+                {
+                    return _lastCtxtForWhichSentEoE;
+                }
+            }
+            set
+            { 
+                lock(_lock)
+                {
+                    _lastCtxtForWhichSentEoE = value;
+                }
+            }
+        }
+
+        BaseMessage _commandBeingProcessed;
+        public BaseMessage commandBeingProcessed
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _commandBeingProcessed;
+                }
+            }
+            set
+            {
+                lock (_lock)
+                {
+                    _commandBeingProcessed = value;
+                }
+            }
+        }
+        BaseMessage _previousCommand;
+        public BaseMessage PreviousCommand
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _previousCommand;
+                }
+            }
+            set
+            {
+                lock (_lock)
+                {
+                    _previousCommand = value;
+                }
+            }
+        }
+        public int SeqNum;
+        int retryCount = 0;
+
         public Device() 
         {
             IncomingQ = new BlockingCollection<CommandContext>();
             CommandState = DeviceState.None;
             IsReady = true;
+
+            RetryTimer = new System.Timers.Timer(5000);
+            RetryTimer.Enabled = false;
+            RetryTimer.AutoReset = false;
+            RetryTimer.Elapsed += MessageTimer_Elapsed; ;
+        }
+
+        private void MessageTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            RetryTimer.Stop();
+            if (retryCount >= 3)
+            {
+                return;
+            }
+            if (CommandState == DeviceState.EOESent)
+            {
+                if(LastCtxtForWhichSentEoE != null)
+                {
+                    LastCtxtForWhichSentEoE.RequestContext.ResponseQCallback(LastCtxtForWhichSentEoE.Response);
+                    retryCount++;
+                    RetryTimer.Start();
+                }
+            }
+            else
+                throw new ApplicationException("Invalid Retry control flow detected");
         }
 
         public void AddToIncomingQ(CommandContext commandContext)
@@ -38,18 +230,18 @@ namespace TELSR200Emulator
         {
             Task.Run(() =>
             {
-                while (!Stop)
+                //while (!Stop)
                 {
                     foreach (var cmdctxt in IncomingQ.GetConsumingEnumerable())
                     {
                         Process(cmdctxt);
+                        if (Stop)
+                            break;
                     }
                 }
             });
         }
 
-        public BaseMessage commandBeingProcessed, previousCommand;
-        public int SeqNum;
         public void Process(CommandContext cmdCxt)
         {
             var cmdstr = cmdCxt.CommandMessage;
@@ -62,9 +254,9 @@ namespace TELSR200Emulator
                 var checkSum = cmdstr.Substring(cmdstr.Length - 1 - 2, 2);
                 string strippedCmd = cmdstr.Substring(1, cmdstr.Length - 1 - 3);
 
-                if (!CheckSum.Valid(strippedCmd, checkSum))
+                if (!CheckSum.IsValid(strippedCmd, checkSum))
                 {
-                    cmdCxt.ResponseQCallback($"Checksum validation failed. Received {cmdstr}");
+                    cmdCxt.ResponseQCallback(ReceptionError.Generate("2000"));
                     return;
                 }
             }
@@ -75,46 +267,55 @@ namespace TELSR200Emulator
             /**
              *   Sequence number Verification
              */
-            if (AppConfiguration.useSequenceNumber)
-            {
-                int sn = commandBeingProcessed.SeqNum.Value;
+            //if (AppConfiguration.useSequenceNumber)
+            //{
+            //    int sn = commandBeingProcessed.SeqNum.Value;
 
-                if (CommandState == DeviceState.None || commandBeingProcessed.CommandName.Equals("INIT"))//first time or reinit
-                {
-                    SeqNum = sn;
-                    //CommandState = DeviceState.Ready;
-                }
-                else
-                {
-                    if (sn == SeqNum + 1)
-                    {
-                        SeqNum = sn;
-                    }
-                    else if (sn == SeqNum)
-                    {
-                        CommandState = DeviceState.ErrorSent;
-                        cmdCxt.ResponseQCallback($"Duplicate Sequence number. Received {sn}");
-                        return;
-                    }
-                    else
-                    {
-                        CommandState = DeviceState.ErrorSent;
-                        cmdCxt.ResponseQCallback($"Sequence number out of order. Received {sn}");
-                        return;
-                    }
-                }
+            //    if (CommandState == DeviceState.None || commandBeingProcessed.CommandName.Equals("INIT"))//first time or reinit
+            //    {
+            //        SeqNum = sn;
+            //        //CommandState = DeviceState.Ready;
+            //    }
+            //    else
+            //    {
+            //        if (sn == SeqNum + 1)
+            //        {
+            //            SeqNum = sn;
+            //        }
+            //        else if (sn == SeqNum)
+            //        {
+            //            CommandState = DeviceState.ErrorSent;
+            //            cmdCxt.ResponseQCallback($"Duplicate Sequence number. Received {sn}");
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            CommandState = DeviceState.ErrorSent;
+            //            cmdCxt.ResponseQCallback($"Sequence number out of order. Received {sn}");
+            //            return;
+            //        }
+            //    }
 
-            }
+            //}
 
             if (IsError && !commandBeingProcessed.CommandName.Equals("INIT"))
             {
-                CommandState = DeviceState.ErrorSent;
-                cmdCxt.ResponseQCallback($"Device in Error state. Rejecting commands");
+                //cmdCxt.ResponseQCallback(ReceptionError.Generate("2001"));
+                //CommandState = DeviceState.ErrorSent;
                 return;
             }
 
-            if(CommandState == DeviceState.EOESent && commandBeingProcessed.Type == MessageType.Ack)
+            if(commandBeingProcessed.Type == MessageType.Ack)
             {
+                if (CommandState == DeviceState.Ready)
+                    return;//Duplicate ACK
+
+                while (CommandState != DeviceState.EOESent)
+                    Thread.Sleep(0);
+
+                RetryTimer.Stop();
+                LastCtxtForWhichSentEoE = null;
+                retryCount = 0;
                 CommandState = DeviceState.Ready;
                 IsReady = true;
                 return;
@@ -148,6 +349,7 @@ namespace TELSR200Emulator
         {
 
         }
+
         public virtual ResponseStatus1 GetResponseStatus1()
         {
             ResponseStatus1 ret = ResponseStatus1.None;

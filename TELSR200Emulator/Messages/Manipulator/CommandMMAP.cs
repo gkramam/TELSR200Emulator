@@ -20,5 +20,10 @@ namespace TELSR200Emulator.Messages.Manipulator
             Posture = _fields[_commandNameIndex + 3];
             Safe = _fields[_commandNameIndex + 4];
         }
+
+        public override void PerformCommandSpecificProcessing(Device device)
+        {
+            
+        }
     }
 }

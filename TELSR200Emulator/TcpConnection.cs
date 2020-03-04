@@ -31,6 +31,7 @@ namespace TELSR200Emulator
                 throw new Exception("connection cannot be null");
             
             innerConnection = connection;
+            innerConnection.NoDelay = true;
 
             outgoingQ = new BlockingCollection<string>(new ConcurrentQueue<string>() );
 
@@ -62,16 +63,16 @@ namespace TELSR200Emulator
 
                 if (innerConnection != null && innerConnection.Connected && innerConnection.Client.Connected)
                 {
-                    while (!Stop && innerConnection.Connected && innerConnection.Client.Connected) //Write Loop.
+                    //while (!Stop && innerConnection.Connected && innerConnection.Client.Connected) //Write Loop.
                     {
                         foreach(var msg in outgoingQ.GetConsumingEnumerable())
                         {
-                            var chars = msg.ToCharArray();
-                            foreach (char c in chars)
+                            if (innerConnection.Client.Poll(-1, SelectMode.SelectWrite))
                             {
-                                sw.Write(c);
-                                Thread.Sleep(10);// not working for less than 5ms
+                                sw.Write(msg);
                             }
+                            if (Stop)
+                                break;
                         }
                     }
                     if (Stop)
@@ -103,55 +104,12 @@ namespace TELSR200Emulator
                 {
                     while (!Stop && innerConnection.Connected)
                     {
-                        var amt = innerConnection.Available;
-
-                        if (amt <= 0)
+                        if (innerConnection.Client.Poll(-1, SelectMode.SelectRead))
                         {
-                            Thread.Sleep(1);
-                            continue;
-                        }
-                            
-
-                        char read = (char)sr.Read();
-
-                        if (read == '$' && !startDetected)
-                        {
-                            startDetected = true;
-                            messageTimer.Start();
-                            commandString.Append(read);
-                        }
-                        else if (read == '$' && startDetected)
-                        {
-                            commandString = new StringBuilder();
-                            messageTimer.Stop();
-
-                            startDetected = true;
-                            messageTimer.Start();
-                            commandString.Append(read);
-                        }
-                        else if (read == '\r')
-                        {
-                            if (startDetected)
-                            {
-                                messageTimer.Stop();
-                                commandString.Append(read);
-                                var cmd = commandString.ToString();
-                                //Task.Run(()=>qCommandCallback(new CommandContext(QResponse, cmd)));
-                                qCommandCallback(new CommandContext(QResponse, cmd));
-                                commandString = new StringBuilder();
-                                startDetected = false;
-                            }
-                            else
-                            {
-                                commandString = new StringBuilder();
-                                messageTimer.Stop();
-                            }
-                        }
-                        else
-                        {
-                            messageTimer.Stop();
-                            commandString.Append(read);
-                            messageTimer.Start();
+                            var amt = innerConnection.ReceiveBufferSize;
+                            char[] readBuffer = new char[amt];
+                            var length = sr.Read(readBuffer, 0, amt);
+                            readBufferQ.Add(readBuffer.Take(length).ToArray());
                         }
                     }
                 }
@@ -172,19 +130,78 @@ namespace TELSR200Emulator
             }
         }
 
+        BlockingCollection<char[]> readBufferQ = new BlockingCollection<char[]>();
+
+        void ProcessReadBuffer(Action<CommandContext> qCommandCallback)
+        {
+            foreach (var buffer in readBufferQ.GetConsumingEnumerable())
+            {
+                foreach (var read in buffer)
+                {
+                    if (read == '$' && !startDetected)
+                    {
+                        startDetected = true;
+                        messageTimer.Start();
+                        commandString.Append(read);
+                    }
+                    else if (read == '$' && startDetected)
+                    {
+                        commandString = new StringBuilder();
+                        messageTimer.Stop();
+
+                        startDetected = true;
+                        messageTimer.Start();
+                        commandString.Append(read);
+                    }
+                    else if (read == '\r')
+                    {
+                        if (startDetected)
+                        {
+                            messageTimer.Stop();
+                            commandString.Append(read);
+                            var cmd = commandString.ToString();
+                            qCommandCallback(new CommandContext(QResponse, cmd));
+                            Console.WriteLine($"Received Request : {cmd}");
+                            commandString = new StringBuilder();
+                            startDetected = false;
+                        }
+                        else
+                        {
+                            commandString = new StringBuilder();
+                            messageTimer.Stop();
+                        }
+                    }
+                    else
+                    {
+                        messageTimer.Stop();
+                        commandString.Append(read);
+                        messageTimer.Start();
+                    }
+                }
+            }
+        }
         public void Start(Action<CommandContext> qCommandCallback)
         {
             //Thread writeThread = new Thread(() => { StartWriteLoop(); });
             ////writeThread.Name = "TcpConnectionWriteLoop";
             //writeThread.Priority = ThreadPriority.AboveNormal;
+            //writeThread.IsBackground = true;
             //writeThread.Start();
             Task.Run(() => { StartWriteLoop(); });
 
             //Thread readThread = new Thread(() => { StartReadLoop(qCommandCallback); });
             ////readThread.Name = "TcpConnectionReadLoop";
             //readThread.Priority = ThreadPriority.AboveNormal;
+            //readThread.IsBackground = true;
             //readThread.Start();
             Task.Run(() => { StartReadLoop(qCommandCallback); });
+
+            //Thread processThread = new Thread(() => { ProcessReadBuffer(qCommandCallback); });
+            ////readThread.Name = "TcpConnectionReadLoop";
+            //processThread.Priority = ThreadPriority.AboveNormal;
+            //processThread.IsBackground = true;
+            //processThread.Start();
+            Task.Run(() => { ProcessReadBuffer(qCommandCallback); });
         }
     }
 }

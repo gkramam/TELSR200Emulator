@@ -19,84 +19,14 @@ namespace TELSR200Emulator.Devices
         public RobotCoordinates HomePositionPosture { get; set; }
 
         public RobotCoordinates CurrentPositionPosture { get; set; }
+
+        Configuration.Manipulator Configuration;
         public Manipulator()
         {
-            HomePositionPosture = new RobotCoordinates() { RotationAxis = 0, ExtensionAxis = 0, WristAxis1 = 90, WristAxis2 = 90, ElevationAxis = 0 };
+            Configuration = AppConfiguration.environment.Manipulator;
+            HomePositionPosture = new RobotCoordinates(Configuration.HomePosition);
             CurrentPositionPosture = HomePositionPosture;
         }
-
-        public string BuildEOEGeneric(BaseMessage request)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("00000100");//pos1
-            builder.Append(',');
-            builder.Append("00000100");//pos2
-            builder.Append(',');
-            builder.Append("00000100");//pos3
-            builder.Append(',');
-            builder.Append("00000100");//pos4
-            builder.Append(',');
-            builder.Append("00000100");//pos5
-            return builder.ToString();
-        }
-
-        public void ProcessMMAP()
-        {
-            IsReady = false;
-            //Thread.Sleep(1000);
-        }
-        public string BuildEOEMMAP(BaseMessage request)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("00000100");//pos1
-            builder.Append(',');
-            builder.Append("00000100");//pos2
-            builder.Append(',');
-            builder.Append("00000100");//pos3
-            builder.Append(',');
-            builder.Append("00000100");//pos4
-            builder.Append(',');
-            builder.Append("00000100");//pos5
-            builder.Append(',');
-            CommandMMAP req = (CommandMMAP)request;
-            builder.Append(req.Slot);
-            builder.Append(":OK");
-            return builder.ToString();
-        }
-
-        public void ProcessMMCA()
-        {
-            IsReady = false;
-            //Thread.Sleep(1000);
-        }
-
-        public string BuildEOEMMCA(BaseMessage request)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("00000100");//pos1
-            builder.Append(',');
-            builder.Append("00000100");//pos2
-            builder.Append(',');
-            builder.Append("00000100");//pos3
-            builder.Append(',');
-            builder.Append("00000100");//pos4
-            builder.Append(',');
-            builder.Append("00000100");//pos5
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            builder.Append(',');
-            builder.Append("00000100");//Lowest-slot position
-            return builder.ToString();
-        }
-
 
         public void ProcessACKN(CommandContext ctxt)
         {
@@ -135,6 +65,12 @@ namespace TELSR200Emulator.Devices
                 ret = ret | ResponseStatus2.Blade2_LineSensor_Haswafer;
             return ret;
         }
+
+        public void MoveToPosition(RobotCoordinates newPosition)
+        {
+            CurrentPositionPosture = newPosition;
+        }
+
     }
 
     public class RobotCoordinates
@@ -144,5 +80,28 @@ namespace TELSR200Emulator.Devices
         public double WristAxis1 { get; set; }
         public double WristAxis2 { get; set; }
         public double ElevationAxis { get; set; }
+
+        public RobotCoordinates() { }
+
+        public RobotCoordinates(Configuration.ManipulatorPosition registeredPos)
+        {
+            (RotationAxis, ExtensionAxis, WristAxis1, WristAxis2, ElevationAxis) = 
+                (registeredPos.RotationAxis, registeredPos.ExtensionAxis, registeredPos.WristAxis1, registeredPos.WristAxis2, registeredPos.ElevationAxis);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(((int)(RotationAxis / 0.001)).ToString("D8"));
+            builder.Append(',');
+            builder.Append(((int)(ExtensionAxis / 0.001)).ToString("D8"));
+            builder.Append(',');
+            builder.Append(((int)(WristAxis1 / 0.001)).ToString("D8"));
+            builder.Append(',');
+            builder.Append(((int)(WristAxis2 / 0.001)).ToString("D8"));
+            builder.Append(',');
+            builder.Append(((int)(ElevationAxis / 0.001)).ToString("D8"));
+            return builder.ToString();
+        }
     }
 }

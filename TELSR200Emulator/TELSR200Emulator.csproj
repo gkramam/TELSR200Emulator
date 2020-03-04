@@ -45,11 +45,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfiguration.cs" />
+    <Compile Include="Configuration\Environment.cs" />
+    <Compile Include="Configuration\Manipulator.cs" />
+    <Compile Include="Configuration\ManipulatorPosition.cs" />
+    <Compile Include="Configuration\PreAligner.cs" />
+    <Compile Include="Configuration\Slot.cs" />
+    <Compile Include="Configuration\Station.cs" />
+    <Compile Include="Configuration\Threshold.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="Messages\BaseEndOfExec.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
     <Compile Include="Messages\BaseResponse.cs" />
     <Compile Include="CheckSum.cs" />
+    <Compile Include="Messages\ReceptionError.cs" />
     <Compile Include="Messages\Manipulator\CommandACKN.cs" />
     <Compile Include="Messages\Manipulator\CommandINIT.cs" />
     <Compile Include="Devices\Casette.cs" />
@@ -102,6 +110,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Environment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

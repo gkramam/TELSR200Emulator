@@ -32,7 +32,7 @@ namespace TELSR200Emulator
             }
         }
 
-        public static bool Valid(string message, string rcvdCheckSum)
+        public static bool IsValid(string message, string rcvdCheckSum)
         {
             var computed = Compute(message.ToString());
 
