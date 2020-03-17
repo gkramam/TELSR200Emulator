@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EndOfExecMALN>
+  <Status>
+    <Status1>
+      <None>1</None>
+      <UnitReady>1</UnitReady>
+      <ErrorOccured>1</ErrorOccured>
+      <ServoOff>1</ServoOff>
+    </Status1>
+    <Status2>
+      <None>0</None>
+      <BatteryVoltageDropped>0</BatteryVoltageDropped>
+      <Blade1_Vac_Grip_HasWafer>0</Blade1_Vac_Grip_HasWafer>
+      <Blade2_LineSensor_Haswafer>0</Blade2_LineSensor_Haswafer>
+    </Status2>
+  </Status>
+  <AckCD>0000</AckCD>
+  <ExecutionTime>000033</ExecutionTime>
+  <PositionData>00000000</PositionData>
+  <EccentircAmount>00000027</EccentircAmount>
+  <EccentricAngle>00003000</EccentricAngle>
+  <NotchDirection>00000200</NotchDirection>
+  <XOffsetBefore>00000030</XOffsetBefore>
+  <YOffsetBefore>00000050</YOffsetBefore>
+  <PreAlignerCorrectionAngle>000000250</PreAlignerCorrectionAngle>
+  <ManipulatorAdjustmentAmount>00004000</ManipulatorAdjustmentAmount>
+  <ManipulatorCorrectionAngle>00000315</ManipulatorCorrectionAngle>
+  <XOffsetAfter>00000700</XOffsetAfter>
+  <YOffestAfter>00000210</YOffestAfter>
+</EndOfExecMALN>

@@ -202,7 +202,7 @@ namespace TELSR200Emulator
             CommandState = DeviceState.None;
             IsReady = true;
 
-            RetryTimer = new System.Timers.Timer(5000);
+            RetryTimer = new System.Timers.Timer(AppConfiguration.endOfExecutionRetryTimeout);
             RetryTimer.Enabled = false;
             RetryTimer.AutoReset = false;
             RetryTimer.Elapsed += MessageTimer_Elapsed; ;

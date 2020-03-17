@@ -61,9 +61,20 @@
     <Compile Include="Messages\BaseEvent.cs" />
     <Compile Include="Messages\ErrorEvent.cs" />
     <Compile Include="Messages\Manipulator\CommandCSRV.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecCSRV.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecINIT.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMABS.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMCTR.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMPNT.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMREL.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMTCH.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecMTRS.cs" />
     <Compile Include="Messages\Manipulator\ReferenceRMAP.cs" />
     <Compile Include="Messages\Manipulator\ResponseCSRV.cs" />
     <Compile Include="Messages\Manipulator\ResponseRMAP.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecINIT.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecMABS.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecMREL.cs" />
     <Compile Include="Messages\ReceptionError.cs" />
     <Compile Include="Messages\Manipulator\CommandACKN.cs" />
     <Compile Include="Messages\Manipulator\CommandINIT.cs" />
@@ -118,9 +129,103 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecINIT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMABS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMCTR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMMAP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMMCA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMPNT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMREL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMTCH.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMTRS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseINIT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMABS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMCTR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMMAP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMMCA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMPNT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMREL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMTCH.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseMTRS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRMAP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecINIT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecMABS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecMACA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecMALN.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecMREL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseINIT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseMABS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseMACA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseMALN.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseMREL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Environment.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

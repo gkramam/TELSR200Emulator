@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EndOfExecMMCA>
+  <Status>
+    <Status1>
+      <None>1</None>
+      <UnitReady>1</UnitReady>
+      <ErrorOccured>1</ErrorOccured>
+      <ServoOff>1</ServoOff>
+    </Status1>
+    <Status2>
+      <None>0</None>
+      <BatteryVoltageDropped>0</BatteryVoltageDropped>
+      <Blade1_Vac_Grip_HasWafer>0</Blade1_Vac_Grip_HasWafer>
+      <Blade2_LineSensor_Haswafer>0</Blade2_LineSensor_Haswafer>
+    </Status2>
+  </Status>
+  <AckCD>0000</AckCD>
+  <ExecutionTime>000033</ExecutionTime>
+  <RotationAxis>00000300</RotationAxis>
+  <ExtensionAxis>00000020</ExtensionAxis>
+  <WristAxis1>00000150</WristAxis1>
+  <WristAxis2>00000060</WristAxis2>
+  <ElevationAxis>00000090</ElevationAxis>
+  <LowestSlotPosition>00000100</LowestSlotPosition>
+  <HighestSolotPosition>00000900</HighestSolotPosition>
+  <WaferWidth>00000300</WaferWidth>
+  <ThresholdOfDoubleInsertion>00000009</ThresholdOfDoubleInsertion>
+  <ThresholdOfSlantingInsertion1>00000015</ThresholdOfSlantingInsertion1>
+  <ThresholdOfSlantingInsertion2>00000020</ThresholdOfSlantingInsertion2>
+</EndOfExecMMCA>

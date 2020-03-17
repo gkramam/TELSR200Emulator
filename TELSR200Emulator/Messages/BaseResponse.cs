@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using TELSR200Emulator.Messages.Manipulator;
 using TELSR200Emulator.Messages.PreAligner;
 
@@ -21,25 +22,90 @@ namespace TELSR200Emulator.Messages
             _responseBuilder = new StringBuilder();
         }
 
+        public virtual Dictionary<string, string> ReadXML(XmlDocument xmlDoc)
+        {
+            var doc = xmlDoc;
+            var status1Nodes = doc.GetElementsByTagName("Status1").Item(0).ChildNodes;
+            ResponseStatus1 status1 = ResponseStatus1.None;
+            foreach (XmlNode sn1 in status1Nodes)
+            {
+                switch (sn1.Name)
+                {
+                    case "UnitReady":
+                        status1 = int.Parse(sn1.InnerText) == 1 ? status1 | ResponseStatus1.UnitReady : status1;
+                        break;
+                    case "ErrorOccured":
+                        status1 = int.Parse(sn1.InnerText) == 1 ? status1 | ResponseStatus1.ErrorOccured : status1;
+                        break;
+                    case "ServoOff":
+                        status1 = int.Parse(sn1.InnerText) == 1 ? status1 | ResponseStatus1.ServoOff : status1;
+                        break;
+                }
+            }
+            var status2Nodes = doc.GetElementsByTagName("Status2").Item(0).ChildNodes;
+            ResponseStatus2 status2 = ResponseStatus2.None;
+            foreach (XmlNode sn2 in status2Nodes)
+            {
+                switch (sn2.Name)
+                {
+                    case "BatteryVoltageDropped":
+                        status2 = int.Parse(sn2.InnerText) == 1 ? status2 | ResponseStatus2.BattVoltDropped : status2;
+                        break;
+                    case "Blade1_Vac_Grip_HasWafer":
+                        status2 = int.Parse(sn2.InnerText) == 1 ? status2 | ResponseStatus2.Blade1_Vac_Grip_HasWafer : status2;
+                        break;
+                    case "Blade2_LineSensor_Haswafer":
+                        status2 = int.Parse(sn2.InnerText) == 1 ? status2 | ResponseStatus2.Blade2_LineSensor_Haswafer : status2;
+                        break;
+                }
+            }
+
+            string ackCd = doc.GetElementsByTagName("AckCD").Item(0).InnerText;
+
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            ret.Add("Status1", ResponseStatusCalculator.Calculate((byte)status1));
+            ret.Add("Status2", ResponseStatusCalculator.Calculate((byte)status2));
+            ret.Add("AckCD", ackCd);
+
+            return ret;
+        }
+
         public virtual string Generate(Device device)
         {
+            string status = string.Empty;
+            string ackcd = string.Empty;
+
+            if( AppConfiguration.useXmlFilesForReplies)
+            {
+                var xmlData = device is Devices.Manipulator ? AppConfiguration.ManipulatorResponses[_request.CommandName]: AppConfiguration.PreAlignerResponses[_request.CommandName];
+                status = xmlData["Status1"] + xmlData["Status2"];
+                ackcd = xmlData["AckCD"];
+            }
+            else
+            {
+                status = ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()) + ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2());
+                ackcd = "0000";
+            }
+
             StringBuilder temp = new StringBuilder();
 
             temp.Append(',');
             temp.Append(_request.UnitNumber);
             temp.Append(',');
-            
-            if(AppConfiguration.useSequenceNumber)
+
+            if (AppConfiguration.useSequenceNumber)
             {
                 temp.Append(_request.SeqNum.Value.ToString("D2"));
                 temp.Append(',');
             }
-            
-            temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()));
-            temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2()));
+
+            //temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()));
+            //temp.Append(ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2()));
+            temp.Append(status);
 
             temp.Append(',');
-            temp.Append("0000");//ACkCD & Errcd are same
+            //temp.Append("0000");//ACkCD & Errcd are same
+            temp.Append(ackcd);
             temp.Append(',');
             temp.Append(_request.CommandName);
             temp.Append(',');

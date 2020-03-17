@@ -60,25 +60,25 @@ namespace TELSR200Emulator.Messages
             {
                 //*******************           ACTION       ************************************
                 case "INIT":
-                    ret = new Manipulator.CommandINIT(message) { Type = MessageType.Action,ResponseType= typeof(Manipulator.ResponseINIT),EndOfExecType = typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandINIT(message) { Type = MessageType.Action,ResponseType= typeof(Manipulator.ResponseINIT),EndOfExecType = typeof(Manipulator.EndOfExecINIT) };
                     break;
                 case "MTRS":
-                    ret = new Manipulator.CommandMTRS(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMTRS),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMTRS(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMTRS),EndOfExecType=typeof(Manipulator.EndOfExecMTRS) };
                     break;
                 case "MPNT":
-                    ret = new Manipulator.CommandMPNT(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMPNT),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMPNT(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMPNT),EndOfExecType=typeof(Manipulator.EndOfExecMPNT) };
                     break;
                 case "MCTR":
-                    ret = new Manipulator.CommandMCTR(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMCTR),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMCTR(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMCTR),EndOfExecType=typeof(Manipulator.EndOfExecMCTR) };
                     break;
                 case "MTCH":
-                    ret = new Manipulator.CommandMTCH(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMTCH),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMTCH(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMTCH),EndOfExecType=typeof(Manipulator.EndOfExecMTCH) };
                     break;
                 case "MABS":
-                    ret = new Manipulator.CommandMABS(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMABS),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMABS(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMABS),EndOfExecType=typeof(Manipulator.EndOfExecMABS) };
                     break;
                 case "MREL":
-                    ret = new Manipulator.CommandMREL(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMREL),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandMREL(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMREL),EndOfExecType=typeof(Manipulator.EndOfExecMREL) };
                     break;
                 case "MMAP":
                     ret = new Manipulator.CommandMMAP(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMMAP),EndOfExecType=typeof(Manipulator.EndOfExecMMAP) };
@@ -94,7 +94,7 @@ namespace TELSR200Emulator.Messages
                 //    ret = new Manipulator.CommandCRSM(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCRSM),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
                 //    break;
                 case "CSRV":
-                    ret = new Manipulator.CommandCSRV(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSRV), EndOfExecType = typeof(Manipulator.EndOfExecGeneric) };
+                    ret = new Manipulator.CommandCSRV(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSRV), EndOfExecType = typeof(Manipulator.EndOfExecCSRV) };
                     break;
                 //case "CCLR":
                 //    ret = new Manipulator.CommandCCLR(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCCLR),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
@@ -207,19 +207,19 @@ namespace TELSR200Emulator.Messages
             {
                 //*******************           ACTION       ************************************
                 case "INIT":
-                    ret = new PreAligner.CommandINIT(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseINIT),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
+                    ret = new PreAligner.CommandINIT(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseINIT),EndOfExecType=typeof(PreAligner.EndOfExecINIT) };
                     break;
                 case "MABS":
-                    ret = new PreAligner.CommandMABS(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMABS),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
+                    ret = new PreAligner.CommandMABS(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMABS),EndOfExecType=typeof(PreAligner.EndOfExecMABS) };
                     break;
                 case "MREL":
-                    ret = new PreAligner.CommandMREL(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMREL),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
+                    ret = new PreAligner.CommandMREL(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMREL),EndOfExecType=typeof(PreAligner.EndOfExecMREL) };
                     break;
                 case "MALN":
-                    ret = new PreAligner.CommandMALN(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMALN),EndOfExecType=typeof(PreAligner.EndOfExecMACA) };
+                    ret = new PreAligner.CommandMALN(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMALN),EndOfExecType=typeof(PreAligner.EndOfExecMALN) };
                     break;
                 case "MACA":
-                    ret = new PreAligner.CommandMACA(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMACA),EndOfExecType=typeof(PreAligner.EndOfExecMALN) };
+                    ret = new PreAligner.CommandMACA(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMACA),EndOfExecType=typeof(PreAligner.EndOfExecMACA) };
                     break;
                 //*******************           CONTROL       ************************************
                 //case "CSTP":
