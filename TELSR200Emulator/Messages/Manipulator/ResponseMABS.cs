@@ -2,9 +2,9 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseMABS: BaseResponse
+    public class ResponseMABS : BaseResponse
     {
-        public ResponseMABS(CommandMABS req):base(req)
+        public ResponseMABS(CommandMABS req) : base(req)
         { }
 
         public override string Generate(Device device)

@@ -1,5 +1,3 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSAPS : BaseMessage

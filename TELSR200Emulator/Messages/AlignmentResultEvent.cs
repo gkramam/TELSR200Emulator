@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages
 {
-    public class AlignmentResultEvent:BaseEvent
+    public class AlignmentResultEvent : BaseEvent
     {
         public override string Generate(int device, string errorCode, string alignmentResult)
         {

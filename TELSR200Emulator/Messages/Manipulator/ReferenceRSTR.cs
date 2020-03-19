@@ -2,7 +2,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 {
     public class ReferenceRSTR : BaseMessage
     {
-        public string MemorySpec,TransferStation, Item;
+        public string MemorySpec, TransferStation, Item;
         public ReferenceRSTR(string msg) : base(msg) { }
 
         public override void Parse()

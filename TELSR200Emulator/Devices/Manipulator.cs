@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using TELSR200Emulator.Messages;
-using TELSR200Emulator.Messages.Manipulator;
 
 namespace TELSR200Emulator.Devices
 {
-    public class Manipulator: Device
+    public class Manipulator : Device
     {
         private static readonly object _lock = new object();
 
@@ -32,25 +28,25 @@ namespace TELSR200Emulator.Devices
         Configuration.Manipulator Configuration;
 
         Dictionary<string, string> _mappingResults;
-        public Dictionary<string,string> MappingResults
+        public Dictionary<string, string> MappingResults
         {
             get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     return _mappingResults;
                 }
             }
             set
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     _mappingResults = value;
                 }
             }
         }
 
-        public string GetMappingResult(string stationID,string slotID)
+        public string GetMappingResult(string stationID, string slotID)
         {
             var robotConfig = AppConfiguration.environment.Manipulator;
             Configuration.Station station = robotConfig.Stations.Where(s => s.ID.Equals(stationID)).FirstOrDefault();
@@ -122,7 +118,7 @@ namespace TELSR200Emulator.Devices
 
         public RobotCoordinates(Configuration.ManipulatorPosition registeredPos)
         {
-            (RotationAxis, ExtensionAxis, WristAxis1, WristAxis2, ElevationAxis) = 
+            (RotationAxis, ExtensionAxis, WristAxis1, WristAxis2, ElevationAxis) =
                 (registeredPos.RotationAxis, registeredPos.ExtensionAxis, registeredPos.WristAxis1, registeredPos.WristAxis2, registeredPos.ElevationAxis);
         }
 

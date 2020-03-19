@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseRMAP:BaseResponse
+    public class ResponseRMAP : BaseResponse
     {
         public ResponseRMAP(BaseMessage req) : base(req) { }
 
@@ -22,7 +22,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.ManipulatorResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 if (Convert.ToBoolean(xmlData["PositiveReply"]))
                 {
                     _responseBuilder.Append(',');

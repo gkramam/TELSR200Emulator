@@ -1,10 +1,8 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSPRM : BaseMessage
     {
-        public string ParameterType,ParameterNumber,Value;
+        public string ParameterType, ParameterNumber, Value;
         public CommandSPRM(string msg) : base(msg) { }
 
         public override void Parse()

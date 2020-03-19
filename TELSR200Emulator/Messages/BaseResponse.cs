@@ -93,9 +93,9 @@ namespace TELSR200Emulator.Messages
             string status = string.Empty;
             string ackcd = string.Empty;
 
-            if( AppConfiguration.useXmlFilesForReplies)
+            if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = device is Devices.Manipulator ? AppConfiguration.ManipulatorResponses[_request.CommandName]: AppConfiguration.PreAlignerResponses[_request.CommandName];
+                var xmlData = device is Devices.Manipulator ? AppConfiguration.ManipulatorResponses[_request.CommandName] : AppConfiguration.PreAlignerResponses[_request.CommandName];
                 status = xmlData["Status1"] + xmlData["Status2"];
                 ackcd = xmlData["AckCD"];
             }

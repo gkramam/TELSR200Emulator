@@ -1,10 +1,8 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSTRM : BaseMessage
     {
-        public string Mode1,Mode2,Mode3,Mode4,Mode5;
+        public string Mode1, Mode2, Mode3, Mode4, Mode5;
         public CommandSTRM(string msg) : base(msg) { }
 
         public override void Parse()

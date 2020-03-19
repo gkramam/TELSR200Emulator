@@ -1,10 +1,8 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSPOS : BaseMessage
     {
-        public string MemorySpec,RegistrationMode,TransferStation,Slot,Posture,Hand;
+        public string MemorySpec, RegistrationMode, TransferStation, Slot, Posture, Hand;
         public CommandSPOS(string msg) : base(msg) { }
 
         public override void Parse()

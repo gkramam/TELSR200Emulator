@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class EndOfExecMMCA: BaseEndOfExec
+    public class EndOfExecMMCA : BaseEndOfExec
     {
         public EndOfExecMMCA(BaseMessage req) : base(req) { }
 
@@ -14,7 +14,7 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.ManipulatorEoEs[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 _responseBuilder.Append(xmlData["ExecutionTime"]);
                 _responseBuilder.Append(',');
                 _responseBuilder.Append(xmlData["RotationAxis"]);

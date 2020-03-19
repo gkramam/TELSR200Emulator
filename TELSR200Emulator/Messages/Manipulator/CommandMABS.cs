@@ -1,8 +1,8 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMABS:BaseMessage
+    public class CommandMABS : BaseMessage
     {
-        public string Axis,Hand, Mode, Value;
+        public string Axis, Hand, Mode, Value;
         public CommandMABS(string msg) : base(msg) { }
 
         public override void Parse()

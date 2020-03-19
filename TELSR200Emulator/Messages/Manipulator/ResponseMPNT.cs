@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseMPNT: BaseResponse
+    public class ResponseMPNT : BaseResponse
     {
         public ResponseMPNT(CommandMPNT req) : base(req)
         {

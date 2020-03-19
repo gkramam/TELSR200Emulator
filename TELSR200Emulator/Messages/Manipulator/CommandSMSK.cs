@@ -1,5 +1,3 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSMSK : BaseMessage
@@ -10,7 +8,7 @@ namespace TELSR200Emulator.Messages.Manipulator
         public override void Parse()
         {
             base.Parse();
-            Valid= _fields[_commandNameIndex + 1];
+            Valid = _fields[_commandNameIndex + 1];
         }
     }
 }

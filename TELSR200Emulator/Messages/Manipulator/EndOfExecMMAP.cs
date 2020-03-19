@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class EndOfExecMMAP:BaseEndOfExec
+    public class EndOfExecMMAP : BaseEndOfExec
     {
         public EndOfExecMMAP(BaseMessage req) : base(req) { }
 
@@ -13,7 +13,7 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.ManipulatorEoEs[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 _responseBuilder.Append(xmlData["ExecutionTime"]);
                 _responseBuilder.Append(',');
                 _responseBuilder.Append(xmlData["RotationAxis"]);
@@ -29,7 +29,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                 _responseBuilder.Append(xmlData["MappingResult"]);
             }
             else
-            { 
+            {
                 var robot = (Devices.Manipulator)device;
                 var req = (CommandMMAP)_request;
                 var robotConfig = AppConfiguration.environment.Manipulator;
@@ -49,7 +49,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
                 _responseBuilder.Append(station.GetMappingStatus(req.Slot));
             }
-            
+
             return base.Generate(device);
         }
 

@@ -17,7 +17,7 @@ namespace TELSR200Emulator.Messages.PreAligner
         {
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.PreAlignerEoEs[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 _responseBuilder.Append(xmlData["ExecutionTime"]);
                 _responseBuilder.Append(',');
                 _responseBuilder.Append(xmlData["PositionData"]);

@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseMALN:BaseResponse
+    public class ResponseMALN : BaseResponse
     {
         public ResponseMALN(CommandMALN req) : base(req) { }
 

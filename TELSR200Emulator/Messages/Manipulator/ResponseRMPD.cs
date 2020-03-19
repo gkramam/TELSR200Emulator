@@ -20,7 +20,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.ManipulatorResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 if (Convert.ToBoolean(xmlData["PositiveReply"]))
                 {
                     _responseBuilder.Append(',');
@@ -30,7 +30,8 @@ namespace TELSR200Emulator.Messages.Manipulator
             else
             {
                 _responseBuilder.Append(',');
-                Enumerable.Range(0, 30).ToList().ForEach(x => {
+                Enumerable.Range(0, 30).ToList().ForEach(x =>
+                {
                     _responseBuilder.Append($"{x.ToString("D2")}:00000000,00000000");
                     _responseBuilder.Append(',');
                 });

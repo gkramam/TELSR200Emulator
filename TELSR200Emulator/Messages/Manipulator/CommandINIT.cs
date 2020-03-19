@@ -15,13 +15,13 @@
         {
             base.Parse();
 
-            if (_fields[_commandNameIndex+1] == "1")
+            if (_fields[_commandNameIndex + 1] == "1")
                 ErrorClear = true;
 
-            if (_fields[_commandNameIndex +2] == "1")
+            if (_fields[_commandNameIndex + 2] == "1")
                 ServoOn = true;
 
-            HomeAxis = _fields[_commandNameIndex +3];
+            HomeAxis = _fields[_commandNameIndex + 3];
         }
 
         public override void PerformCommandSpecificProcessing(Device device)

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using TELSR200Emulator.Messages;
 
 namespace TELSR200Emulator.Devices
 {
-    public class PreAligner:Device
+    public class PreAligner : Device
     {
         public override int UnitNumber
         {
@@ -19,13 +14,13 @@ namespace TELSR200Emulator.Devices
             }
         }
         public bool IsWaferPresentOnLineSensor { get; set; }
-        
+
         public bool IsWaferPresentOnVacuumOrGripSensor { get; set; }
 
         public PreAlignerCoordinates HomePositionPosture { get; set; }
         public PreAlignerCoordinates CurrentPositionPosture { get; set; }
 
-        public PreAligner() 
+        public PreAligner()
         {
             HomePositionPosture = new PreAlignerCoordinates() { RotationAxis = 0 };
             CurrentPositionPosture = HomePositionPosture;

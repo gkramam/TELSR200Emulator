@@ -13,60 +13,60 @@ namespace TELSR200Emulator
         private static readonly object _lock = new object();
 
         private bool _isServoOn;
-        public bool IsServoOn 
+        public bool IsServoOn
         {
-            get 
-            { 
-                lock(_lock)
+            get
+            {
+                lock (_lock)
                 {
                     return _isServoOn;
                 }
             }
-            set 
-            { 
-                lock(_lock)
+            set
+            {
+                lock (_lock)
                 {
                     _isServoOn = value;
                 }
-            } 
+            }
         }
 
         private bool _isBatteryVoltageDropped;
-        public bool IsBatteryVoltageDropped 
+        public bool IsBatteryVoltageDropped
         {
-            get 
+            get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     return _isBatteryVoltageDropped;
                 }
             }
-            set 
+            set
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     _isBatteryVoltageDropped = value;
                 }
-            } 
+            }
         }
 
         protected BlockingCollection<CommandContext> IncomingQ;
-        protected BlockingCollection<Tuple<CommandContext,BaseMessage>> IncomingReferenceQ;
+        protected BlockingCollection<Tuple<CommandContext, BaseMessage>> IncomingReferenceQ;
         protected BlockingCollection<Tuple<CommandContext, BaseMessage>> IncomingOtherQ;
 
         bool _isError;
-        public bool IsError 
+        public bool IsError
         {
             get
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     return _isError;
                 }
             }
             set
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     _isError = value;
                 }
@@ -74,18 +74,18 @@ namespace TELSR200Emulator
         }
 
         bool _isReady;
-        public bool IsReady 
+        public bool IsReady
         {
             get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     return _isReady;
                 }
             }
             set
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     _isReady = value;
                 }
@@ -93,18 +93,18 @@ namespace TELSR200Emulator
         }
 
         DeviceState _commandState;
-        public DeviceState CommandState 
+        public DeviceState CommandState
         {
             get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     return _commandState;
                 }
             }
             set
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     _commandState = value;
                 }
@@ -112,18 +112,18 @@ namespace TELSR200Emulator
         }
 
         System.Timers.Timer _retryTimer;
-        public System.Timers.Timer RetryTimer 
+        public System.Timers.Timer RetryTimer
         {
             get
             {
-                lock(_lock)
+                lock (_lock)
                 {
                     return _retryTimer;
                 }
             }
             set
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     _retryTimer = value;
                 }
@@ -131,18 +131,18 @@ namespace TELSR200Emulator
         }
 
         EoEResponseContext _lastCtxtForWhichSentEoE;
-        public EoEResponseContext LastCtxtForWhichSentEoE 
+        public EoEResponseContext LastCtxtForWhichSentEoE
         {
             get
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     return _lastCtxtForWhichSentEoE;
                 }
             }
             set
-            { 
-                lock(_lock)
+            {
+                lock (_lock)
                 {
                     _lastCtxtForWhichSentEoE = value;
                 }
@@ -188,9 +188,9 @@ namespace TELSR200Emulator
         public int SeqNum;
         int retryCount = 0;
 
-        public abstract int UnitNumber { get;} 
+        public abstract int UnitNumber { get; }
 
-        public Device() 
+        public Device()
         {
             IncomingQ = new BlockingCollection<CommandContext>();
             IncomingReferenceQ = new BlockingCollection<Tuple<CommandContext, BaseMessage>>();
@@ -214,7 +214,7 @@ namespace TELSR200Emulator
             }
             if (CommandState == DeviceState.EOESent)
             {
-                if(LastCtxtForWhichSentEoE != null)
+                if (LastCtxtForWhichSentEoE != null)
                 {
                     LastCtxtForWhichSentEoE.RequestContext.ResponseQCallback(LastCtxtForWhichSentEoE.Response);
                     retryCount++;
@@ -249,8 +249,8 @@ namespace TELSR200Emulator
                             continue;
                         }
                     }
-                    
-                    if (!cmdctxt.CommandMessage.Substring(2,1).Equals(UnitNumber.ToString()))
+
+                    if (!cmdctxt.CommandMessage.Substring(2, 1).Equals(UnitNumber.ToString()))
                     {
                         cmdctxt.ResponseQCallback(ReceptionError.Generate("5000"));
                         continue; ;
@@ -258,15 +258,15 @@ namespace TELSR200Emulator
 
                     var commandBeingCategorized = BaseMessage.Create(cmdctxt.CommandMessage);
 
-                    if(commandBeingCategorized == null)
+                    if (commandBeingCategorized == null)
                     {
                         cmdctxt.ResponseQCallback(ReceptionError.Generate("6000"));
                         continue; ;
                     }
-                    
+
                     commandBeingCategorized.Parse();//Process(cmdctxt);
 
-                    
+
 
                     if (commandBeingCategorized.Type == MessageType.Reference)
                     {
@@ -283,9 +283,9 @@ namespace TELSR200Emulator
                 }
             });
 
-            Task.Run(() => 
-            { 
-                foreach(var tuple in IncomingOtherQ.GetConsumingEnumerable())
+            Task.Run(() =>
+            {
+                foreach (var tuple in IncomingOtherQ.GetConsumingEnumerable())
                 {
                     ProcessOther(tuple.Item1, tuple.Item2);
                     if (Stop)
@@ -309,7 +309,7 @@ namespace TELSR200Emulator
             categorizedCommand.PreProcess(cmdCxt, this);
         }
 
-        public void ProcessOther(CommandContext cmdCxt,BaseMessage categorizedCommand)
+        public void ProcessOther(CommandContext cmdCxt, BaseMessage categorizedCommand)
         {
             //if (AppConfiguration.useSequenceNumber)
             //{
@@ -350,7 +350,7 @@ namespace TELSR200Emulator
                 return;
             }
 
-            if(commandBeingProcessed.Type == MessageType.Ack)
+            if (commandBeingProcessed.Type == MessageType.Ack)
             {
                 if (CommandState == DeviceState.Ready)
                     return;//Duplicate ACK
@@ -377,7 +377,7 @@ namespace TELSR200Emulator
 
             commandBeingProcessed.PreProcess(cmdCxt, this);
 
-            if(commandBeingProcessed.Type == MessageType.Action || commandBeingProcessed.Type == MessageType.Control)
+            if (commandBeingProcessed.Type == MessageType.Action || commandBeingProcessed.Type == MessageType.Control)
                 commandBeingProcessed.Process(cmdCxt, this);
         }
 
@@ -425,5 +425,5 @@ namespace TELSR200Emulator
         EventSent,
         ErrorSent
     }
-    
+
 }

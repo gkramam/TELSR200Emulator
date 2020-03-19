@@ -1,6 +1,6 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandACKN:BaseMessage
+    public class CommandACKN : BaseMessage
     {
         public CommandACKN(string message) : base(message) { }
 

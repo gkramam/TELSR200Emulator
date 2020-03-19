@@ -18,7 +18,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.ManipulatorResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 if (Convert.ToBoolean(xmlData["PositiveReply"]))
                 {
                     _responseBuilder.Append(xmlData["Level"]);

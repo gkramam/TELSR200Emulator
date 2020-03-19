@@ -12,7 +12,7 @@ namespace TELSR200Emulator.Messages.PreAligner
         {
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.PreAlignerEoEs[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 _responseBuilder.Append(xmlData["ExecutionTime"]);
                 _responseBuilder.Append(',');
                 _responseBuilder.Append(xmlData["PositionData"]);
@@ -68,16 +68,16 @@ namespace TELSR200Emulator.Messages.PreAligner
             Dictionary<string, string> ret = new Dictionary<string, string>();
             ret.Add("ExecutionTime", executionTime);
             ret.Add("PositionData", positionData);
-            ret.Add("EccentircAmount",eccAmount);
-            ret.Add("EccentricAngle",eccAngle);
-            ret.Add("NotchDirection",notchDir);
-            ret.Add("XOffsetBefore",xOffBefore);
-            ret.Add("YOffsetBefore",yOffBefore);
-            ret.Add("PreAlignerCorrectionAngle",preAlignCorrAngle);
-            ret.Add("ManipulatorAdjustmentAmount",ManipAdjAmt);
-            ret.Add("ManipulatorCorrectionAngle",ManipCorrAngle);
-            ret.Add("XOffsetAfter",xOffAfter);
-            ret.Add("YOffestAfter",yOffAfter);
+            ret.Add("EccentircAmount", eccAmount);
+            ret.Add("EccentricAngle", eccAngle);
+            ret.Add("NotchDirection", notchDir);
+            ret.Add("XOffsetBefore", xOffBefore);
+            ret.Add("YOffsetBefore", yOffBefore);
+            ret.Add("PreAlignerCorrectionAngle", preAlignCorrAngle);
+            ret.Add("ManipulatorAdjustmentAmount", ManipAdjAmt);
+            ret.Add("ManipulatorCorrectionAngle", ManipCorrAngle);
+            ret.Add("XOffsetAfter", xOffAfter);
+            ret.Add("YOffestAfter", yOffAfter);
             return ret.Union(base.ReadXML(xmlDoc)).ToDictionary(k => k.Key, k => k.Value);
         }
     }

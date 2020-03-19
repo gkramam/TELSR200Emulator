@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMTCH: BaseMessage
+    public class CommandMTCH : BaseMessage
     {
         public string TransferStation;
         public string Slot;
@@ -27,7 +27,7 @@ namespace TELSR200Emulator.Messages.Manipulator
             Hand = _fields[_commandNameIndex + 4];
             PMode = _fields[_commandNameIndex + 5];
 
-            if (_fields.Count() > _commandNameIndex+1+5)
+            if (_fields.Count() > _commandNameIndex + 1 + 5)
             {
                 OffsetSpecified = true;
                 OffsetX = _fields[_commandNameIndex + 6];

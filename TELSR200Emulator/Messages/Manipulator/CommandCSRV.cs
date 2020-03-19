@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandCSRV:BaseMessage
+    public class CommandCSRV : BaseMessage
     {
         public string ServoCommand;
         public CommandCSRV(string msg) : base(msg) { }

@@ -2,7 +2,7 @@ namespace TELSR200Emulator.Messages.Manipulator
 {
     public class ReferenceRSTP : BaseMessage
     {
-        public string MemorySpec,TransferStation, Slot,Posture,Hand,PositionType;
+        public string MemorySpec, TransferStation, Slot, Posture, Hand, PositionType;
         public ReferenceRSTP(string msg) : base(msg) { }
 
         public override void Parse()

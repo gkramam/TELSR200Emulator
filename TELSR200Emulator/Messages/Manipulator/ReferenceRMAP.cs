@@ -1,6 +1,6 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRMAP:BaseMessage
+    public class ReferenceRMAP : BaseMessage
     {
         public string TransferStation, Slot;
         public ReferenceRMAP(string msg) : base(msg) { }

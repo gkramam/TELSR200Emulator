@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace TELSR200Emulator.Configuration
@@ -40,7 +39,7 @@ namespace TELSR200Emulator.Configuration
             }
 
             Thresholds = new List<Threshold>();
-            
+
             LowestRegisteredPosition = new ManipulatorPosition(stationNode.SelectSingleNode("Positions/Position[@key='Lowest']"));
 
             RegisteredG4Position = new ManipulatorPosition(stationNode.SelectSingleNode("Positions//Position[@key='G4']"));
@@ -69,7 +68,7 @@ namespace TELSR200Emulator.Configuration
             ret.Append(',');
             ret.Append(((int)(WaferWidth / 0.001)).ToString("D8"));
             ret.Append(',');
-            ret.Append(((int)Thresholds.Find(t=>t.Type==MappingCalibrationThresholdType.DoubleInsertion).Value).ToString("D8"));
+            ret.Append(((int)Thresholds.Find(t => t.Type == MappingCalibrationThresholdType.DoubleInsertion).Value).ToString("D8"));
             ret.Append(',');
             ret.Append(((int)Thresholds.Find(t => t.Type == MappingCalibrationThresholdType.SlantingInsertion1).Value).ToString("D8"));
             ret.Append(',');

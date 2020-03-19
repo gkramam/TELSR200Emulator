@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseMACA:BaseResponse
+    public class ResponseMACA : BaseResponse
     {
         public ResponseMACA(CommandMACA req) : base(req) { }
 

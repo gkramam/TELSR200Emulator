@@ -2,9 +2,9 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseMMAP:BaseResponse
+    public class ResponseMMAP : BaseResponse
     {
-        public ResponseMMAP(CommandMMAP req):base(req)
+        public ResponseMMAP(CommandMMAP req) : base(req)
         { }
 
         public override string Generate(Device device)

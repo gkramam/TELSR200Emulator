@@ -18,7 +18,7 @@ namespace TELSR200Emulator.Messages.PreAligner
 
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.PreAlignerResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 if (Convert.ToBoolean(xmlData["PositiveReply"]))
                 {
                     _responseBuilder.Append(xmlData["Level"]);

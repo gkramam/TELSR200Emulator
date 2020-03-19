@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseMMCA:BaseResponse
+    public class ResponseMMCA : BaseResponse
     {
         public ResponseMMCA(CommandMMCA req) : base(req) { }
 

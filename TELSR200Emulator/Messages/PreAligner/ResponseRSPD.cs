@@ -24,9 +24,9 @@ namespace TELSR200Emulator.Messages.PreAligner
             _responseBuilder.Append(',');
             _responseBuilder.Append(req.Axis);
 
-            if(AppConfiguration.useXmlFilesForReplies)
+            if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = AppConfiguration.PreAlignerResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 if (Convert.ToBoolean(xmlData["PositiveReply"]))
                 {
                     _responseBuilder.Append(',');

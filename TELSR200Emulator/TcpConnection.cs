@@ -14,7 +14,7 @@ namespace TELSR200Emulator
     {
         TcpClient innerConnection;
 
-        Timer messageTimer; 
+        Timer messageTimer;
 
         public bool Stop = false;
 
@@ -22,16 +22,16 @@ namespace TELSR200Emulator
         bool startDetected = false;
 
         BlockingCollection<string> outgoingQ;
-        
-        public TcpConnection(TcpClient connection) 
+
+        public TcpConnection(TcpClient connection)
         {
             if (connection == null)
                 throw new Exception("connection cannot be null");
-            
+
             innerConnection = connection;
             innerConnection.NoDelay = true;
 
-            outgoingQ = new BlockingCollection<string>(new ConcurrentQueue<string>() );
+            outgoingQ = new BlockingCollection<string>(new ConcurrentQueue<string>());
 
             messageTimer = new Timer(AppConfiguration.tcpBetweenCharacterTimeout);
             messageTimer.Enabled = false;
@@ -54,8 +54,8 @@ namespace TELSR200Emulator
         public void StartWriteLoop()
         {
             Stream s = innerConnection.GetStream();
-            
-            using(StreamWriter sw = new StreamWriter(s, Encoding.ASCII))
+
+            using (StreamWriter sw = new StreamWriter(s, Encoding.ASCII))
             {
                 sw.AutoFlush = true;
 
@@ -63,7 +63,7 @@ namespace TELSR200Emulator
                 {
                     //while (!Stop && innerConnection.Connected && innerConnection.Client.Connected) //Write Loop.
                     {
-                        foreach(var msg in outgoingQ.GetConsumingEnumerable())
+                        foreach (var msg in outgoingQ.GetConsumingEnumerable())
                         {
                             if (innerConnection.Client.Poll(-1, SelectMode.SelectWrite))
                             {
@@ -112,7 +112,7 @@ namespace TELSR200Emulator
                     }
                 }
             }
-            
+
             if (Stop)
             {
                 innerConnection.Close();

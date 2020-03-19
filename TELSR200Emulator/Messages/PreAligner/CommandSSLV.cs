@@ -1,5 +1,3 @@
-using System;
-
 namespace TELSR200Emulator.Messages.PreAligner
 {
     public class CommandSSLV : BaseMessage

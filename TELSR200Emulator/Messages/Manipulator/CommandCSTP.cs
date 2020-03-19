@@ -1,9 +1,9 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandCSTP: BaseMessage
+    public class CommandCSTP : BaseMessage
     {
         public string StopMode;
-        public CommandCSTP(string msg):base(msg)
+        public CommandCSTP(string msg) : base(msg)
         {
 
         }

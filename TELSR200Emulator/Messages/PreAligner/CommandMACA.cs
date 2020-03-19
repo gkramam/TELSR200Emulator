@@ -1,6 +1,6 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandMACA:BaseMessage
+    public class CommandMACA : BaseMessage
     {
         public string Mode;
         public CommandMACA(string msg) : base(msg) { }

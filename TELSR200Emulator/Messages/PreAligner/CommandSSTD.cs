@@ -1,5 +1,3 @@
-using System;
-
 namespace TELSR200Emulator.Messages.PreAligner
 {
     public class CommandSSTD : BaseMessage
@@ -10,7 +8,7 @@ namespace TELSR200Emulator.Messages.PreAligner
         public override void Parse()
         {
             base.Parse();
-            Axis= _fields[_commandNameIndex + 1];
+            Axis = _fields[_commandNameIndex + 1];
         }
     }
 }

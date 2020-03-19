@@ -1,9 +1,9 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMPNT: BaseMessage
+    public class CommandMPNT : BaseMessage
     {
         public string TransferPoint;
-        public CommandMPNT(string msg) :base(msg)
+        public CommandMPNT(string msg) : base(msg)
         {
 
         }
@@ -12,7 +12,7 @@
         {
             base.Parse();
 
-            TransferPoint = _fields[_commandNameIndex +1];
+            TransferPoint = _fields[_commandNameIndex + 1];
         }
 
         public override void PerformPostEOESend(CommandContext ctxt, Device device)

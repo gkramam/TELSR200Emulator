@@ -1,10 +1,8 @@
-using System;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
     public class CommandSSTR : BaseMessage
     {
-        public string MemorySpec,TransferStation,Item,Value;
+        public string MemorySpec, TransferStation, Item, Value;
         public CommandSSTR(string msg) : base(msg) { }
 
         public override void Parse()

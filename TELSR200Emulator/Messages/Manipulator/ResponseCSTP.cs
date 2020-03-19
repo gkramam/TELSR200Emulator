@@ -2,9 +2,9 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseCSTP: BaseResponse
+    public class ResponseCSTP : BaseResponse
     {
-        public ResponseCSTP(BaseMessage req):base(req)
+        public ResponseCSTP(BaseMessage req) : base(req)
         {
 
         }

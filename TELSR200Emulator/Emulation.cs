@@ -14,7 +14,7 @@ namespace TELSR200Emulator
 
         public Emulation()
         {
-            robot = new Manipulator() { IsReady = true};
+            robot = new Manipulator() { IsReady = true };
             preAligner = new PreAligner() { IsReady = true };
         }
 

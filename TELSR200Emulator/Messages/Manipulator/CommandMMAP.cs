@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMMAP: BaseMessage
+    public class CommandMMAP : BaseMessage
     {
         public string TransferStation, Slot, Posture, Safe;
         public CommandMMAP(string msg) : base(msg) { }

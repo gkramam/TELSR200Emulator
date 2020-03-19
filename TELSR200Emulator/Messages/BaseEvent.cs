@@ -14,7 +14,7 @@ namespace TELSR200Emulator.Messages
         {
             var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss,");
             _builder.Insert(4, date);
-            _builder.Insert(0,$",{device},EVNT,");
+            _builder.Insert(0, $",{device},EVNT,");
 
             if (AppConfiguration.checkSumCheck)
             {

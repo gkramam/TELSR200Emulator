@@ -2,9 +2,9 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseMTRS:BaseResponse
+    public class ResponseMTRS : BaseResponse
     {
-        public ResponseMTRS(CommandMTRS request) : base(request) 
+        public ResponseMTRS(CommandMTRS request) : base(request)
         {
             _request = request;
         }

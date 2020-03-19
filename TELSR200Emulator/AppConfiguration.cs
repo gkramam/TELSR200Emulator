@@ -20,10 +20,11 @@ namespace TELSR200Emulator
         public static readonly Configuration.Environment environment;
         public static Dictionary<string, Dictionary<string, string>> ManipulatorResponses;
         public static Dictionary<string, Dictionary<string, string>> PreAlignerResponses;
-        
+
         public static Dictionary<string, Dictionary<string, string>> ManipulatorEoEs;
         public static Dictionary<string, Dictionary<string, string>> PreAlignerEoEs;
-        static AppConfiguration() {
+        static AppConfiguration()
+        {
 
             manipulatorPortNumber = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit1Port"]);
             preAlignerPortNumber = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["unit2Port"]);
@@ -50,7 +51,7 @@ namespace TELSR200Emulator
 
             var files = di.GetFiles("*.xml", SearchOption.AllDirectories);
 
-            foreach(var fi in files)
+            foreach (var fi in files)
             {
                 ProcessXMLFile(fi.FullName);
             }
@@ -173,11 +174,11 @@ namespace TELSR200Emulator
             bool isResponse = false;
             bool isEoE = false;
             bool isEvent = false;
-            if(fi.Exists)
+            if (fi.Exists)
             {
                 var configPath = fi.FullName.Substring(Environment.CurrentDirectory.Length);
                 var folders = configPath.Split('\\');
-                
+
                 if (folders[2].Equals("Manipulator"))
                     isManipulator = true;
                 else if (folders[2].Equals("PreAligner"))
@@ -188,7 +189,7 @@ namespace TELSR200Emulator
                 else if (folders[3].Equals("EndOfExecution"))
                     isEoE = true;
 
-                if(isResponse)
+                if (isResponse)
                 {
                     BaseResponse resp = null;
                     if (isManipulator)

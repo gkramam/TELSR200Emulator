@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseCCLR:BaseResponse 
+    public class ResponseCCLR : BaseResponse
     {
         public ResponseCCLR(BaseMessage req) : base(req) { }
         public override string Generate(Device device)

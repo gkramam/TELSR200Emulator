@@ -2,7 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMTRS: BaseMessage
+    public class CommandMTRS : BaseMessage
     {
         public string MotionMode;
         public string TransferStation;
@@ -27,10 +27,10 @@ namespace TELSR200Emulator.Messages.Manipulator
             Posture = _fields[_commandNameIndex + 4];
             Hand = _fields[_commandNameIndex + 5];
             TransferPoint = _fields[_commandNameIndex + 6];
-            
-            if(_fields.Count() > _commandNameIndex+1+6)
+
+            if (_fields.Count() > _commandNameIndex + 1 + 6)
             {
-                if(_fields.Count() == _commandNameIndex+1+6+4)
+                if (_fields.Count() == _commandNameIndex + 1 + 6 + 4)
                 {
                     OffsetSpecified = AngleSpecified = true;
                     OffsetX = _fields[_commandNameIndex + 7];
@@ -38,7 +38,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                     OffsetZ = _fields[_commandNameIndex + 9];
                     Angle = _fields[_commandNameIndex + 10];
                 }
-                else if(_fields.Count() == _commandNameIndex + 1 + 6 + 3)
+                else if (_fields.Count() == _commandNameIndex + 1 + 6 + 3)
                 {
                     OffsetSpecified = true;
                     AngleSpecified = false;
@@ -46,7 +46,7 @@ namespace TELSR200Emulator.Messages.Manipulator
                     OffsetY = _fields[_commandNameIndex + 8];
                     OffsetZ = _fields[_commandNameIndex + 9];
                 }
-                else if(_fields.Count() == _commandNameIndex + 1 + 6 + 1)
+                else if (_fields.Count() == _commandNameIndex + 1 + 6 + 1)
                 {
                     OffsetSpecified = false;
                     AngleSpecified = true;
