@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TELSR200Emulator.Messages;
@@ -249,12 +246,27 @@ namespace TELSR200Emulator
                         if (!CheckSum.IsValid(strippedCmd, checkSum))
                         {
                             cmdctxt.ResponseQCallback(ReceptionError.Generate("2000"));
-                            return;
+                            continue;
                         }
+                    }
+                    
+                    if (!cmdctxt.CommandMessage.Substring(2,1).Equals(UnitNumber.ToString()))
+                    {
+                        cmdctxt.ResponseQCallback(ReceptionError.Generate("5000"));
+                        continue; ;
                     }
 
                     var commandBeingCategorized = BaseMessage.Create(cmdctxt.CommandMessage);
+
+                    if(commandBeingCategorized == null)
+                    {
+                        cmdctxt.ResponseQCallback(ReceptionError.Generate("6000"));
+                        continue; ;
+                    }
+                    
                     commandBeingCategorized.Parse();//Process(cmdctxt);
+
+                    
 
                     if (commandBeingCategorized.Type == MessageType.Reference)
                     {

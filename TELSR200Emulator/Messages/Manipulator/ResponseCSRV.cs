@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
@@ -14,7 +10,6 @@ namespace TELSR200Emulator.Messages.Manipulator
         {
             _responseBuilder = new StringBuilder();
 
-            Devices.Manipulator robot = (Devices.Manipulator)device;
             CommandCSRV req = (CommandCSRV)_request;
 
             _responseBuilder.Append(req.ServoCommand);

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TELSR200Emulator.Messages.PreAligner;
 
 namespace TELSR200Emulator.Messages
 {
@@ -87,110 +84,110 @@ namespace TELSR200Emulator.Messages
                     ret = new Manipulator.CommandMMCA(message) { Type = MessageType.Action,ResponseType=typeof(Manipulator.ResponseMMCA),EndOfExecType=typeof(Manipulator.EndOfExecMMCA) };
                     break;
                 //*******************           CONTROL       ************************************
-                //case "CSTP":
-                //    ret = new Manipulator.CommandCSTP(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCSTP),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
-                //    break;
-                //case "CRSM":
-                //    ret = new Manipulator.CommandCRSM(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCRSM),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
-                //    break;
+                case "CSTP":
+                    ret = new Manipulator.CommandCSTP(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSTP), EndOfExecType = typeof(Manipulator.EndOfExecCSTP) };
+                    break;
+                case "CRSM":
+                    ret = new Manipulator.CommandCRSM(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCRSM), EndOfExecType = typeof(Manipulator.EndOfExecCRSM) };
+                    break;
                 case "CSRV":
                     ret = new Manipulator.CommandCSRV(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSRV), EndOfExecType = typeof(Manipulator.EndOfExecCSRV) };
                     break;
-                //case "CCLR":
-                //    ret = new Manipulator.CommandCCLR(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCCLR),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
-                //    break;
-                //case "CSOL":
-                //    ret = new Manipulator.CommandCSOL(message) { Type = MessageType.Control,ResponseType=typeof(Manipulator.ResponseCSOL),EndOfExecType=typeof(Manipulator.EndOfExecGeneric) };
-                //    break;
-                //*******************           SETTING       ************************************
-                //case "SSPD":
-                //    ret = new Manipulator.CommandSSPD(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SSLV":
-                //    ret = new Manipulator.CommandSSLV(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPOS":
-                //    ret = new Manipulator.CommandSPOS(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SABS":
-                //    ret = new Manipulator.CommandSABS(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SAPS":
-                //    ret = new Manipulator.CommandSAPS(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPDL":
-                //    ret = new Manipulator.CommandSPDL(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPSV":
-                //    ret = new Manipulator.CommandSPSV(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPLD":
-                //    ret = new Manipulator.CommandSPLD(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SSTR":
-                //    ret = new Manipulator.CommandSSTR(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPRM":
-                //    ret = new Manipulator.CommandSPRM(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SMSK":
-                //    ret = new Manipulator.CommandSMSK(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SSTD":
-                //    ret = new Manipulator.CommandSSTD(message) { Type = MessageType.Setting };
-                //    break;
-                //case "STRM":
-                //    ret = new Manipulator.CommandSTRM(message) { Type = MessageType.Setting };
-                //    break;
-                //*******************           REFERENCE       ************************************
-                //case "RSPD":
-                //    ret = new Manipulator.CommandRSPD(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSLV":
-                //    ret = new Manipulator.CommandRSLV(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RPOS":
-                //    ret = new Manipulator.CommandRPOS(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTP":
-                //    ret = new Manipulator.CommandRSTP(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTR":
-                //    ret = new Manipulator.CommandRSTR(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RPSM":
-                //    ret = new Manipulator.CommandRPSM(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTS":
-                //    ret = new Manipulator.CommandRSTS(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RERR":
-                //    ret = new Manipulator.CommandRERR(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RMSK":
-                //    ret = new Manipulator.CommandRMSK(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RVER":
-                //    ret = new Manipulator.CommandRVER(message) { Type = MessageType.Reference };
-                //    break;
-                case "RMAP":
-                    ret = new Manipulator.ReferenceRMAP(message) { Type = MessageType.Reference, ResponseType=typeof(Manipulator.ResponseRMAP) };
+                case "CCLR":
+                    ret = new Manipulator.CommandCCLR(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCCLR), EndOfExecType = typeof(Manipulator.EndOfExecCCLR) };
                     break;
-                //case "RMPD":
-                //    ret = new Manipulator.CommandRMPD(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RMCA":
-                //    ret = new Manipulator.CommandRMCA(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RTRM":
-                //    ret = new Manipulator.CommandRTRM(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RAWC":
-                //    ret = new Manipulator.CommandRAWC(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RLOG":
-                //    ret = new Manipulator.CommandRLOG(message) { Type = MessageType.Reference };
-                //    break;
+                case "CSOL":
+                    ret = new Manipulator.CommandCSOL(message) { Type = MessageType.Control, ResponseType = typeof(Manipulator.ResponseCSOL), EndOfExecType = typeof(Manipulator.EndOfExecCSOL) };
+                    break;
+                //*******************           SETTING       ************************************
+                case "SSPD":
+                    ret = new Manipulator.CommandSSPD(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSSPD) };
+                    break;
+                case "SSLV":
+                    ret = new Manipulator.CommandSSLV(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSSLV) };
+                    break;
+                case "SPOS":
+                    ret = new Manipulator.CommandSPOS(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSPOS) };
+                    break;
+                case "SABS":
+                    ret = new Manipulator.CommandSABS(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSABS) };
+                    break;
+                case "SAPS":
+                    ret = new Manipulator.CommandSAPS(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSAPS) };
+                    break;
+                case "SPDL":
+                    ret = new Manipulator.CommandSPDL(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSPDL) };
+                    break;
+                case "SPSV":
+                    ret = new Manipulator.CommandSPSV(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSPSV) };
+                    break;
+                case "SPLD":
+                    ret = new Manipulator.CommandSPLD(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSPLD) };
+                    break;
+                case "SSTR":
+                    ret = new Manipulator.CommandSSTR(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSSTR) };
+                    break;
+                case "SPRM":
+                    ret = new Manipulator.CommandSPRM(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSPRM) };
+                    break;
+                case "SMSK":
+                    ret = new Manipulator.CommandSMSK(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSMSK) };
+                    break;
+                case "SSTD":
+                    ret = new Manipulator.CommandSSTD(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSSTD) };
+                    break;
+                case "STRM":
+                    ret = new Manipulator.CommandSTRM(message) { Type = MessageType.Setting, ResponseType = typeof(Manipulator.ResponseSTRM) };
+                    break;
+                //*******************           REFERENCE       ************************************
+                case "RSPD":
+                    ret = new Manipulator.ReferenceRSPD(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRSPD) };
+                    break;
+                case "RSLV":
+                    ret = new Manipulator.ReferenceRSLV(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRSLV) };
+                    break;
+                case "RPOS":
+                    ret = new Manipulator.ReferenceRPOS(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRPOS) };
+                    break;
+                case "RSTP":
+                    ret = new Manipulator.ReferenceRSTP(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRSTP) };
+                    break;
+                case "RSTR":
+                    ret = new Manipulator.ReferenceRSTR(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRSTR) };
+                    break;
+                case "RPRM":
+                    ret = new Manipulator.ReferenceRPRM(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRPRM) };
+                    break;
+                case "RSTS":
+                    ret = new Manipulator.ReferenceRSTS(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRSTS) };
+                    break;
+                case "RERR":
+                    ret = new Manipulator.ReferenceRERR(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRERR) };
+                    break;
+                case "RMSK":
+                    ret = new Manipulator.ReferenceRMSK(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRMSK) };
+                    break;
+                case "RVER":
+                    ret = new Manipulator.ReferenceRVER(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRVER) };
+                    break;
+                case "RMAP":
+                    ret = new Manipulator.ReferenceRMAP(message) { Type = MessageType.Reference, ResponseType = typeof(Manipulator.ResponseRMAP) };
+                    break;
+                case "RMPD":
+                    ret = new Manipulator.ReferenceRMPD(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRMPD) };
+                    break;
+                case "RMCA":
+                    ret = new Manipulator.ReferenceRMCA(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRMCA) };
+                    break;
+                case "RTRM":
+                    ret = new Manipulator.ReferenceRTRM(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRTRM) };
+                    break;
+                case "RAWC":
+                    ret = new Manipulator.ReferenceRAWC(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRAWC) };
+                    break;
+                case "RLOG":
+                    ret = new Manipulator.ReferenceRLOG(message) { Type = MessageType.Reference , ResponseType=typeof(Manipulator.ResponseRLOG) };
+                    break;
                 //*******************           ACK       ************************************
                 case "ACKN":
                     ret = new Manipulator.CommandACKN(message) { Type = MessageType.Ack };
@@ -222,80 +219,74 @@ namespace TELSR200Emulator.Messages
                     ret = new PreAligner.CommandMACA(message) { Type = MessageType.Action,ResponseType=typeof(PreAligner.ResponseMACA),EndOfExecType=typeof(PreAligner.EndOfExecMACA) };
                     break;
                 //*******************           CONTROL       ************************************
-                //case "CSTP":
-                //    ret = new PreAligner.CommandCSTP(message) { Type = MessageType.Control,ResponseType=typeof(PreAligner.ResponseCSTP),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
-                //    break;
-                //case "CRSM":
-                //    ret = new PreAligner.CommandCRSM(message) { Type = MessageType.Control,ResponseType=typeof(PreAligner.ResponseCRSM),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
-                //    break;
-                //case "CSRV":
-                //    ret = new PreAligner.CommandCSRV(message) { Type = MessageType.Control,ResponseType=typeof(PreAligner.ResponseCSRV),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
-                //    break;
-                //case "CCLR":
-                //    ret = new PreAligner.CommandCCLR(message) { Type = MessageType.Control,ResponseType=typeof(PreAligner.ResponseCCLR),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
-                //    break;
-                //case "CSOL":
-                //    ret = new PreAligner.CommandCSOL(message) { Type = MessageType.Control,ResponseType=typeof(PreAligner.ResponseCSOL),EndOfExecType=typeof(PreAligner.EndOfExecGeneric) };
-                //    break;
+                case "CSTP":
+                    ret = new PreAligner.CommandCSTP(message) { Type = MessageType.Control, ResponseType = typeof(PreAligner.ResponseCSTP), EndOfExecType = typeof(PreAligner.EndOfExecCSTP) };
+                    break;
+                case "CRSM":
+                    ret = new PreAligner.CommandCRSM(message) { Type = MessageType.Control, ResponseType = typeof(PreAligner.ResponseCRSM), EndOfExecType = typeof(PreAligner.EndOfExecCRSM) };
+                    break;
+                case "CSRV":
+                    ret = new PreAligner.CommandCSRV(message) { Type = MessageType.Control, ResponseType = typeof(PreAligner.ResponseCSRV), EndOfExecType = typeof(PreAligner.EndOfExecCSRV) };
+                    break;
+                case "CCLR":
+                    ret = new PreAligner.CommandCCLR(message) { Type = MessageType.Control, ResponseType = typeof(PreAligner.ResponseCCLR), EndOfExecType = typeof(PreAligner.EndOfExecCCLR) };
+                    break;
+                case "CSOL":
+                    ret = new PreAligner.CommandCSOL(message) { Type = MessageType.Control, ResponseType = typeof(PreAligner.ResponseCSOL), EndOfExecType = typeof(PreAligner.EndOfExecCSOL) };
+                    break;
                 //*******************           SETTING       ************************************
-                //case "SSPD":
-                //    ret = new PreAligner.CommandSSPD(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SSLV":
-                //    ret = new PreAligner.CommandSSLV(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SPRM":
-                //    ret = new PreAligner.CommandSPRM(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SMSK":
-                //    ret = new PreAligner.CommandSMSK(message) { Type = MessageType.Setting };
-                //    break;
-                //case "SSTD":
-                //    ret = new PreAligner.CommandSSTD(message) { Type = MessageType.Setting };
-                //    break;
+                case "SSPD":
+                    ret = new PreAligner.CommandSSPD(message) { Type = MessageType.Setting, ResponseType=typeof(PreAligner.ResponseSSPD) };
+                    break;
+                case "SSLV":
+                    ret = new PreAligner.CommandSSLV(message) { Type = MessageType.Setting, ResponseType=typeof(PreAligner.ResponseSSLV) };
+                    break;
+                case "SPRM":
+                    ret = new PreAligner.CommandSPRM(message) { Type = MessageType.Setting, ResponseType=typeof(PreAligner.ResponseSPRM) };
+                    break;
+                case "SMSK":
+                    ret = new PreAligner.CommandSMSK(message) { Type = MessageType.Setting, ResponseType=typeof(PreAligner.ResponseSMSK) };
+                    break;
+                case "SSTD":
+                    ret = new PreAligner.CommandSSTD(message) { Type = MessageType.Setting, ResponseType=typeof(PreAligner.ResponseSSTD) };
+                    break;
                 //*******************           REFERENCE       ************************************
-                //case "RSPD":
-                //    ret = new PreAligner.CommandRSPD(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSLV":
-                //    ret = new PreAligner.CommandRSLV(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RPOS":
-                //    ret = new PreAligner.CommandRPOS(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTP":
-                //    ret = new PreAligner.CommandRSTP(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTR":
-                //    ret = new PreAligner.CommandRSTR(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RPSM":
-                //    ret = new PreAligner.CommandRPSM(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RSTS":
-                //    ret = new PreAligner.CommandRSTS(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RERR":
-                //    ret = new PreAligner.CommandRERR(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RMSK":
-                //    ret = new PreAligner.CommandRMSK(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RVER":
-                //    ret = new PreAligner.CommandRVER(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RALN":
-                //    ret = new PreAligner.CommandRALN(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RACA":
-                //    ret = new PreAligner.CommandRACA(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RCCD":
-                //    ret = new PreAligner.CommandRCCD(message) { Type = MessageType.Reference };
-                //    break;
-                //case "RLOG":
-                //    ret = new PreAligner.CommandRLOG(message) { Type = MessageType.Reference };
-                //    break;
+                case "RSPD":
+                    ret = new PreAligner.ReferenceRSPD(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRSPD) };
+                    break;
+                case "RSLV":
+                    ret = new PreAligner.ReferenceRSLV(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRSLV) };
+                    break;
+                case "RPOS":
+                    ret = new PreAligner.ReferenceRPOS(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRPOS) };
+                    break;
+                case "RPRM":
+                    ret = new PreAligner.ReferenceRPRM(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRPRM) };
+                    break;
+                case "RSTS":
+                    ret = new PreAligner.ReferenceRSTS(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRSTS) };
+                    break;
+                case "RERR":
+                    ret = new PreAligner.ReferenceRERR(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRERR) };
+                    break;
+                case "RMSK":
+                    ret = new PreAligner.ReferenceRMSK(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRMSK) };
+                    break;
+                case "RVER":
+                    ret = new PreAligner.ReferenceRVER(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRVER) };
+                    break;
+                case "RALN":
+                    ret = new PreAligner.ReferenceRALN(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRALN) };
+                    break;
+                case "RACA":
+                    ret = new PreAligner.ReferenceRACA(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRACA) };
+                    break;
+                case "RCCD":
+                    ret = new PreAligner.ReferenceRCCD(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRCCD) };
+                    break;
+                case "RLOG":
+                    ret = new PreAligner.ReferenceRLOG(message) { Type = MessageType.Reference, ResponseType=typeof(ResponseRLOG) };
+                    break;
                 //*******************           ACKN       ************************************
                 case "ACKN":
                     ret = new PreAligner.CommandACKN(message) { Type = MessageType.Ack };

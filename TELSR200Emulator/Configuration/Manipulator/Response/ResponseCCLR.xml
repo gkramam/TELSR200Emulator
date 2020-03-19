@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResponseCCLR>
+  <Status>
+    <Status1>
+      <None>1</None>
+      <UnitReady>1</UnitReady>
+      <ErrorOccured>1</ErrorOccured>
+      <ServoOff>1</ServoOff>
+    </Status1>
+    <Status2>
+      <None>0</None>
+      <BatteryVoltageDropped>0</BatteryVoltageDropped>
+      <Blade1_Vac_Grip_HasWafer>0</Blade1_Vac_Grip_HasWafer>
+      <Blade2_LineSensor_Haswafer>0</Blade2_LineSensor_Haswafer>
+    </Status2>
+  </Status>
+  <AckCD>0000</AckCD>
+</ResponseCCLR>

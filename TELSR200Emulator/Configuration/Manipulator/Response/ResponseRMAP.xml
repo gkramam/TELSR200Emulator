@@ -15,4 +15,6 @@
     </Status2>
   </Status>
   <AckCD>0000</AckCD>
+  <PositiveReply>true</PositiveReply>
+  <MappingResult>01:OK,02:DW,03:OK,04:CW,05:CW,06:OK,07:OK,08:--,09:OK,10:OK</MappingResult>
 </ResponseRMAP>

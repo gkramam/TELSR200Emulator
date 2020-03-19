@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using TELSR200Emulator.Messages.Manipulator;
-using TELSR200Emulator.Messages.PreAligner;
 
 namespace TELSR200Emulator.Messages
 {
@@ -20,6 +15,29 @@ namespace TELSR200Emulator.Messages
         {
             _request = request;
             _responseBuilder = new StringBuilder();
+        }
+
+        protected Dictionary<string, string> GetXMLDictionary()
+        {
+            if (_request != null)
+            {
+                if (_request.UnitNumber == 1)
+                {
+                    if (this is BaseEndOfExec)
+                        return AppConfiguration.ManipulatorEoEs[_request.CommandName];
+                    else
+                        return AppConfiguration.ManipulatorResponses[_request.CommandName];
+                }
+                else
+                {
+                    if (this is BaseEndOfExec)
+                        return AppConfiguration.PreAlignerEoEs[_request.CommandName];
+                    else
+                        return AppConfiguration.PreAlignerResponses[_request.CommandName];
+                }
+            }
+
+            return null;
         }
 
         public virtual Dictionary<string, string> ReadXML(XmlDocument xmlDoc)

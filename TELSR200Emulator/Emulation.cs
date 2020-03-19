@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using TELSR200Emulator.Devices;
-using TELSR200Emulator.Messages;
-using TELSR200Emulator.Messages.PreAligner;
 
 namespace TELSR200Emulator
 {

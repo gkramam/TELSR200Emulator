@@ -60,8 +60,29 @@
     <Compile Include="CheckSum.cs" />
     <Compile Include="Messages\BaseEvent.cs" />
     <Compile Include="Messages\ErrorEvent.cs" />
+    <Compile Include="Messages\Manipulator\CommandCCLR.cs" />
+    <Compile Include="Messages\Manipulator\CommandCRSM.cs" />
+    <Compile Include="Messages\Manipulator\CommandCSOL.cs" />
     <Compile Include="Messages\Manipulator\CommandCSRV.cs" />
+    <Compile Include="Messages\Manipulator\CommandCSTP.cs" />
+    <Compile Include="Messages\Manipulator\CommandSABS.cs" />
+    <Compile Include="Messages\Manipulator\CommandSAPS.cs" />
+    <Compile Include="Messages\Manipulator\CommandSMSK.cs" />
+    <Compile Include="Messages\Manipulator\CommandSPDL.cs" />
+    <Compile Include="Messages\Manipulator\CommandSPLD.cs" />
+    <Compile Include="Messages\Manipulator\CommandSPOS.cs" />
+    <Compile Include="Messages\Manipulator\CommandSPRM.cs" />
+    <Compile Include="Messages\Manipulator\CommandSPSV.cs" />
+    <Compile Include="Messages\Manipulator\CommandSSLV.cs" />
+    <Compile Include="Messages\Manipulator\CommandSSPD.cs" />
+    <Compile Include="Messages\Manipulator\CommandSSTD.cs" />
+    <Compile Include="Messages\Manipulator\CommandSSTR.cs" />
+    <Compile Include="Messages\Manipulator\CommandSTRM.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecCCLR.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecCRSM.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecCSOL.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecCSRV.cs" />
+    <Compile Include="Messages\Manipulator\EndOfExecCSTP.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecINIT.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecMABS.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecMCTR.cs" />
@@ -69,12 +90,108 @@
     <Compile Include="Messages\Manipulator\EndOfExecMREL.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecMTCH.cs" />
     <Compile Include="Messages\Manipulator\EndOfExecMTRS.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRAWC.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRERR.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRLOG.cs" />
     <Compile Include="Messages\Manipulator\ReferenceRMAP.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRMCA.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRMPD.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRMSK.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRPOS.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRPRM.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRSLV.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRSPD.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRSTP.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRSTR.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRSTS.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRTRM.cs" />
+    <Compile Include="Messages\Manipulator\ReferenceRVER.cs" />
+    <Compile Include="Messages\Manipulator\ResponseCCLR.cs" />
+    <Compile Include="Messages\Manipulator\ResponseCSOL.cs" />
+    <Compile Include="Messages\Manipulator\ResponseCRSM.cs" />
     <Compile Include="Messages\Manipulator\ResponseCSRV.cs" />
+    <Compile Include="Messages\Manipulator\ResponseCSTP.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRAWC.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRERR.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRLOG.cs" />
     <Compile Include="Messages\Manipulator\ResponseRMAP.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRMCA.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRMPD.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRMSK.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRPOS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRPRM.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRSLV.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRSPD.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRSTP.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRSTR.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRSTS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRTRM.cs" />
+    <Compile Include="Messages\Manipulator\ResponseRVER.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSABS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSAPS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSMSK.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSPDL.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSPLD.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSPOS.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSPRM.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSPSV.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSSLV.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSSPD.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSSTD.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSSTR.cs" />
+    <Compile Include="Messages\Manipulator\ResponseSTRM.cs" />
+    <Compile Include="Messages\PreAligner\CommandCCLR.cs" />
+    <Compile Include="Messages\PreAligner\CommandCRSM.cs" />
+    <Compile Include="Messages\PreAligner\CommandCSOL.cs" />
+    <Compile Include="Messages\PreAligner\CommandCSRV.cs" />
+    <Compile Include="Messages\PreAligner\CommandCSTP.cs" />
+    <Compile Include="Messages\PreAligner\CommandSMSK.cs" />
+    <Compile Include="Messages\PreAligner\CommandSPRM.cs" />
+    <Compile Include="Messages\PreAligner\CommandSSLV.cs" />
+    <Compile Include="Messages\PreAligner\CommandSSPD.cs" />
+    <Compile Include="Messages\PreAligner\CommandSSTD.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecCCLR.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecCRSM.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecCSOL.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecCSRV.cs" />
+    <Compile Include="Messages\PreAligner\EndOfExecCSTP.cs" />
     <Compile Include="Messages\PreAligner\EndOfExecINIT.cs" />
     <Compile Include="Messages\PreAligner\EndOfExecMABS.cs" />
     <Compile Include="Messages\PreAligner\EndOfExecMREL.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRACA.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRALN.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRCCD.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRERR.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRLOG.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRMSK.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRPOS.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRPRM.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRSLV.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRSPD.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRSTS.cs" />
+    <Compile Include="Messages\PreAligner\ReferenceRVER.cs" />
+    <Compile Include="Messages\PreAligner\ResponseCCLR.cs" />
+    <Compile Include="Messages\PreAligner\ResponseCRSM.cs" />
+    <Compile Include="Messages\PreAligner\ResponseCSOL.cs" />
+    <Compile Include="Messages\PreAligner\ResponseCSRV.cs" />
+    <Compile Include="Messages\PreAligner\ResponseCSTP.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRACA.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRALN.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRCCD.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRERR.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRLOG.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRMSK.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRPOS.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRPRM.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRSLV.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRSPD.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRSTS.cs" />
+    <Compile Include="Messages\PreAligner\ResponseRVER.cs" />
+    <Compile Include="Messages\PreAligner\ResponseSMSK.cs" />
+    <Compile Include="Messages\PreAligner\ResponseSPRM.cs" />
+    <Compile Include="Messages\PreAligner\ResponseSSLV.cs" />
+    <Compile Include="Messages\PreAligner\ResponseSSPD.cs" />
+    <Compile Include="Messages\PreAligner\ResponseSSTD.cs" />
     <Compile Include="Messages\ReceptionError.cs" />
     <Compile Include="Messages\Manipulator\CommandACKN.cs" />
     <Compile Include="Messages\Manipulator\CommandINIT.cs" />
@@ -129,7 +246,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCCLR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCRSM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCSOL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecCSTP.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecINIT.xml">
@@ -159,7 +288,19 @@
     <Content Include="Configuration\Manipulator\EndOfExecution\EndOfExecMTRS.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseCCLR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseCRSM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseCSOL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\Manipulator\Response\ResponseCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseCSTP.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configuration\Manipulator\Response\ResponseINIT.xml">
@@ -189,7 +330,106 @@
     <Content Include="Configuration\Manipulator\Response\ResponseMTRS.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRAWC.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRERR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRLOG.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\Manipulator\Response\ResponseRMAP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRMCA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRMPD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRMSK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRPOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRPRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRSLV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRSPD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRSTP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRSTR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRSTS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRTRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseRVER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSABS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSAPS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSMSK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSPDL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSPLD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSPOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSPRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSPSV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSSLV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSSPD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSSTD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSSTR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\Manipulator\Response\ResponseSTRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecCCLR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecCRSM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecCSOL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecCSTP.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecINIT.xml">
@@ -207,6 +447,21 @@
     <Content Include="Configuration\PreAligner\EndOfExecution\EndOfExecMREL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseCCLR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseCRSM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseCSOL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseCSRV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseCSTP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configuration\PreAligner\Response\ResponseINIT.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -220,6 +475,57 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configuration\PreAligner\Response\ResponseMREL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRACA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRALN.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRCCD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRERR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRLOG.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRMSK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRPOS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRPRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRSLV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRSPD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRSTS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseRVER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseSMSK.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseSPRM.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseSSLV.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseSSPD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\PreAligner\Response\ResponseSSTD.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Environment.xml">
