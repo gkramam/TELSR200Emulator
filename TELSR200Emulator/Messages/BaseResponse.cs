@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace TELSR200Emulator.Messages
@@ -79,8 +81,10 @@ namespace TELSR200Emulator.Messages
             }
 
             string ackCd = doc.GetElementsByTagName("AckCD").Item(0).InnerText;
+            string Delay = doc.GetElementsByTagName("Delay").Item(0).InnerText;
 
             Dictionary<string, string> ret = new Dictionary<string, string>();
+            ret.Add("Delay", Delay);
             ret.Add("Status1", ResponseStatusCalculator.Calculate((byte)status1));
             ret.Add("Status2", ResponseStatusCalculator.Calculate((byte)status2));
             ret.Add("AckCD", ackCd);
@@ -95,12 +99,14 @@ namespace TELSR200Emulator.Messages
 
             if (AppConfiguration.useXmlFilesForReplies)
             {
-                var xmlData = device is Devices.Manipulator ? AppConfiguration.ManipulatorResponses[_request.CommandName] : AppConfiguration.PreAlignerResponses[_request.CommandName];
+                var xmlData = GetXMLDictionary();
                 status = xmlData["Status1"] + xmlData["Status2"];
                 ackcd = xmlData["AckCD"];
-            }
-            else
-            {
+                int delay = Convert.ToInt32(xmlData["Delay"]);
+                if(delay >0)
+                {
+                    Thread.Sleep(delay);
+                }
                 status = ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()) + ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2());
                 ackcd = "0000";
             }
