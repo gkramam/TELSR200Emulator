@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandCSOL : BaseMessage
+    [Message(Messages.CommandName.CSOL,MessageType.Control,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandCSOL : BaseMessage
     {
         public string SolenoidControlSpec, SolenoidCommand;
         public bool ShouldWait;

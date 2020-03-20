@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandSSPD : BaseMessage
+    [Message(Messages.CommandName.SSPD,MessageType.Setting,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandSSPD : BaseMessage
     {
         public string Level, SpeedType, Axis, Speed;
         public CommandSSPD(string msg) : base(msg) { }

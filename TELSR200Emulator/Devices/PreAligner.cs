@@ -65,7 +65,36 @@ namespace TELSR200Emulator.Devices
         public void RaiseAlignmentStatusResultEvent()
         {
             AlignmentResultEvent evt = new AlignmentResultEvent();
-            var evtmsg = evt.Generate(UnitNumber, "0000", BuildEOEMALN(null));
+            string result = string.Empty;
+            if (AppConfiguration.useXmlFilesForReplies)
+            {
+                StringBuilder sb = new StringBuilder();
+                var xmlData = AppConfiguration.PreAlignerEoEs["MALN"];
+                sb.Append(xmlData["EccentircAmount"]);
+                sb.Append(',');
+                sb.Append(xmlData["EccentricAngle"]);
+                sb.Append(',');
+                sb.Append(xmlData["NotchDirection"]);
+                sb.Append(',');
+                sb.Append(xmlData["XOffsetBefore"]);
+                sb.Append(',');
+                sb.Append(xmlData["YOffsetBefore"]);
+                sb.Append(',');
+                sb.Append(xmlData["PreAlignerCorrectionAngle"]);
+                sb.Append(',');
+                sb.Append(xmlData["ManipulatorAdjustmentAmount"]);
+                sb.Append(',');
+                sb.Append(xmlData["ManipulatorCorrectionAngle"]);
+                sb.Append(',');
+                sb.Append(xmlData["XOffsetAfter"]);
+                sb.Append(',');
+                sb.Append(xmlData["YOffestAfter"]);
+                result = sb.ToString();
+            }
+            else
+                result = BuildEOEMALN(null);
+
+            var evtmsg = evt.Generate(UnitNumber, "0000", result);
             Emulation.preAlignerTcpWorker.ActiveConnection.QResponse(evtmsg);
         }
 

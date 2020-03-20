@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseCSOL : BaseResponse
+    [Message(CommandName.CSOL,MessageType.Control,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseCSOL : BaseResponse
     {
         public ResponseCSOL(BaseMessage req) : base(req) { }
         public override string Generate(Device device)

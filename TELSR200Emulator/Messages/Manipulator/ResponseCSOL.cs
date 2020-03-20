@@ -2,6 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.CSOL, MessageType.Control, CommandType.ReplyResponse, DeviceType.Manipulator)]
     public class ResponseCSOL : BaseResponse
     {
         public ResponseCSOL(BaseMessage req) : base(req) { }

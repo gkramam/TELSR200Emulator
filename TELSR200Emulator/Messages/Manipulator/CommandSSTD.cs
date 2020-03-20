@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSSTD : BaseMessage
+    [Message(Messages.CommandName.SSTD,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSSTD : BaseMessage
     {
         public string Axis;
         public CommandSSTD(string msg) : base(msg) { }

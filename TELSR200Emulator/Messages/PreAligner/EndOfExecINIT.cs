@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class EndOfExecINIT : EndOfExecGeneric
+    [Message(CommandName.INIT,MessageType.Action,CommandType.ReplyEoE,DeviceType.PreAligner)]
+	public class EndOfExecINIT : EndOfExecGeneric
     {
         public EndOfExecINIT(BaseMessage req) : base(req) { }
     }

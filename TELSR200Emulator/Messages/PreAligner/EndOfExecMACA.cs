@@ -4,7 +4,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class EndOfExecMACA : BaseEndOfExec
+    [Message(CommandName.MACA,MessageType.Action,CommandType.ReplyEoE,DeviceType.PreAligner)]
+	public class EndOfExecMACA : BaseEndOfExec
     {
         public EndOfExecMACA(BaseMessage req) : base(req) { }
 

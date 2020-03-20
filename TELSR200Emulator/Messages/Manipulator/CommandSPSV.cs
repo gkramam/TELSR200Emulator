@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSPSV : BaseMessage
+    [Message(Messages.CommandName.SPSV,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSPSV : BaseMessage
     {
         public string TransferStation, Posture, Hand;
 

@@ -103,10 +103,13 @@ namespace TELSR200Emulator.Messages
                 status = xmlData["Status1"] + xmlData["Status2"];
                 ackcd = xmlData["AckCD"];
                 int delay = Convert.ToInt32(xmlData["Delay"]);
-                if(delay >0)
+                if (delay > 0)
                 {
                     Thread.Sleep(delay);
                 }
+            }
+            else 
+            { 
                 status = ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus1()) + ResponseStatusCalculator.Calculate((byte)device.GetResponseStatus2());
                 ackcd = "0000";
             }

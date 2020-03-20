@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandSSLV : BaseMessage
+    [Message(Messages.CommandName.SSLV,MessageType.Setting,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandSSLV : BaseMessage
     {
         public string Level;
         public CommandSSLV(string msg) : base(msg) { }

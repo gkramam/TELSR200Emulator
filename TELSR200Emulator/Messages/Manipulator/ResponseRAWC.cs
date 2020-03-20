@@ -6,6 +6,7 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.RAWC, MessageType.Reference, CommandType.ReplyResponse, DeviceType.Manipulator)]
     public class ResponseRAWC : BaseResponse
     {
         public ResponseRAWC(BaseMessage req) : base(req) { }

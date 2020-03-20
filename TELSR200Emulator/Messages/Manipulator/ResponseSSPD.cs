@@ -3,7 +3,8 @@ using System.Text;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseSSPD : BaseResponse
+    [Message(CommandName.SSPD,MessageType.Setting,CommandType.ReplyResponse,DeviceType.Manipulator)]
+	public class ResponseSSPD : BaseResponse
     {
         public ResponseSSPD(BaseMessage req) : base(req) { }
 

@@ -1,5 +1,6 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
+    [Message(Messages.CommandName.ACKN,MessageType.Ack,CommandType.Request,DeviceType.PreAligner)]
     public class CommandACKN : BaseMessage
     {
         public CommandACKN(string message) : base(message) { }

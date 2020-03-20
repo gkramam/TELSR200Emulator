@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRPOS : BaseMessage
+    [Message(Messages.CommandName.RPOS,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRPOS : BaseMessage
     {
         public string PositionDataType;
         public ReferenceRPOS(string msg) : base(msg) { }

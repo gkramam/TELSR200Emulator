@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSPLD : BaseMessage
+    [Message(Messages.CommandName.SPLD,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSPLD : BaseMessage
     {
         public string TransferStation, Posture, Hand;
 

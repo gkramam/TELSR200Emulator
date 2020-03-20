@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSPDL : BaseMessage
+    [Message(Messages.CommandName.SPDL,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSPDL : BaseMessage
     {
         public string MemorySpec, TransferStation, Posture, Hand;
 

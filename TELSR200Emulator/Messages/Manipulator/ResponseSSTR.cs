@@ -2,7 +2,8 @@ using System.Text;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseSSTR : BaseResponse
+    [Message(CommandName.SSTR,MessageType.Setting,CommandType.ReplyResponse,DeviceType.Manipulator)]
+	public class ResponseSSTR : BaseResponse
     {
         public ResponseSSTR(BaseMessage req) : base(req) { }
 

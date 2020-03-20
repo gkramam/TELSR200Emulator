@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMCTR : BaseMessage
+    [Message(Messages.CommandName.MCTR,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMCTR : BaseMessage
     {
         public string MotionMode;
         public string TransferStation;
@@ -56,7 +57,8 @@ namespace TELSR200Emulator.Messages.Manipulator
 
         public override void PerformPostEOESend(CommandContext ctxt, Device device)
         {
-            Emulation.preAligner.RaiseAlignmentStatusResultEvent();
+            if(AngleSpecified)
+                Emulation.preAligner.RaiseAlignmentStatusResultEvent();
         }
     }
 }

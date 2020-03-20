@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMMCA : BaseMessage
+    [Message(Messages.CommandName.MMCA,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMMCA : BaseMessage
     {
         public string TransferStation, Posture, Safe;
         public CommandMMCA(string msg) : base(msg) { }

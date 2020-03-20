@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandCSTP : BaseMessage
+    [Message(Messages.CommandName.CSTP,MessageType.Control,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandCSTP : BaseMessage
     {
         public string StopMode;
         public CommandCSTP(string msg) : base(msg)

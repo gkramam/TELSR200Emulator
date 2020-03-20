@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandCSOL : BaseMessage
+    [Message(Messages.CommandName.CSOL,MessageType.Control,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandCSOL : BaseMessage
     {
         public string SolenoidControlSpec, SolenoidCommand;
         public bool ShouldWait;

@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMPNT : BaseMessage
+    [Message(Messages.CommandName.MPNT,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMPNT : BaseMessage
     {
         public string TransferPoint;
         public CommandMPNT(string msg) : base(msg)

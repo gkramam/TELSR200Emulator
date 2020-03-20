@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRPRM : BaseMessage
+    [Message(Messages.CommandName.RPRM,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRPRM : BaseMessage
     {
         public string ParameterType, ParameterNumber;
         public ReferenceRPRM(string msg) : base(msg) { }

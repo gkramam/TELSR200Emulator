@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ReferenceRCCD : BaseMessage
+    [Message(Messages.CommandName.RCCD,MessageType.Reference,CommandType.Request,DeviceType.PreAligner)]
+	public class ReferenceRCCD : BaseMessage
     {
         public ReferenceRCCD(string msg) : base(msg) { }
 

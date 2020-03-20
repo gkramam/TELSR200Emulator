@@ -6,7 +6,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseRTRM : BaseResponse
+    [Message(CommandName.RTRM,MessageType.Reference,CommandType.ReplyResponse,DeviceType.Manipulator)]
+	public class ResponseRTRM : BaseResponse
     {
         public ResponseRTRM(BaseMessage req) : base(req) { }
 

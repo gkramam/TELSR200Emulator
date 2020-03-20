@@ -2,7 +2,8 @@ using System.Text;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseSPRM : BaseResponse
+    [Message(CommandName.SPRM,MessageType.Setting,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseSPRM : BaseResponse
     {
         public ResponseSPRM(BaseMessage req) : base(req) { }
 

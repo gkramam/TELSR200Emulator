@@ -6,7 +6,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseRACA : BaseResponse
+    [Message(CommandName.RACA,MessageType.Reference,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseRACA : BaseResponse
     {
         public ResponseRACA(BaseMessage req) : base(req) { }
 

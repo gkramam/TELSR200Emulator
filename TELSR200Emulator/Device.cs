@@ -256,7 +256,7 @@ namespace TELSR200Emulator
                         continue; ;
                     }
 
-                    var commandBeingCategorized = BaseMessage.Create(cmdctxt.CommandMessage);
+                    var commandBeingCategorized = BaseMessage.Create(UnitNumber,cmdctxt.CommandMessage);
 
                     if (commandBeingCategorized == null)
                     {
@@ -266,8 +266,6 @@ namespace TELSR200Emulator
 
                     commandBeingCategorized.Parse();//Process(cmdctxt);
 
-
-
                     if (commandBeingCategorized.Type == MessageType.Reference)
                     {
                         IncomingReferenceQ.Add(new Tuple<CommandContext, BaseMessage>(cmdctxt, commandBeingCategorized));
@@ -275,7 +273,6 @@ namespace TELSR200Emulator
                     else
                     {
                         IncomingOtherQ.Add(new Tuple<CommandContext, BaseMessage>(cmdctxt, commandBeingCategorized));
-
                     }
 
                     if (Stop)

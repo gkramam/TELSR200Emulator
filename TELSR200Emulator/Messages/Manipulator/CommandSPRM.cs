@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSPRM : BaseMessage
+    [Message(Messages.CommandName.SPRM,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSPRM : BaseMessage
     {
         public string ParameterType, ParameterNumber, Value;
         public CommandSPRM(string msg) : base(msg) { }

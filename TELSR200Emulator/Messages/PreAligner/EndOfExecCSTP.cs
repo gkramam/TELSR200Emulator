@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class EndOfExecCSTP : EndOfExecGeneric
+    [Message(CommandName.CSTP,MessageType.Control,CommandType.ReplyEoE,DeviceType.PreAligner)]
+	public class EndOfExecCSTP : EndOfExecGeneric
     {
         public EndOfExecCSTP(BaseMessage req) : base(req)
         {

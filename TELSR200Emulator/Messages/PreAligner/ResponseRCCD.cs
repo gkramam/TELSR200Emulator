@@ -6,7 +6,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseRCCD : BaseResponse
+    [Message(CommandName.RCCD,MessageType.Reference,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseRCCD : BaseResponse
     {
         public ResponseRCCD(BaseMessage req) : base(req) { }
 

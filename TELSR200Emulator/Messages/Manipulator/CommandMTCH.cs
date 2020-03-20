@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMTCH : BaseMessage
+    [Message(Messages.CommandName.MTCH,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMTCH : BaseMessage
     {
         public string TransferStation;
         public string Slot;

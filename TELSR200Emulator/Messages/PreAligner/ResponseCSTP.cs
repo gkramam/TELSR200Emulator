@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseCSTP : BaseResponse
+    [Message(CommandName.CSTP,MessageType.Control,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseCSTP : BaseResponse
     {
         public ResponseCSTP(BaseMessage req) : base(req)
         {

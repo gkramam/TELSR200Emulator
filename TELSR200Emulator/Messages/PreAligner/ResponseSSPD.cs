@@ -3,7 +3,8 @@ using System.Text;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseSSPD : BaseResponse
+    [Message(CommandName.SSPD,MessageType.Setting,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseSSPD : BaseResponse
     {
         public ResponseSSPD(BaseMessage req) : base(req) { }
 

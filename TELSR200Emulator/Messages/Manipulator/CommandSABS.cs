@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSABS : BaseMessage
+    [Message(Messages.CommandName.SABS,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSABS : BaseMessage
     {
         public string MemorySpec, RegistrationMode, TransferStation, Posture, Hand, RotationAxis, ExtensionAxis, WristAxis1, WristAxis2, ElevationAxis;
 

@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSAPS : BaseMessage
+    [Message(Messages.CommandName.SAPS,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSAPS : BaseMessage
     {
         public string MemorySpec, RegistrationMode, TransferStation, Posture, Hand, OffsetX, OffsetY, OffsetZ;
 

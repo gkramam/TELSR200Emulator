@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandMALN : BaseMessage
+    [Message(Messages.CommandName.MALN,MessageType.Action,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandMALN : BaseMessage
     {
         public string Mode, Angle;
         public CommandMALN(string msg) : base(msg)

@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseMABS : BaseResponse
+    [Message(CommandName.MABS,MessageType.Action,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseMABS : BaseResponse
     {
         public ResponseMABS(CommandMABS req) : base(req)
         { }

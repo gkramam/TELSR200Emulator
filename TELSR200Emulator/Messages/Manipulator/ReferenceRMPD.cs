@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRMPD : BaseMessage
+    [Message(Messages.CommandName.RMPD,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRMPD : BaseMessage
     {
         public string TransferStation;
         public ReferenceRMPD(string msg) : base(msg) { }

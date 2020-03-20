@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMABS : BaseMessage
+    [Message(Messages.CommandName.MABS,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMABS : BaseMessage
     {
         public string Axis, Hand, Mode, Value;
         public CommandMABS(string msg) : base(msg) { }

@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRLOG : BaseMessage
+    [Message(Messages.CommandName.RLOG,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRLOG : BaseMessage
     {
         public string LogNumber;
         public ReferenceRLOG(string msg) : base(msg) { }

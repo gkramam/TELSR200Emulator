@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandSMSK : BaseMessage
+    [Message(Messages.CommandName.SMSK,MessageType.Setting,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandSMSK : BaseMessage
     {
         public string Valid;
         public CommandSMSK(string msg) : base(msg) { }

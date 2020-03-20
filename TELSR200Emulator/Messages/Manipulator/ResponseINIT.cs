@@ -2,6 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.INIT, MessageType.Action, CommandType.ReplyResponse, DeviceType.Manipulator)]
     public class ResponseINIT : BaseResponse
     {
         public ResponseINIT(CommandINIT request) : base(request)

@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRSTP : BaseMessage
+    [Message(Messages.CommandName.RSTP,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRSTP : BaseMessage
     {
         public string MemorySpec, TransferStation, Slot, Posture, Hand, PositionType;
         public ReferenceRSTP(string msg) : base(msg) { }

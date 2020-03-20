@@ -2,7 +2,8 @@
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseINIT : BaseResponse
+    [Message(CommandName.INIT,MessageType.Action,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseINIT : BaseResponse
     {
         public ResponseINIT(CommandINIT request) : base(request)
         {

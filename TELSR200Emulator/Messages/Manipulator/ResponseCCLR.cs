@@ -2,6 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.CCLR,MessageType.Control,CommandType.ReplyResponse,DeviceType.Manipulator)]
     public class ResponseCCLR : BaseResponse
     {
         public ResponseCCLR(BaseMessage req) : base(req) { }

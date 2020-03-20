@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandMREL : BaseMessage
+    [Message(Messages.CommandName.MREL,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandMREL : BaseMessage
     {
         public string Axis, Hand, Mode, Value;
         public CommandMREL(string msg) : base(msg) { }

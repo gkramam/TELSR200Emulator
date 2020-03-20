@@ -6,7 +6,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class ResponseRPOS : BaseResponse
+    [Message(CommandName.RPOS,MessageType.Reference,CommandType.ReplyResponse,DeviceType.PreAligner)]
+	public class ResponseRPOS : BaseResponse
     {
         public ResponseRPOS(BaseMessage req) : base(req) { }
 

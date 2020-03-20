@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandSPRM : BaseMessage
+    [Message(Messages.CommandName.SPRM,MessageType.Setting,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandSPRM : BaseMessage
     {
         public string ParameterType, ParameterNumber, Value;
         public CommandSPRM(string msg) : base(msg) { }

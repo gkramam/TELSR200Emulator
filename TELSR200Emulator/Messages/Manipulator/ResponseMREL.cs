@@ -2,6 +2,7 @@
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.MREL, MessageType.Action, CommandType.ReplyResponse, DeviceType.Manipulator)]
     public class ResponseMREL : BaseResponse
     {
         public ResponseMREL(CommandMREL req) : base(req)

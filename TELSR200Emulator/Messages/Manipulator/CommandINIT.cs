@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandINIT : BaseMessage
+    [Message(Messages.CommandName.INIT,MessageType.Action,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandINIT : BaseMessage
     {
         public bool ErrorClear;
         public bool ServoOn;

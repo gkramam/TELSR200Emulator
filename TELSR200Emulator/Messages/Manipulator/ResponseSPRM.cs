@@ -1,8 +1,8 @@
 using System.Text;
-
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ResponseSPRM : BaseResponse
+    [Message(CommandName.SPRM,MessageType.Setting,CommandType.ReplyResponse,DeviceType.Manipulator)]
+	public class ResponseSPRM : BaseResponse
     {
         public ResponseSPRM(BaseMessage req) : base(req) { }
 

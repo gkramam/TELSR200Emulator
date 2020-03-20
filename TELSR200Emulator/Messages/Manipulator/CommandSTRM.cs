@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class CommandSTRM : BaseMessage
+    [Message(Messages.CommandName.STRM,MessageType.Setting,CommandType.Request,DeviceType.Manipulator)]
+	public class CommandSTRM : BaseMessage
     {
         public string Mode1, Mode2, Mode3, Mode4, Mode5;
         public CommandSTRM(string msg) : base(msg) { }

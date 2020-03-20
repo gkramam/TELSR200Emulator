@@ -5,7 +5,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class EndOfExecMMAP : BaseEndOfExec
+    [Message(CommandName.MMAP,MessageType.Action,CommandType.ReplyEoE,DeviceType.Manipulator)]
+	public class EndOfExecMMAP : BaseEndOfExec
     {
         public EndOfExecMMAP(BaseMessage req) : base(req) { }
 

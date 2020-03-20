@@ -6,6 +6,7 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.Manipulator
 {
+    [Message(CommandName.MMCA, MessageType.Action, CommandType.ReplyEoE, DeviceType.Manipulator)]
     public class EndOfExecMMCA : BaseEndOfExec
     {
         public EndOfExecMMCA(BaseMessage req) : base(req) { }

@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRVER : BaseMessage
+    [Message(Messages.CommandName.RVER,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRVER : BaseMessage
     {
         public ReferenceRVER(string msg) : base(msg) { }
     }

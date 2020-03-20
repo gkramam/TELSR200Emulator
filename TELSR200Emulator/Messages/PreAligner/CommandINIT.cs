@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandINIT : BaseMessage
+    [Message(Messages.CommandName.INIT,MessageType.Action,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandINIT : BaseMessage
     {
         public bool ErrorClear;
         public bool ServoOn;

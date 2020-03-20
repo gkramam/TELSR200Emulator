@@ -1,6 +1,7 @@
 namespace TELSR200Emulator.Messages.Manipulator
 {
-    public class ReferenceRERR : BaseMessage
+    [Message(Messages.CommandName.RERR,MessageType.Reference,CommandType.Request,DeviceType.Manipulator)]
+	public class ReferenceRERR : BaseMessage
     {
         public string MemorySpec, HNo;
         public ReferenceRERR(string msg) : base(msg) { }

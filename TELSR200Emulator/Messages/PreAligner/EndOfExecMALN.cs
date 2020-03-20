@@ -4,7 +4,8 @@ using System.Xml;
 
 namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class EndOfExecMALN : BaseEndOfExec
+    [Message(CommandName.MALN,MessageType.Action,CommandType.ReplyEoE,DeviceType.PreAligner)]
+	public class EndOfExecMALN : BaseEndOfExec
     {
         public EndOfExecMALN(BaseMessage req) : base(req) { }
 

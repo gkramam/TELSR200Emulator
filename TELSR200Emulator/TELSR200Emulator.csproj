@@ -53,6 +53,7 @@
     <Compile Include="Configuration\Station.cs" />
     <Compile Include="Configuration\Threshold.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="MessageAttribute.cs" />
     <Compile Include="Messages\AlignmentResultEvent.cs" />
     <Compile Include="Messages\BaseEndOfExec.cs" />
     <Compile Include="Messages\BaseMessage.cs" />
@@ -195,11 +196,8 @@
     <Compile Include="Messages\ReceptionError.cs" />
     <Compile Include="Messages\Manipulator\CommandACKN.cs" />
     <Compile Include="Messages\Manipulator\CommandINIT.cs" />
-    <Compile Include="Devices\Casette.cs" />
-    <Compile Include="Devices\Controller.cs" />
     <Compile Include="Devices\Manipulator.cs" />
     <Compile Include="Devices\PreAligner.cs" />
-    <Compile Include="Devices\Stage.cs" />
     <Compile Include="Emulation.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Messages\Manipulator\CommandMABS.cs" />

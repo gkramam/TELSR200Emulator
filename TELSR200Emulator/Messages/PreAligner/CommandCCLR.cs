@@ -1,6 +1,7 @@
 ﻿namespace TELSR200Emulator.Messages.PreAligner
 {
-    public class CommandCCLR : BaseMessage
+    [Message(Messages.CommandName.CCLR,MessageType.Control,CommandType.Request,DeviceType.PreAligner)]
+	public class CommandCCLR : BaseMessage
     {
         public string CMode;
         public CommandCCLR(string msg) : base(msg) { }
