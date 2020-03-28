@@ -342,8 +342,8 @@ namespace TELSR200Emulator
 
             if (IsError && !commandBeingProcessed.CommandName.Equals("INIT"))
             {
-                //cmdCxt.ResponseQCallback(ReceptionError.Generate("2001"));
-                //CommandState = DeviceState.ErrorSent;
+                cmdCxt.ResponseQCallback(ReceptionError.Generate("2001"));
+                CommandState = DeviceState.ErrorSent;
                 return;
             }
 
@@ -363,13 +363,24 @@ namespace TELSR200Emulator
                 return;
             }
 
-            if (!(CommandState == DeviceState.None ||
+            if((CommandState == DeviceState.EOESent || CommandState == DeviceState.CommandResponseSent) && 
+                commandBeingProcessed.CommandName.Equals("INIT"))
+            {
+                RetryTimer.Stop();
+                LastCtxtForWhichSentEoE = null;
+                retryCount = 0;
+                CommandState = DeviceState.Ready;
+                IsReady = true;
+            }
+            else if (!(CommandState == DeviceState.None ||
                 CommandState == DeviceState.Ready ||
                 CommandState == DeviceState.CommandResponseSent ||
                 CommandState == DeviceState.ErrorSent ||
                 CommandState == DeviceState.EventSent))
             {
-                throw new ApplicationException("Invalid device command state detected");//TODO Raise an error
+                cmdCxt.ResponseQCallback(ReceptionError.Generate("9001"));
+                CommandState = DeviceState.ErrorSent;
+                return;
             }
 
             commandBeingProcessed.PreProcess(cmdCxt, this);

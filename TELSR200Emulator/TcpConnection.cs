@@ -10,8 +10,10 @@ using Timer = System.Timers.Timer;
 
 namespace TELSR200Emulator
 {
-    public class TcpConnection
+    public class TcpConnection : IDisposable
     {
+        private bool _isDisposed;
+
         TcpClient innerConnection;
 
         Timer messageTimer;
@@ -61,33 +63,18 @@ namespace TELSR200Emulator
 
                 if (innerConnection != null && innerConnection.Connected && innerConnection.Client.Connected)
                 {
-                    //while (!Stop && innerConnection.Connected && innerConnection.Client.Connected) //Write Loop.
+                    foreach (var msg in outgoingQ.GetConsumingEnumerable())
                     {
-                        foreach (var msg in outgoingQ.GetConsumingEnumerable())
+                        if (innerConnection.Client.Poll(-1, SelectMode.SelectWrite))
                         {
-                            if (innerConnection.Client.Poll(-1, SelectMode.SelectWrite))
-                            {
-                                sw.Write(msg);
-                            }
-                            if (Stop)
-                                break;
+                            sw.Write(msg);
                         }
+                        if (Stop)
+                            break;
                     }
-                    if (Stop)
-                    {
-                        innerConnection.Close();
-                        innerConnection.Dispose();
-                        messageTimer.Dispose();
-                        outgoingQ.Dispose();
-                    }
-                    else
-                    {
-                        innerConnection.Close();
-                        innerConnection.Dispose();
-                        messageTimer.Dispose();
-                        outgoingQ.Dispose();
+                    if (!Stop)
                         Console.WriteLine("Writer - Connection Closed");
-                    }
+                    Dispose();
                 }
             }
         }
@@ -113,19 +100,9 @@ namespace TELSR200Emulator
                 }
             }
 
-            if (Stop)
-            {
-                innerConnection.Close();
-                innerConnection.Dispose();
-                messageTimer.Dispose();
-            }
-            else
-            {
-                innerConnection.Close();
-                innerConnection.Dispose();
-                messageTimer.Dispose();
+            if (!Stop)
                 Console.WriteLine("Reader - Connection Closed");
-            }
+            Dispose();
         }
 
         BlockingCollection<char[]> readBufferQ = new BlockingCollection<char[]>();
@@ -138,6 +115,7 @@ namespace TELSR200Emulator
                 {
                     if (read == '$' && !startDetected)
                     {
+                        commandString = new StringBuilder();
                         startDetected = true;
                         messageTimer.Start();
                         commandString.Append(read);
@@ -171,9 +149,12 @@ namespace TELSR200Emulator
                     }
                     else
                     {
-                        messageTimer.Stop();
-                        commandString.Append(read);
-                        messageTimer.Start();
+                        if (startDetected)
+                        {
+                            messageTimer.Stop();
+                            commandString.Append(read);
+                            messageTimer.Start();
+                        }
                     }
                 }
             }
@@ -200,6 +181,33 @@ namespace TELSR200Emulator
             //processThread.IsBackground = true;
             //processThread.Start();
             Task.Run(() => { ProcessReadBuffer(qCommandCallback); });
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if(disposing && !_isDisposed)
+            {
+                var localOutGoingQ = outgoingQ;
+                var localReadQ = readBufferQ;
+                var localTimer = messageTimer;
+                var localInnerConnection = innerConnection;
+                localOutGoingQ.Dispose();
+                localReadQ.Dispose();
+                localTimer.Dispose();
+                localInnerConnection.Dispose();
+                outgoingQ = null;
+                readBufferQ = null;
+                messageTimer = null;
+                innerConnection = null;
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            //GC.SuppressFinalize(this);//if the class iteself doesn't have any unmanaged resources, we can skip this
         }
     }
 }
